@@ -1,0 +1,9 @@
+*.o
+*.a
+*.so
+*.obj
+*.lib
+*.dll
+build
+node_modules
+external

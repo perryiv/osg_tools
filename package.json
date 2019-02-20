@@ -1,0 +1,29 @@
+{
+  "name": "osg_tools",
+  "version": "0.1.0",
+  "description": "Classes and functions for working with OpenSceneGraph",
+  "scripts": {
+    "build": "cd build && cmake --build .",
+    "clear": "node_modules/.bin/clear",
+    "config": "del-cli build && make-dir build && cd build && cmake .. -DCMAKE_VERBOSE_MAKEFILE=OFF",
+    "rebuild": "npm run config && npm run build",
+    "test": "cd build/bin && usul_math_test --abort --use-colour=yes --durations=no",
+    "watch": "watch \"npm run clear && npm run build && npm run test\" ./ --filter=./watch_filter.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/perryiv/osg_tools.git"
+  },
+  "author": "Perry L Miller IV",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/perryiv/osg_tools/issues"
+  },
+  "homepage": "https://github.com/perryiv/osg_tools#readme",
+  "devDependencies": {
+    "clear-cli": "^1.0.1",
+    "del-cli": "^1.1.0",
+    "make-dir-cli": "^1.0.0",
+    "watch": "^1.0.2"
+  }
+}
