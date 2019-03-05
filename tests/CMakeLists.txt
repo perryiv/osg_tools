@@ -3,26 +3,44 @@
 #
 #  Copyright (c) 2019, Perry L Miller IV
 #  All rights reserved.
+#  MIT License: https://opensource.org/licenses/mit-license.html
 #
 ################################################################################
 
 ################################################################################
 #
-#  Contains the logic specific to building the unit tests.
+#  CMake file for the OsgTools test program.
+#
+#  Sources:
+#  https://stackoverflow.com/questions/16682606/how-to-resovle-gcov-init-undefined-reference-issue-when-link
 #
 ################################################################################
 
-# Make sure this environment variable is set.
-if ( NOT DEFINED ENV{CATCH2_INC_DIR} )
-  message ( FATAL_ERROR
-    "\nEnvironment variable CATCH2_INC_DIR is not set. "
-    "\nIt should point to a directory that contains these files:\n"
-    "https://github.com/catchorg/Catch2/tree/master/single_include/catch2"
-  )
+# Let the user set the include path for Catch2.
+set ( CATCH2_INC_DIR $ENV{CATCH2_INC_DIR} CACHE STRING "Include path for Catch2 header file" )
+
+# Does the user want to generate code coverage?
+option ( USUL_ENABLE_CODE_COVERAGE
+  "Generate test code coverage in supported configurations" OFF )
+if ( USUL_ENABLE_CODE_COVERAGE )
+  if ( USING_GCC OR USING_CLANG )
+    message ( "   -- Generating test code coverage data" )
+    add_compile_options ( -fprofile-arcs -ftest-coverage )
+    if ( USING_GCC )
+      link_libraries ( gcov )
+    elseif ( USING_CLANG )
+      add_link_options ( --coverage )
+    endif()
+  else()
+    message ( "!! Test code coverage data not supported with current compiler" )
+  endif()
 endif()
 
 # Add the include directory for catch.
-include_directories ( $ENV{CATCH2_INC_DIR} )
+include_directories ( ${CATCH2_INC_DIR} )
+
+# Need to include files from this directory.
+include_directories ( ${CMAKE_CURRENT_SOURCE_DIR} )
 
 # Define a variable that holds all the source files.
 set ( SOURCE_FILES
@@ -35,4 +53,4 @@ add_executable ( ${PROJECT_NAME}_test ${SOURCE_FILES} )
 
 # We're going to use this library.
 # CMake will automatically add -I, -L, and -D (etc) appropriately.
-target_link_libraries ( ${PROJECT_NAME}_test PRIVATE ${PROJECT_NAME} OpenThreads osg )
+target_link_libraries ( ${PROJECT_NAME}_test PRIVATE ${PROJECT_NAME} usul OpenThreads osg )
