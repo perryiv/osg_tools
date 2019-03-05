@@ -1,0 +1,53 @@
+
+################################################################################
+#
+#  Copyright (c) 2019, Perry L Miller IV
+#  All rights reserved.
+#  MIT License: https://opensource.org/licenses/mit-license.html
+#
+################################################################################
+
+################################################################################
+#
+#  Continuous integration configuration file.
+#
+#  These references helped:
+#  https://docs.travis-ci.com/user/languages/cpp/
+#  https://github.com/richelbilderbeek/travis_cpp_tutorial/blob/master/.travis.yml
+#
+################################################################################
+
+# We're compiling C++ code.
+language: cpp
+
+# For now we're only using this compiler.
+compiler: gcc
+
+# This flavor of linux comes with the version of cmake and gcc we need.
+# We use the add_compile_definitions command in a CMakeLists.txt file.
+# https://cmake.org/cmake/help/v3.12/release/3.12.html
+# https://docs.travis-ci.com/user/languages/cpp/
+dist: xenial
+
+# We install things so we need sudo.
+sudo: required
+
+# Install what we need.
+install:
+- sudo pip install gcovr
+
+# The sequence of commands that get executed.
+script:
+
+# Set up Catch2 one level up so that gcovr does not analyze it too.
+- pushd .
+- cd ..
+- mkdir -p external/catch2
+- curl https://raw.githubusercontent.com/catchorg/Catch2/master/single_include/catch2/catch.hpp > external/catch2/catch.hpp
+- export CATCH2_INC_DIR=`pwd`/external
+- echo $CATCH2_INC_DIR
+- ls $CATCH2_INC_DIR
+- popd
+
+# Now we can run our script.
+- sh run_tests.sh
