@@ -14,7 +14,19 @@
 
 #include "OsgTools/Group.h"
 
+// Temporarily disable the warning we get when compiling with -Woverloaded-virtual or -Wall.
+#ifdef __GNUC__
+# pragma GCC diagnostic push
+# pragma GCC diagnostic ignored "-Woverloaded-virtual"
+#endif
+
 #include "osg/Geode"
+
+// Put things back where we found them.
+#ifdef __GNUC__
+# pragma GCC diagnostic pop
+#endif
+
 #include "osg/Group"
 #include "osg/MatrixTransform"
 
@@ -31,13 +43,12 @@ TEST_CASE ( "Working with groups" )
 {
   typedef osg::ref_ptr<osg::Group> GroupPtr;
   typedef osg::ref_ptr<osg::Geode> GeodePtr;
-  typedef osg::ref_ptr<osg::MatrixTransform> MatrixTransformPtr;
 
   SECTION ( "Can remove all occurances of a child node from a group" )
   {
     // The group and child we keep track of.
     GroupPtr group ( new osg::Group() );
-    GroupPtr child ( new osg::Geode() );
+    GeodePtr child ( new osg::Geode() );
 
     // Add some nodes we don't care about.
     group->addChild ( new osg::Geode() );
