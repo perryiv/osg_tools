@@ -19,6 +19,9 @@ set -e
 # Echo all the commands.
 set -x
 
+# This is necessary for Mac.
+export DYLD_FALLBACK_LIBRARY_PATH=".:$OSG_LIB_DIR:$OSG_LIB_DIR/osgPlugins-3.6.4"
+
 rm -rf build
 mkdir build
 cd build
