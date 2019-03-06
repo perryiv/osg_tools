@@ -39,6 +39,8 @@ install:
 # The sequence of commands that get executed.
 script:
 
+yum search openscenegraph
+
 # Set up Catch2 one level up so that gcovr does not analyze it too.
 - pushd .
 - cd ..
