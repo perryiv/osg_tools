@@ -33,5 +33,5 @@ set ( SOURCE_FILES
 add_library ( ${PROJECT_NAME} SHARED ${SOURCE_FILES} )
 
 # Tell cmake that other projects that use this one will need
-# the header files from USUL_INC_DIR.
+# the header files from OSG_TOOLS_INC_DIR.
 target_include_directories ( ${PROJECT_NAME} INTERFACE ${OSG_TOOLS_INC_DIR} )

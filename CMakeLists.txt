@@ -84,8 +84,8 @@ set ( USUL_INC_DIR $ENV{USUL_INC_DIR} CACHE STRING "Include path for Usul header
 set ( USUL_LIB_DIR $ENV{USUL_LIB_DIR} CACHE STRING "Include path for Usul library files" )
 
 # Does the user want strict warnings?
-option ( USUL_ENABLE_STRICT_WARNINGS "Enable strict warnings" ON )
-if ( USUL_ENABLE_STRICT_WARNINGS )
+option ( OSG_TOOLS_ENABLE_STRICT_WARNINGS "Enable strict warnings" ON )
+if ( OSG_TOOLS_ENABLE_STRICT_WARNINGS )
   message ( "   -- Enabling strict warnings" )
   if ( USING_MSVC OR USING_INTEL )
     add_compile_options ( /W4 )
@@ -95,8 +95,8 @@ if ( USUL_ENABLE_STRICT_WARNINGS )
 endif()
 
 # Does the user want to treat warnings the same as errors?
-option ( USUL_TREAT_WARNINGS_LIKE_ERRORS "Treat warnings like errors" ON )
-if ( USUL_TREAT_WARNINGS_LIKE_ERRORS )
+option ( OSG_TOOLS_TREAT_WARNINGS_LIKE_ERRORS "Treat warnings like errors" ON )
+if ( OSG_TOOLS_TREAT_WARNINGS_LIKE_ERRORS )
   message ( "   -- Treating warnings like errors" )
   if ( USING_MSVC OR USING_INTEL )
     add_compile_options ( /WX )
@@ -115,6 +115,8 @@ add_definitions ( -DGL_SILENCE_DEPRECATION )
 include_directories ( ${OSG_TOOLS_INC_DIR} )
 include_directories ( ${OSG_INC_DIR} )
 include_directories ( ${USUL_INC_DIR} )
+
+message ( "USUL_INC_DIR = ${USUL_INC_DIR}" )
 
 # Where to look for libraries.
 link_directories ( ${OSG_LIB_DIR} )
