@@ -26,12 +26,12 @@ cd build
 cmake ../ \
   -DCMAKE_VERBOSE_MAKEFILE=ON \
   -DCMAKE_BUILD_TYPE="Release" \
-  -DUSUL_ENABLE_CODE_COVERAGE=OFF
+  -DOSG_TOOLS_ENABLE_CODE_COVERAGE=OFF
 cmake --build .
 
-ls -al ./bin/usul_test
-file ./bin/usul_test
-./bin/usul_test --abort --use-colour=yes --durations=no
+ls -al ./bin/osg_tools_test
+file ./bin/osg_tools_test
+./bin/osg_tools_test --abort --use-colour=yes --durations=no
 
 cd ../
 rm -rf build
@@ -41,12 +41,12 @@ cd build
 cmake ../ \
   -DCMAKE_VERBOSE_MAKEFILE=ON \
   -DCMAKE_BUILD_TYPE="Debug" \
-  -DUSUL_ENABLE_CODE_COVERAGE=ON
+  -DOSG_TOOLS_ENABLE_CODE_COVERAGE=ON
 cmake --build .
 
-ls -al ./bin/usul_test
-file ./bin/usul_test
-./bin/usul_test --abort --use-colour=yes --durations=no
+ls -al ./bin/osg_tools_test
+file ./bin/osg_tools_test
+./bin/osg_tools_test --abort --use-colour=yes --durations=no
 
 cd ../
 gcovr
