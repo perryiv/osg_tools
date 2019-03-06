@@ -33,12 +33,12 @@ namespace osg
   class MatrixTransform;
   class Geometry;
   class Material;
-};
+}
 
 namespace osgText
 {
   class Text;
-};
+}
 
 
 #endif // _OSG_TOOLS_FORWARD_DECLARATIONS_H_

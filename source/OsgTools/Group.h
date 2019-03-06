@@ -36,7 +36,7 @@ struct OSG_TOOLS_EXPORT Group
 };
 
 
-}; // namespace OsgTools
+} // namespace OsgTools
 
 
 #endif // _OSG_TOOLS_GROUP_CLASS_H_
