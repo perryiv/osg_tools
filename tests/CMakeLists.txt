@@ -20,9 +20,9 @@
 set ( CATCH2_INC_DIR $ENV{CATCH2_INC_DIR} CACHE STRING "Include path for Catch2 header file" )
 
 # Does the user want to generate code coverage?
-option ( USUL_ENABLE_CODE_COVERAGE
+option ( OSG_TOOLS_ENABLE_CODE_COVERAGE
   "Generate test code coverage in supported configurations" OFF )
-if ( USUL_ENABLE_CODE_COVERAGE )
+if ( OSG_TOOLS_ENABLE_CODE_COVERAGE )
   if ( USING_GCC OR USING_CLANG )
     message ( "   -- Generating test code coverage data" )
     add_compile_options ( -fprofile-arcs -ftest-coverage )
@@ -53,4 +53,4 @@ add_executable ( ${PROJECT_NAME}_test ${SOURCE_FILES} )
 
 # We're going to use this library.
 # CMake will automatically add -I, -L, and -D (etc) appropriately.
-target_link_libraries ( ${PROJECT_NAME}_test PRIVATE ${PROJECT_NAME} usul OpenThreads osg )
+target_link_libraries ( ${PROJECT_NAME}_test PRIVATE ${PROJECT_NAME} usul OpenThreads osg GL )
