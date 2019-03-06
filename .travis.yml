@@ -50,5 +50,22 @@ script:
 - ls $CATCH2_INC_DIR
 - popd
 
+# Set up Usul one level up too.
+- pushd .
+- cd ..
+- git clone https://github.com/perryiv/usul.git
+- cd usul
+- mkdir build
+- cd build
+- cmake ../ \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DCMAKE_BUILD_TYPE="Release" \
+  -DUSUL_ENABLE_CODE_COVERAGE=OFF
+- cmake --build .
+- cd ..
+- export USUL_INC_DIR=`pwd`/source
+- export USUL_LIB_DIR=`pwd`/build/lib
+- popd
+
 # Now we can run our script.
 - sh run_tests.sh
