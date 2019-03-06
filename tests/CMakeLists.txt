@@ -13,6 +13,7 @@
 #
 #  Sources:
 #  https://stackoverflow.com/questions/16682606/how-to-resovle-gcov-init-undefined-reference-issue-when-link
+#  https://stackoverflow.com/questions/18550265/compiling-a-c-program-that-uses-opengl-in-mac-os-x
 #
 ################################################################################
 
@@ -36,6 +37,13 @@ if ( OSG_TOOLS_ENABLE_CODE_COVERAGE )
   endif()
 endif()
 
+# If this is a Mac then link to the OpenGL framework, otherwise link to the library.
+if ( "${CMAKE_SYSTEM_NAME}" MATCHES "Darwin" )
+  add_link_options ( -framework OpenGL )
+else()
+  link_libraries ( GL )
+endif()
+
 # Add the include directory for catch.
 include_directories ( ${CATCH2_INC_DIR} )
 
@@ -53,4 +61,4 @@ add_executable ( ${PROJECT_NAME}_test ${SOURCE_FILES} )
 
 # We're going to use this library.
 # CMake will automatically add -I, -L, and -D (etc) appropriately.
-target_link_libraries ( ${PROJECT_NAME}_test PRIVATE ${PROJECT_NAME} usul OpenThreads osg GL )
+target_link_libraries ( ${PROJECT_NAME}_test PRIVATE ${PROJECT_NAME} usul OpenThreads osg )
