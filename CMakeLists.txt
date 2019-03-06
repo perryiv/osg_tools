@@ -68,14 +68,14 @@ set ( OSG_TOOLS_VERSION_MINOR 1 )
 set ( OSG_TOOLS_VERSION_PATCH 0 )
 configure_file (
   ${CMAKE_CURRENT_SOURCE_DIR}/config/Version.h.in
-  ${OSG_TOOLS_INC_DIR}/OstTools/Version.h )
+  ${OSG_TOOLS_INC_DIR}/OsgTools/Version.h )
 
 # Add options here as needed for config file.
 
 # Now that we have all the configuration options we can write the file.
 configure_file (
   ${CMAKE_CURRENT_SOURCE_DIR}/config/Config.h.in
-  ${OSG_TOOLS_INC_DIR}/OstTools/Config.h )
+  ${OSG_TOOLS_INC_DIR}/OsgTools/Config.h )
 
 # Let the user set these directories.
 set ( OSG_INC_DIR $ENV{OSG_INC_DIR} CACHE STRING "Include path for OpenSceneGraph header files" )
