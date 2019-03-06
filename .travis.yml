@@ -35,11 +35,10 @@ sudo: required
 # Install what we need.
 install:
 - sudo pip install gcovr
+- sudo apt-get --assume-yes install libopenscenegraph-dev
 
 # The sequence of commands that get executed.
 script:
-
-- apt-cache search openscenegraph
 
 # Set up Catch2 one level up so that gcovr does not analyze it too.
 - pushd .
