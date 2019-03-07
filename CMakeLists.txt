@@ -22,6 +22,7 @@
 #  https://stackoverflow.com/questions/4001736/whats-up-with-the-thousands-of-warnings-in-standard-headers-in-msvc-wall
 #  http://cmake.3232098.n2.nabble.com/Directing-cmake-to-link-against-shared-object-with-debug-postfix-d-td7595338.html
 #  https://stackoverflow.com/questions/16682606/how-to-resovle-gcov-init-undefined-reference-issue-when-link
+#  https://cmake.org/cmake/help/v3.13/module/FindOpenSceneGraph.html?highlight=findopenscenegraph
 #
 ################################################################################
 
@@ -31,19 +32,6 @@ cmake_minimum_required ( VERSION 3.12.0 )
 
 # The name of this project.
 project ( osg_tools )
-
-# Are we using a familiar compiler? Quotes are important here.
-if ( "${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC" )
-  set ( USING_MSVC ON )
-elseif ( "${CMAKE_CXX_COMPILER_ID}" MATCHES "Intel" )
-  set ( USING_INTEL ON )
-elseif ( "${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" )
-  set ( USING_GCC ON )
-elseif ( "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang" )
-  set ( USING_CLANG ON )
-else()
-  message ( FATAL_ERROR "\nUnknown compiler: ${CMAKE_CXX_COMPILER_ID}"  )
-endif()
 
 # Use this C++ standard unless the user specifies otherwise with:
 # cmake path/to/source/dir -DCMAKE_CXX_STANDARD=14
@@ -100,7 +88,7 @@ target_link_libraries ( OpenSceneGraph::OSG INTERFACE ${OPENSCENEGRAPH_LIBRARIES
 option ( OSG_TOOLS_ENABLE_STRICT_WARNINGS "Enable strict warnings" ON )
 if ( OSG_TOOLS_ENABLE_STRICT_WARNINGS )
   message ( "   -- Enabling strict warnings" )
-  if ( MSVC ) # Also true for Intel compiler.
+  if ( MSVC ) # Also true for Intel compiler. Means "looks like Visual C++".
     add_compile_options ( /W4 )
   else()
     add_compile_options ( -Wall -Wextra -pedantic -pedantic-errors )
@@ -111,7 +99,7 @@ endif()
 option ( OSG_TOOLS_TREAT_WARNINGS_LIKE_ERRORS "Treat warnings like errors" ON )
 if ( OSG_TOOLS_TREAT_WARNINGS_LIKE_ERRORS )
   message ( "   -- Treating warnings like errors" )
-  if ( MSVC ) # Also true for Intel compiler.
+  if ( MSVC ) # Also true for Intel compiler. Means "looks like Visual C++".
     add_compile_options ( /WX )
   else()
     add_compile_options ( -Werror )
