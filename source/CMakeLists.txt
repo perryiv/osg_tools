@@ -11,9 +11,6 @@
 #
 #  CMake file for the library.
 #
-#  Sources:
-#  https://stackoverflow.com/questions/5311515/gcc-fpic-option
-#
 ################################################################################
 
 # We are compling usul.
@@ -38,7 +35,8 @@ target_include_directories ( ${PROJECT_NAME} INTERFACE ${OSG_TOOLS_INC_DIR} )
 target_link_libraries ( ${PROJECT_NAME} PUBLIC
   OpenGL::GL
   OpenSceneGraph::OSG
-  "usul${CMAKE_DEBUG_POSTFIX}"
+  debug usul${CMAKE_DEBUG_POSTFIX}
+  optimized usul
 )
 
 # Bake the version into the file name and create symlinks if appropriate.

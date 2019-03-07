@@ -11,10 +11,6 @@
 #
 #  CMake file for the OsgTools test program.
 #
-#  Sources:
-#  https://stackoverflow.com/questions/16682606/how-to-resovle-gcov-init-undefined-reference-issue-when-link
-#  https://stackoverflow.com/questions/18550265/compiling-a-c-program-that-uses-opengl-in-mac-os-x
-#
 ################################################################################
 
 # Let the user set the include path for Catch2.
