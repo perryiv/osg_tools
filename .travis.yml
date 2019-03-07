@@ -46,11 +46,9 @@ script:
 - mkdir -p external/catch2
 - curl https://raw.githubusercontent.com/catchorg/Catch2/master/single_include/catch2/catch.hpp > external/catch2/catch.hpp
 - export CATCH2_INC_DIR=`pwd`/external
-- echo $CATCH2_INC_DIR
-- ls $CATCH2_INC_DIR
 - popd
 
-# Set up Usul one level up too.
+# Set up Usul one level up so that gcovr does not analyze it too.
 - pushd .
 - cd ..
 - git clone https://github.com/perryiv/usul.git
