@@ -33,15 +33,8 @@ if ( OSG_TOOLS_ENABLE_CODE_COVERAGE )
       add_link_options ( --coverage )
     endif()
   else()
-    message ( "!! Test code coverage data not supported with current compiler" )
+    message ( WARNING "Test code coverage data not supported with current compiler" )
   endif()
-endif()
-
-# If this is a Mac then link to the OpenGL framework, otherwise link to the library.
-if ( "${CMAKE_SYSTEM_NAME}" MATCHES "Darwin" )
-  add_link_options ( -framework OpenGL )
-else()
-  link_libraries ( GL )
 endif()
 
 # Add the include directory for catch.
@@ -59,6 +52,10 @@ set ( SOURCE_FILES
 # Make an executable.
 add_executable ( ${PROJECT_NAME}_test ${SOURCE_FILES} )
 
-# We're going to use this library.
-# CMake will automatically add -I, -L, and -D (etc) appropriately.
-target_link_libraries ( ${PROJECT_NAME}_test PRIVATE ${PROJECT_NAME} usul OpenThreads osg )
+# Append a "d" to the file name if this is a debug build.
+# Unlike with the library files, this does not happen automatically.
+set_target_properties ( ${PROJECT_NAME}_test PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX} )
+
+# Tell cmake we are going to use these libraries.
+# It will automatically add -I, -L, and -D (etc) appropriately.
+target_link_libraries ( ${PROJECT_NAME}_test PRIVATE ${PROJECT_NAME} )

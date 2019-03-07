@@ -66,6 +66,7 @@ set ( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
 set ( OSG_TOOLS_VERSION_MAJOR 0 )
 set ( OSG_TOOLS_VERSION_MINOR 1 )
 set ( OSG_TOOLS_VERSION_PATCH 0 )
+set ( OSG_TOOLS_VERSION_STRING ${OSG_TOOLS_VERSION_MAJOR}.${OSG_TOOLS_VERSION_MINOR}.${OSG_TOOLS_VERSION_PATCH} )
 configure_file (
   ${CMAKE_CURRENT_SOURCE_DIR}/config/Version.h.in
   ${OSG_TOOLS_INC_DIR}/OsgTools/Version.h )
@@ -78,16 +79,26 @@ configure_file (
   ${OSG_TOOLS_INC_DIR}/OsgTools/Config.h )
 
 # Let the user set these directories.
-set ( OSG_INC_DIR $ENV{OSG_INC_DIR} CACHE STRING "Include path for OpenSceneGraph header files" )
-set ( OSG_LIB_DIR $ENV{OSG_LIB_DIR} CACHE STRING "Include path for OpenSceneGraph library files" )
 set ( USUL_INC_DIR $ENV{USUL_INC_DIR} CACHE STRING "Include path for Usul header files" )
 set ( USUL_LIB_DIR $ENV{USUL_LIB_DIR} CACHE STRING "Include path for Usul library files" )
+
+# Find OpenGL. This is the right way to do things.
+find_package ( OpenGL REQUIRED )
+
+# Find and use OpenSceneGraph. Set OSG_ROOT environment variable.
+find_package ( OpenSceneGraph REQUIRED )
+
+# Extra steps for FindOpenSceneGraph because that module is somewhat dated.
+# Note: We do not have to do this with OpenGL. It happens automatically.
+add_library ( OpenSceneGraph::OSG INTERFACE IMPORTED )
+target_include_directories ( OpenSceneGraph::OSG INTERFACE ${OPENSCENEGRAPH_INCLUDE_DIRS} )
+target_link_libraries ( OpenSceneGraph::OSG INTERFACE ${OPENSCENEGRAPH_LIBRARIES} )
 
 # Does the user want strict warnings?
 option ( OSG_TOOLS_ENABLE_STRICT_WARNINGS "Enable strict warnings" ON )
 if ( OSG_TOOLS_ENABLE_STRICT_WARNINGS )
   message ( "   -- Enabling strict warnings" )
-  if ( USING_MSVC OR USING_INTEL )
+  if ( MSVC ) # Also true for Intel compiler.
     add_compile_options ( /W4 )
   else()
     add_compile_options ( -Wall -Wextra -pedantic -pedantic-errors )
@@ -98,12 +109,15 @@ endif()
 option ( OSG_TOOLS_TREAT_WARNINGS_LIKE_ERRORS "Treat warnings like errors" ON )
 if ( OSG_TOOLS_TREAT_WARNINGS_LIKE_ERRORS )
   message ( "   -- Treating warnings like errors" )
-  if ( USING_MSVC OR USING_INTEL )
+  if ( MSVC ) # Also true for Intel compiler.
     add_compile_options ( /WX )
   else()
     add_compile_options ( -Werror )
   endif()
 endif()
+
+# Let the user change the debug postfix.
+set ( CMAKE_DEBUG_POSTFIX "d" CACHE STRING "Postfix for debug libraries and executables" )
 
 # For debug builds we want the _DEBUG preprocessor symbol to be defined.
 add_compile_definitions ( $<$<CONFIG:Debug>:_DEBUG> )
@@ -112,14 +126,12 @@ add_compile_definitions ( $<$<CONFIG:Debug>:_DEBUG> )
 add_definitions ( -DGL_SILENCE_DEPRECATION )
 
 # Everybody in the subdirectories will need to include files from here.
+# OpenGL and OpenSceneGraph are already configured in find_package.
 include_directories ( ${OSG_TOOLS_INC_DIR} )
-include_directories ( ${OSG_INC_DIR} )
 include_directories ( ${USUL_INC_DIR} )
 
-message ( "USUL_INC_DIR = ${USUL_INC_DIR}" )
-
 # Where to look for libraries.
-link_directories ( ${OSG_LIB_DIR} )
+# OpenGL and OpenSceneGraph are already configured in find_package.
 link_directories ( ${USUL_LIB_DIR} )
 
 # Also process the CMakeLists.txt files found in these directories.
