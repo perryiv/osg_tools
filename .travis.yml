@@ -40,26 +40,35 @@ install:
 # The sequence of commands that get executed.
 script:
 
-# Set up Catch2 one level up so that gcovr does not analyze it too.
-- pushd .
-- cd ..
-- mkdir -p external/catch2
-- curl https://raw.githubusercontent.com/catchorg/Catch2/master/single_include/catch2/catch.hpp > external/catch2/catch.hpp
-- export CATCH2_INC_DIR=`pwd`/external
-- popd
+# Set up Catch2 in the home directory so that gcovr does not analyze it too.
+- export CATCH2_INC_DIR=${HOME}/external
+- mkdir -p ${CATCH2_INC_DIR}/catch2
+- curl https://raw.githubusercontent.com/catchorg/Catch2/master/single_include/catch2/catch.hpp > ${CATCH2_INC_DIR}/catch2/catch.hpp
 
-# Set up Usul one level up so that gcovr does not analyze it too.
+# Set up (most of) the environment.
+- export LOCAL_DEV_LIB_DIR=${HOME}/local_dev_output
+- export LOCAL_DEV_BIN_DIR=${HOME}/local_dev_output
+- export USUL_LIB_DIR=${LOCAL_DEV_LIB_DIR}
+- export USUL_BIN_DIR=${LOCAL_DEV_BIN_DIR}
+- export OSG_TOOLS_LIB_DIR=${LOCAL_DEV_LIB_DIR}
+- export OSG_TOOLS_BIN_DIR=${LOCAL_DEV_BIN_DIR}
+
+# Set up Usul in the home directory so that gcovr does not analyze it too.
 - pushd .
-- cd ..
+- cd ${HOME}
 - git clone https://github.com/perryiv/usul.git
 - cd usul
+- export USUL_INC_DIR=`pwd`/source
 - mkdir build
 - cd build
 - cmake ../ -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE="Release" -DUSUL_ENABLE_CODE_COVERAGE=OFF
 - cmake --build .
 - cd ..
-- export USUL_INC_DIR=`pwd`/source
-- export USUL_LIB_DIR=`pwd`/build/lib
+- rm -rf build
+- mkdir build
+- cd build
+- cmake ../ -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE="Debug" -DUSUL_ENABLE_CODE_COVERAGE=OFF
+- cmake --build .
 - popd
 
 # Now we can run our script.

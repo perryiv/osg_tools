@@ -20,36 +20,33 @@ set -e
 set -x
 
 # This is necessary for Mac.
-export DYLD_FALLBACK_LIBRARY_PATH=".:$OSG_LIB_DIR:$OSG_LIB_DIR/osgPlugins-3.6.4"
+export DYLD_FALLBACK_LIBRARY_PATH=".:$OSG_ROOT/lib"
 
 rm -rf build
 mkdir build
 cd build
 
-cmake ../ \
+cmake .. \
   -DCMAKE_VERBOSE_MAKEFILE=ON \
   -DCMAKE_BUILD_TYPE="Release" \
   -DOSG_TOOLS_ENABLE_CODE_COVERAGE=OFF
 cmake --build .
 
-ls -al ./bin/osg_tools_test
-file ./bin/osg_tools_test
-./bin/osg_tools_test --abort --use-colour=yes --durations=no
+${OSG_TOOLS_BIN_DIR}/osg_tools_test --abort --use-colour=yes --durations=no
 
-cd ../
+cd ..
+
 rm -rf build
 mkdir build
 cd build
 
-cmake ../ \
+cmake .. \
   -DCMAKE_VERBOSE_MAKEFILE=ON \
   -DCMAKE_BUILD_TYPE="Debug" \
   -DOSG_TOOLS_ENABLE_CODE_COVERAGE=ON
 cmake --build .
 
-ls -al ./bin/osg_tools_test
-file ./bin/osg_tools_test
-./bin/osg_tools_test --abort --use-colour=yes --durations=no
+${OSG_TOOLS_BIN_DIR}/osg_tools_test --abort --use-colour=yes --durations=no
 
-cd ../
+cd ..
 gcovr
