@@ -46,7 +46,6 @@ script:
 - env
 
 # Set up (most of) the environment.
-- export GIT_BRANCH=`git branch | awk '/\*/ { print $2; }'`
 - export THIS_PROJECT_DIR=`pwd`
 - cd ..
 - export EXTERNAL_DIR=`pwd`/external
@@ -59,7 +58,6 @@ script:
 - export OSG_TOOLS_LIB_DIR=${LOCAL_DEV_LIB_DIR}
 - export OSG_TOOLS_BIN_DIR=${LOCAL_DEV_BIN_DIR}
 
-- echo ${GIT_BRANCH}
 - echo ${THIS_PROJECT_DIR}
 - echo ${EXTERNAL_DIR}
 - echo ${CATCH2_INC_DIR}
@@ -88,7 +86,7 @@ script:
 - cd ${EXTERNAL_DIR}
 - git clone https://github.com/perryiv/usul.git
 - cd usul
-- git checkout ${GIT_BRANCH}
+- git checkout ${TRAVIS_BRANCH}
 - export USUL_INC_DIR=`pwd`/source
 - mkdir build
 - cd build
