@@ -34,16 +34,12 @@ sudo: required
 
 # Install what we need.
 install:
-# - sudo pip install gcovr
-# - sudo apt-get --assume-yes install libopenscenegraph-dev
+- sudo pip install gcovr
+- sudo apt-get --assume-yes install libgl1-mesa-dev
+- sudo apt-get --assume-yes install libopenscenegraph-dev
 
 # The sequence of commands that get executed.
 script:
-
-- pwd
-- echo ${HOME}
-- ls
-- env
 
 # Set up (most of) the environment.
 - export THIS_PROJECT_DIR=`pwd`
@@ -58,16 +54,6 @@ script:
 - export OSG_TOOLS_LIB_DIR=${LOCAL_DEV_LIB_DIR}
 - export OSG_TOOLS_BIN_DIR=${LOCAL_DEV_BIN_DIR}
 
-- echo ${THIS_PROJECT_DIR}
-- echo ${EXTERNAL_DIR}
-- echo ${CATCH2_INC_DIR}
-- echo ${LOCAL_DEV_LIB_DIR}
-- echo ${LOCAL_DEV_BIN_DIR}
-- echo ${USUL_LIB_DIR}
-- echo ${USUL_BIN_DIR}
-- echo ${OSG_TOOLS_LIB_DIR}
-- echo ${OSG_TOOLS_BIN_DIR}
-
 # Set up Catch2 in the home directory so that gcovr does not analyze it too.
 - mkdir -p ${CATCH2_INC_DIR}/catch2
 - curl https://raw.githubusercontent.com/catchorg/Catch2/master/single_include/catch2/catch.hpp > ${CATCH2_INC_DIR}/catch2/catch.hpp
@@ -80,13 +66,13 @@ script:
 - export USUL_INC_DIR=`pwd`/source
 - mkdir build
 - cd build
-- cmake ../ -DCMAKE_VERBOSE_MAKEFILE=ON -DUSUL_BUILD_TESTS=OFF -DCMAKE_BUILD_TYPE="Release" -DUSUL_ENABLE_CODE_COVERAGE=OFF
+- cmake ../ -DCMAKE_VERBOSE_MAKEFILE=ON -DUSUL_BUILD_TESTS=OFF -DCMAKE_BUILD_TYPE="Release"
 - cmake --build .
 - cd ..
 - rm -rf build
 - mkdir build
 - cd build
-- cmake ../ -DCMAKE_VERBOSE_MAKEFILE=ON -DUSUL_BUILD_TESTS=OFF -DCMAKE_BUILD_TYPE="Debug" -DUSUL_ENABLE_CODE_COVERAGE=OFF
+- cmake ../ -DCMAKE_VERBOSE_MAKEFILE=ON -DUSUL_BUILD_TESTS=OFF -DCMAKE_BUILD_TYPE="Debug"
 - cmake --build .
 
 # Go back to the directory where we started.
