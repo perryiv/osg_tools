@@ -22,7 +22,7 @@
 #  https://stackoverflow.com/questions/4001736/whats-up-with-the-thousands-of-warnings-in-standard-headers-in-msvc-wall
 #  http://cmake.3232098.n2.nabble.com/Directing-cmake-to-link-against-shared-object-with-debug-postfix-d-td7595338.html
 #  https://stackoverflow.com/questions/16682606/how-to-resovle-gcov-init-undefined-reference-issue-when-link
-#  https://cmake.org/cmake/help/v3.13/module/FindOpenSceneGraph.html?highlight=findopenscenegraph
+#  https://cmake.org/cmake/help/v3.12/module/FindOpenSceneGraph.html?highlight=findopenscenegraph
 #
 ################################################################################
 
@@ -47,10 +47,16 @@ endif()
 # Define some variables that point to top-level directories.
 set ( OSG_TOOLS_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source )
 
-# This is where we want output files to go.
-set ( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
-set ( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
-set ( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
+# Set default output directories if none are given on command line.
+if ( NOT DEFINED CMAKE_ARCHIVE_OUTPUT_DIRECTORY AND DEFINED ENV{OSG_TOOLS_LIB_DIR} )
+  set ( CMAKE_ARCHIVE_OUTPUT_DIRECTORY $ENV{OSG_TOOLS_LIB_DIR} )
+endif()
+if ( NOT DEFINED CMAKE_LIBRARY_OUTPUT_DIRECTORY AND DEFINED ENV{OSG_TOOLS_LIB_DIR} )
+  set ( CMAKE_LIBRARY_OUTPUT_DIRECTORY $ENV{OSG_TOOLS_LIB_DIR} )
+endif()
+if ( NOT DEFINED CMAKE_RUNTIME_OUTPUT_DIRECTORY AND DEFINED ENV{OSG_TOOLS_BIN_DIR} )
+  set ( CMAKE_RUNTIME_OUTPUT_DIRECTORY $ENV{OSG_TOOLS_BIN_DIR} )
+endif()
 
 # Set the version.
 set ( OSG_TOOLS_VERSION_MAJOR 0 )
@@ -79,7 +85,7 @@ find_package ( OpenGL REQUIRED )
 find_package ( OpenSceneGraph REQUIRED )
 
 # Extra steps for FindOpenSceneGraph because that module is somewhat dated.
-# Note: We do not have to do this with OpenGL. It happens automatically.
+# Note: We do not have to do this with OpenGL; it happens automatically.
 add_library ( OpenSceneGraph::OSG INTERFACE IMPORTED )
 target_include_directories ( OpenSceneGraph::OSG INTERFACE ${OPENSCENEGRAPH_INCLUDE_DIRS} )
 target_link_libraries ( OpenSceneGraph::OSG INTERFACE ${OPENSCENEGRAPH_LIBRARIES} )
@@ -106,8 +112,10 @@ if ( OSG_TOOLS_TREAT_WARNINGS_LIKE_ERRORS )
   endif()
 endif()
 
-# Let the user change the debug postfix.
-set ( CMAKE_DEBUG_POSTFIX "d" CACHE STRING "Postfix for debug libraries and executables" )
+# Set default postfix if none was given on the command line.
+if ( NOT DEFINED CMAKE_DEBUG_POSTFIX )
+  set ( CMAKE_DEBUG_POSTFIX "d" )
+endif()
 
 # For debug builds we want the _DEBUG preprocessor symbol to be defined.
 add_compile_definitions ( $<$<CONFIG:Debug>:_DEBUG> )
