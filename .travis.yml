@@ -45,6 +45,7 @@ script:
 - ls
 
 # Set up (most of) the environment.
+- export GIT_BRANCH=`git rev-parse --abbrev-ref HEAD`
 - export THIS_PROJECT_DIR=`pwd`
 - cd ..
 - export EXTERNAL_DIR=`pwd`/external
@@ -56,7 +57,27 @@ script:
 - export USUL_BIN_DIR=${LOCAL_DEV_BIN_DIR}
 - export OSG_TOOLS_LIB_DIR=${LOCAL_DEV_LIB_DIR}
 - export OSG_TOOLS_BIN_DIR=${LOCAL_DEV_BIN_DIR}
-- export GIT_BRANCH=`git rev-parse --abbrev-ref HEAD`
+
+- echo ${GIT_BRANCH}
+- echo ${THIS_PROJECT_DIR}
+- echo ${EXTERNAL_DIR}
+- echo ${CATCH2_INC_DIR}
+- echo ${LOCAL_DEV_LIB_DIR}
+- echo ${LOCAL_DEV_BIN_DIR}
+- echo ${USUL_LIB_DIR}
+- echo ${USUL_BIN_DIR}
+- echo ${OSG_TOOLS_LIB_DIR}
+- echo ${OSG_TOOLS_BIN_DIR}
+
+- ls ${THIS_PROJECT_DIR}
+- ls ${EXTERNAL_DIR}
+- ls ${CATCH2_INC_DIR}
+- ls ${LOCAL_DEV_LIB_DIR}
+- ls ${LOCAL_DEV_BIN_DIR}
+- ls ${USUL_LIB_DIR}
+- ls ${USUL_BIN_DIR}
+- ls ${OSG_TOOLS_LIB_DIR}
+- ls ${OSG_TOOLS_BIN_DIR}
 
 # Set up Catch2 in the home directory so that gcovr does not analyze it too.
 - mkdir -p ${CATCH2_INC_DIR}/catch2
