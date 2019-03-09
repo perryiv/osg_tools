@@ -7,8 +7,10 @@
     "clear": "node_modules/.bin/clear",
     "config": "del-cli build && make-dir build && cd build && cmake .. -DCMAKE_VERBOSE_MAKEFILE=ON",
     "config-win": "del-cli build && make-dir build && cd build && cmake .. -Ax64 -DCMAKE_VERBOSE_MAKEFILE=ON",
-    "test": "DYLD_FALLBACK_LIBRARY_PATH=\".:${OSG_ROOT}/lib:${OSG_ROOT}/lib/osgPlugins-3.6.4\" ./build/bin/osg_tools_test --abort --use-colour=yes --durations=no",
-    "test-win": "cd build/bin/Debug && osg_tools_testd --abort --use-colour=yes --durations=no",
+    "install-lib": "cd build && cmake --build . --target install",
+    "install-lib-win": "cd build && cmake --build . --target INSTALL",
+    "test": "DYLD_FALLBACK_LIBRARY_PATH=\"${OSG_ROOT}/lib\" ${OSG_TOOLS_BIN_DIR}/osg_tools_test --abort --use-colour=yes --durations=no",
+    "test-win": "cd ${OSG_TOOLS_BIN_DIR} && osg_tools_testd --abort --use-colour=yes --durations=no",
     "watch": "watch \"npm run clear && npm run build && npm run test\" ./ --filter=./watch_filter.js",
     "watch-win": "watch \"npm run clear && npm run build && npm run test-win\" ./ --filter=./watch_filter.js"
   },
