@@ -43,6 +43,7 @@ script:
 - pwd
 - echo ${HOME}
 - ls
+- env
 
 # Set up (most of) the environment.
 - export GIT_BRANCH=`git branch | awk '/\*/ { print $2; }'`
