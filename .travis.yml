@@ -51,8 +51,8 @@ script:
 - export EXTERNAL_DIR=`pwd`/external
 - mkdir -p ${EXTERNAL_DIR}
 - export CATCH2_INC_DIR=${EXTERNAL_DIR}
-- export LOCAL_DEV_LIB_DIR=${EXTERNAL_DIR}/local_dev_output
-- export LOCAL_DEV_BIN_DIR=${EXTERNAL_DIR}/local_dev_output
+- export LOCAL_DEV_LIB_DIR=${EXTERNAL_DIR}/lib
+- export LOCAL_DEV_BIN_DIR=${EXTERNAL_DIR}/bin
 - export USUL_LIB_DIR=${LOCAL_DEV_LIB_DIR}
 - export USUL_BIN_DIR=${LOCAL_DEV_BIN_DIR}
 - export OSG_TOOLS_LIB_DIR=${LOCAL_DEV_LIB_DIR}
@@ -67,16 +67,6 @@ script:
 - echo ${USUL_BIN_DIR}
 - echo ${OSG_TOOLS_LIB_DIR}
 - echo ${OSG_TOOLS_BIN_DIR}
-
-- ls ${THIS_PROJECT_DIR}
-- ls ${EXTERNAL_DIR}
-- ls ${CATCH2_INC_DIR}
-- ls ${LOCAL_DEV_LIB_DIR}
-- ls ${LOCAL_DEV_BIN_DIR}
-- ls ${USUL_LIB_DIR}
-- ls ${USUL_BIN_DIR}
-- ls ${OSG_TOOLS_LIB_DIR}
-- ls ${OSG_TOOLS_BIN_DIR}
 
 # Set up Catch2 in the home directory so that gcovr does not analyze it too.
 - mkdir -p ${CATCH2_INC_DIR}/catch2
