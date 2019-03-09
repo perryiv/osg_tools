@@ -45,7 +45,7 @@ script:
 - ls
 
 # Set up (most of) the environment.
-- export GIT_BRANCH=`git rev-parse --abbrev-ref HEAD`
+- export GIT_BRANCH=`git symbolic-ref --short HEAD`
 - export THIS_PROJECT_DIR=`pwd`
 - cd ..
 - export EXTERNAL_DIR=`pwd`/external
