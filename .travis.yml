@@ -40,6 +40,10 @@ install:
 # The sequence of commands that get executed.
 script:
 
+- pwd
+- echo ${HOME}
+- ls
+
 # Set up Catch2 in the home directory so that gcovr does not analyze it too.
 - export CATCH2_INC_DIR=${HOME}/external
 - mkdir -p ${CATCH2_INC_DIR}/catch2
@@ -61,13 +65,13 @@ script:
 - export USUL_INC_DIR=`pwd`/source
 - mkdir build
 - cd build
-- cmake ../ -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE="Release" -DUSUL_ENABLE_CODE_COVERAGE=OFF
+- cmake ../ -DCMAKE_VERBOSE_MAKEFILE=ON -DUSUL_BUILD_TESTS=OFF -DCMAKE_BUILD_TYPE="Release" -DUSUL_ENABLE_CODE_COVERAGE=OFF
 - cmake --build .
 - cd ..
 - rm -rf build
 - mkdir build
 - cd build
-- cmake ../ -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE="Debug" -DUSUL_ENABLE_CODE_COVERAGE=OFF
+- cmake ../ -DCMAKE_VERBOSE_MAKEFILE=ON -DUSUL_BUILD_TESTS=OFF -DCMAKE_BUILD_TYPE="Debug" -DUSUL_ENABLE_CODE_COVERAGE=OFF
 - cmake --build .
 - popd
 
