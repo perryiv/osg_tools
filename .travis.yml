@@ -34,8 +34,8 @@ sudo: required
 
 # Install what we need.
 install:
-- sudo pip install gcovr
-- sudo apt-get --assume-yes install libopenscenegraph-dev
+# - sudo pip install gcovr
+# - sudo apt-get --assume-yes install libopenscenegraph-dev
 
 # The sequence of commands that get executed.
 script:
