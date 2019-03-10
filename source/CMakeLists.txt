@@ -13,7 +13,7 @@
 #
 ################################################################################
 
-# We are compling usul.
+# We are compling osg_tools.
 add_compile_definitions ( COMPILING_OSG_TOOLS )
 
 # We want position independent code.
