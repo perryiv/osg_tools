@@ -17,7 +17,7 @@
 
 #include "osg/Group"
 
-using namespace OsgTools;
+namespace OsgTools {
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -73,3 +73,6 @@ void Group::addAllChildren ( osg::Group *from, osg::Group *to )
     }
   }
 }
+
+
+} // namespace OsgTools
