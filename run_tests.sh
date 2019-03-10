@@ -29,6 +29,7 @@ cd build
 cmake .. \
   -DCMAKE_VERBOSE_MAKEFILE=ON \
   -DCMAKE_BUILD_TYPE="Release" \
+  -DOSG_TOOLS_BUILD_TESTS=ON \
   -DOSG_TOOLS_ENABLE_CODE_COVERAGE=OFF
 cmake --build .
 
@@ -43,6 +44,7 @@ cd build
 cmake .. \
   -DCMAKE_VERBOSE_MAKEFILE=ON \
   -DCMAKE_BUILD_TYPE="Debug" \
+  -DOSG_TOOLS_BUILD_TESTS=ON \
   -DOSG_TOOLS_ENABLE_CODE_COVERAGE=ON
 cmake --build .
 

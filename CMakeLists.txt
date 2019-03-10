@@ -104,6 +104,9 @@ if ( OSG_TOOLS_TREAT_WARNINGS_LIKE_ERRORS )
   endif()
 endif()
 
+# Does the user want to build the tests?
+option ( OSG_TOOLS_BUILD_TESTS "Build the tests" OFF )
+
 # Set default postfix if none was given on the command line.
 if ( NOT DEFINED CMAKE_DEBUG_POSTFIX )
   set ( CMAKE_DEBUG_POSTFIX "d" )
@@ -126,4 +129,6 @@ link_directories ( ${USUL_LIB_DIR} )
 
 # Also process the CMakeLists.txt files found in these directories.
 add_subdirectory ( source )
-add_subdirectory ( tests )
+if ( OSG_TOOLS_BUILD_TESTS )
+  add_subdirectory ( tests ) # The tests.
+endif()
