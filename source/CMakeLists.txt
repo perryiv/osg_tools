@@ -25,18 +25,18 @@ set ( SOURCE_FILES
 )
 
 # Make the library using the source files.
+# Hey CMake, here is a library and all the stuff you need to know about it.
 add_library ( ${PROJECT_NAME} SHARED ${SOURCE_FILES} )
 
 # Tell cmake that other projects that use this one will need
 # the header files from OSG_TOOLS_INC_DIR.
-target_include_directories ( ${PROJECT_NAME} INTERFACE ${OSG_TOOLS_INC_DIR} )
+target_include_directories ( ${PROJECT_NAME} PUBLIC ${OSG_TOOLS_INC_DIR} )
 
 # CMake will automatically add -I, -L, and -D (etc) appropriately.
 target_link_libraries ( ${PROJECT_NAME} PUBLIC
   OpenGL::GL
   OpenSceneGraph::OSG
-  debug usul${CMAKE_DEBUG_POSTFIX}
-  optimized usul
+  usul
 )
 
 # Bake the version into the file name and create symlinks if appropriate.

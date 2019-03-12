@@ -66,10 +66,6 @@ configure_file (
   ${CMAKE_CURRENT_SOURCE_DIR}/config/Config.h.in
   ${OSG_TOOLS_INC_DIR}/OsgTools/Config.h )
 
-# Let the user set these directories.
-set ( USUL_INC_DIR $ENV{USUL_INC_DIR} CACHE STRING "Include path for Usul header files" )
-set ( USUL_LIB_DIR $ENV{USUL_LIB_DIR} CACHE STRING "Include path for Usul library files" )
-
 # Find OpenGL. This is the right way to do things.
 find_package ( OpenGL REQUIRED )
 
@@ -81,6 +77,21 @@ find_package ( OpenSceneGraph REQUIRED )
 add_library ( OpenSceneGraph::OSG INTERFACE IMPORTED )
 target_include_directories ( OpenSceneGraph::OSG INTERFACE ${OPENSCENEGRAPH_INCLUDE_DIRS} )
 target_link_libraries ( OpenSceneGraph::OSG INTERFACE ${OPENSCENEGRAPH_LIBRARIES} )
+
+# Configure usul if it has not been defined already.
+if ( NOT TARGET usul )
+  set ( USUL_INC_DIR $ENV{USUL_INC_DIR} CACHE PATH "Include path for Usul header files" )
+  add_library ( usul INTERFACE IMPORTED )
+  target_include_directories ( usul INTERFACE ${USUL_INC_DIR} )
+  target_link_libraries ( usul INTERFACE
+    debug usul${CMAKE_DEBUG_POSTFIX}
+    optimized usul
+  )
+  set ( USUL_LIB_DIR $ENV{USUL_LIB_DIR} CACHE PATH "Include path for Usul library files" )
+  set_target_properties (
+    usul PROPERTIES IMPORTED_LOCATION ${USUL_LIB_DIR}
+  )
+endif()
 
 # Does the user want strict warnings?
 option ( OSG_TOOLS_ENABLE_STRICT_WARNINGS "Enable strict warnings" ON )
@@ -120,12 +131,12 @@ add_definitions ( -DGL_SILENCE_DEPRECATION )
 
 # Everybody in the subdirectories will need to include files from here.
 # OpenGL and OpenSceneGraph are already configured in find_package.
-include_directories ( ${OSG_TOOLS_INC_DIR} )
-include_directories ( ${USUL_INC_DIR} )
+# include_directories ( ${OSG_TOOLS_INC_DIR} )
+# include_directories ( ${USUL_INC_DIR} )
 
 # Where to look for libraries.
 # OpenGL and OpenSceneGraph are already configured in find_package.
-link_directories ( ${USUL_LIB_DIR} )
+# link_directories ( ${USUL_LIB_DIR} )
 
 # Also process the CMakeLists.txt files found in these directories.
 add_subdirectory ( source )
