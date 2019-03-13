@@ -48,7 +48,7 @@ cmake .. \
   -DOSG_TOOLS_ENABLE_CODE_COVERAGE=ON
 cmake --build .
 
-tests/osg_tools_test --abort --use-colour=yes --durations=no
+tests/osg_tools_testd --abort --use-colour=yes --durations=no
 
 cd ..
 gcovr
