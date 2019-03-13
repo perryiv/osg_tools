@@ -47,12 +47,6 @@ script:
 - export EXTERNAL_DIR=`pwd`/external
 - mkdir -p ${EXTERNAL_DIR}
 - export CATCH2_INC_DIR=${EXTERNAL_DIR}
-- export LOCAL_DEV_LIB_DIR=${EXTERNAL_DIR}/lib
-- export LOCAL_DEV_BIN_DIR=${EXTERNAL_DIR}/bin
-- export USUL_LIB_DIR=${LOCAL_DEV_LIB_DIR}
-- export USUL_BIN_DIR=${LOCAL_DEV_BIN_DIR}
-- export OSG_TOOLS_LIB_DIR=${LOCAL_DEV_LIB_DIR}
-- export OSG_TOOLS_BIN_DIR=${LOCAL_DEV_BIN_DIR}
 
 # Set up Catch2 in the home directory so that gcovr does not analyze it too.
 - mkdir -p ${CATCH2_INC_DIR}/catch2
@@ -63,7 +57,6 @@ script:
 - git clone https://github.com/perryiv/usul.git
 - cd usul
 - git checkout ${TRAVIS_BRANCH}
-- export USUL_INC_DIR=`pwd`/source
 - mkdir build
 - cd build
 - cmake ../ -DCMAKE_VERBOSE_MAKEFILE=ON -DUSUL_BUILD_TESTS=OFF -DCMAKE_BUILD_TYPE="Release"

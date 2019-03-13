@@ -48,7 +48,7 @@ endif()
 set ( OSG_TOOLS_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source )
 
 # Set default output directories if none are given on command line.
-include ( ${CMAKE_CURRENT_SOURCE_DIR}/cmake/output_dirs.cmake )
+# include ( ${CMAKE_CURRENT_SOURCE_DIR}/cmake/output_dirs.cmake )
 
 # Set the version.
 set ( OSG_TOOLS_VERSION_MAJOR 0 )
@@ -78,8 +78,13 @@ add_library ( OpenSceneGraph::OSG INTERFACE IMPORTED )
 target_include_directories ( OpenSceneGraph::OSG INTERFACE ${OPENSCENEGRAPH_INCLUDE_DIRS} )
 target_link_libraries ( OpenSceneGraph::OSG INTERFACE ${OPENSCENEGRAPH_LIBRARIES} )
 
+# Find and use usul. Set usul_ROOT environment variable to:
+# 1) where it is installed, or
+# 2) it's build directory.
+find_package ( usul REQUIRED )
+
 # Configure usul if it has not been defined already.
-include ( ${CMAKE_CURRENT_SOURCE_DIR}/cmake/usul.cmake )
+# include ( ${CMAKE_CURRENT_SOURCE_DIR}/cmake/usul.cmake )
 
 # Does the user want strict warnings?
 option ( OSG_TOOLS_ENABLE_STRICT_WARNINGS "Enable strict warnings" ON )
