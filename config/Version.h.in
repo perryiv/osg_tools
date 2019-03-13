@@ -19,13 +19,15 @@
 #ifndef _OSG_TOOLS_VERSION_H_
 #define _OSG_TOOLS_VERSION_H_
 
+
 namespace OsgTools
 {
   namespace Version
   {
-    const unsigned short MAJOR = @OSG_TOOLS_VERSION_MAJOR@;
-    const unsigned short MINOR = @OSG_TOOLS_VERSION_MINOR@;
-    const unsigned short PATCH = @OSG_TOOLS_VERSION_PATCH@;
+    const unsigned short MAJOR = @PROJECT_VERSION_MAJOR@;
+    const unsigned short MINOR = @PROJECT_VERSION_MINOR@;
+    const unsigned short PATCH = @PROJECT_VERSION_PATCH@;
+    const char *STRING = "@PROJECT_VERSION@";
   }
 }
 

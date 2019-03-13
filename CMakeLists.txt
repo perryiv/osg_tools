@@ -22,7 +22,8 @@
 #  https://stackoverflow.com/questions/4001736/whats-up-with-the-thousands-of-warnings-in-standard-headers-in-msvc-wall
 #  http://cmake.3232098.n2.nabble.com/Directing-cmake-to-link-against-shared-object-with-debug-postfix-d-td7595338.html
 #  https://stackoverflow.com/questions/16682606/how-to-resovle-gcov-init-undefined-reference-issue-when-link
-#  https://cmake.org/cmake/help/v3.12/module/FindOpenSceneGraph.html?highlight=findopenscenegraph
+#  https://cmake.org/cmake/help/v3.13/module/FindOpenSceneGraph.html?highlight=findopenscenegraph
+#  https://gitlab.kitware.com/cmake/community/wikis/doc/tutorials/How-to-create-a-ProjectConfig.cmake-file
 #
 ################################################################################
 
@@ -31,7 +32,7 @@
 cmake_minimum_required ( VERSION 3.12.0 )
 
 # The name of this project.
-project ( osg_tools )
+project ( osg_tools VERSION 0.1.0 )
 
 # Use this C++ standard unless the user specifies otherwise with:
 # cmake path/to/source/dir -DCMAKE_CXX_STANDARD=14
@@ -51,13 +52,16 @@ set ( OSG_TOOLS_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source )
 # include ( ${CMAKE_CURRENT_SOURCE_DIR}/cmake/output_dirs.cmake )
 
 # Set the version.
-set ( OSG_TOOLS_VERSION_MAJOR 0 )
-set ( OSG_TOOLS_VERSION_MINOR 1 )
-set ( OSG_TOOLS_VERSION_PATCH 0 )
-set ( OSG_TOOLS_VERSION_STRING ${OSG_TOOLS_VERSION_MAJOR}.${OSG_TOOLS_VERSION_MINOR}.${OSG_TOOLS_VERSION_PATCH} )
 configure_file (
   ${CMAKE_CURRENT_SOURCE_DIR}/config/Version.h.in
   ${OSG_TOOLS_INC_DIR}/OsgTools/Version.h )
+
+# Define how things are installed.
+if ( WIN32 AND NOT CYGWIN )
+  set ( INSTALL_CMAKE_DIR CMake )
+else()
+  set ( INSTALL_CMAKE_DIR lib/CMake/${PROJECT_NAME} )
+endif()
 
 # Add options here as needed for config file.
 
@@ -136,3 +140,6 @@ add_subdirectory ( source )
 if ( OSG_TOOLS_BUILD_TESTS )
   add_subdirectory ( tests ) # The tests.
 endif()
+
+# Configure how this project gets imported into other cmake projects.
+include ( ${CMAKE_CURRENT_SOURCE_DIR}/cmake/export.cmake )
