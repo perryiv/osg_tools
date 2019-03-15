@@ -20,10 +20,11 @@
 get_filename_component ( OSG_TOOLS_CMAKE_DIR ${CMAKE_CURRENT_LIST_FILE} PATH )
 set ( OSG_TOOLS_INCLUDE_DIRS "@CONFIG_INCLUDE_DIRS@" )
 
-# TODO: Not sure what this does.
+# Include this target cmake file if (and only if) the osg_tools is not already defined.
 if ( NOT TARGET osg_tools AND NOT osg_tools_BINARY_DIR )
   include ( ${OSG_TOOLS_CMAKE_DIR}/osg_tools_targets.cmake )
 endif()
 
-# TODO: Not sure what this does.
+# A way for projects using osg_tools to easily link against all the libraries.
+# There is only one here, so it doesn't matter much.
 set ( OSG_TOOLS_LIBRARIES osg_tools )

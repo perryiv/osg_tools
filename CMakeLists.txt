@@ -45,30 +45,28 @@ if ( NOT DEFINED CMAKE_CXX_EXTENSIONS )
   set ( CMAKE_CXX_EXTENSIONS OFF )
 endif()
 
-# Define some variables that point to top-level directories.
-set ( OSG_TOOLS_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source )
-
-# Set default output directories if none are given on command line.
-# include ( ${CMAKE_CURRENT_SOURCE_DIR}/cmake/output_dirs.cmake )
+# A convenient variable for telling the compiler to use these header files.
+set ( OSG_TOOLS_CONFIG_DIR_INPUT ${CMAKE_CURRENT_SOURCE_DIR}/config )
+set ( OSG_TOOLS_CONFIG_DIR_OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/config )
 
 # Set the version.
 configure_file (
-  ${CMAKE_CURRENT_SOURCE_DIR}/config/Version.h.in
-  ${OSG_TOOLS_INC_DIR}/OsgTools/Version.h )
-
-# Define how things are installed.
-if ( WIN32 AND NOT CYGWIN )
-  set ( INSTALL_CMAKE_DIR CMake )
-else()
-  set ( INSTALL_CMAKE_DIR lib/CMake/${PROJECT_NAME} )
-endif()
+  ${OSG_TOOLS_CONFIG_DIR_INPUT}/Version.h.in
+  ${OSG_TOOLS_CONFIG_DIR_OUTPUT}/OsgTools/Version.h )
 
 # Add options here as needed for config file.
 
 # Now that we have all the configuration options we can write the file.
 configure_file (
-  ${CMAKE_CURRENT_SOURCE_DIR}/config/Config.h.in
-  ${OSG_TOOLS_INC_DIR}/OsgTools/Config.h )
+  ${OSG_TOOLS_CONFIG_DIR_INPUT}/Config.h.in
+  ${OSG_TOOLS_CONFIG_DIR_OUTPUT}/OsgTools/Config.h )
+
+# Install generated files wherever the user specified to install things.
+install (
+  DIRECTORY ${OSG_TOOLS_CONFIG_DIR_OUTPUT}/OsgTools
+  DESTINATION include
+  FILES_MATCHING PATTERN "*.h"
+)
 
 # Find OpenGL. This is the right way to do things.
 find_package ( OpenGL REQUIRED )
@@ -86,9 +84,6 @@ target_link_libraries ( OpenSceneGraph::OSG INTERFACE ${OPENSCENEGRAPH_LIBRARIES
 # 1) where it is installed, or
 # 2) it's build directory.
 find_package ( usul REQUIRED )
-
-# Configure usul if it has not been defined already.
-# include ( ${CMAKE_CURRENT_SOURCE_DIR}/cmake/usul.cmake )
 
 # Does the user want strict warnings?
 option ( OSG_TOOLS_ENABLE_STRICT_WARNINGS "Enable strict warnings" ON )
@@ -125,15 +120,6 @@ add_compile_definitions ( $<$<CONFIG:Debug>:_DEBUG> )
 
 # We do not need to see all those deprecation warnings in OpenSceneGraph.
 add_definitions ( -DGL_SILENCE_DEPRECATION )
-
-# Everybody in the subdirectories will need to include files from here.
-# OpenGL and OpenSceneGraph are already configured in find_package.
-# include_directories ( ${OSG_TOOLS_INC_DIR} )
-# include_directories ( ${USUL_INC_DIR} )
-
-# Where to look for libraries.
-# OpenGL and OpenSceneGraph are already configured in find_package.
-# link_directories ( ${USUL_LIB_DIR} )
 
 # Also process the CMakeLists.txt files found in these directories.
 add_subdirectory ( source )
