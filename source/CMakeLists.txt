@@ -62,6 +62,5 @@ install (
 )
 install (
   DIRECTORY OsgTools
-  DESTINATION include
-  FILES_MATCHING PATTERN "*.h"
+  DESTINATION include FILES_MATCHING PATTERN "*.h"
 )
