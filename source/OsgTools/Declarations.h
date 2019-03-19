@@ -40,5 +40,11 @@ namespace osgText
   class Text;
 }
 
+namespace osgViewer
+{
+  class GraphicsWindowEmbedded;
+  class Viewer;
+}
+
 
 #endif // _OSG_TOOLS_FORWARD_DECLARATIONS_H_
