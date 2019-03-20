@@ -35,6 +35,11 @@ namespace osg
   class Material;
 }
 
+namespace osgGA
+{
+  class EventQueue;
+}
+
 namespace osgText
 {
   class Text;
@@ -43,6 +48,7 @@ namespace osgText
 namespace osgViewer
 {
   class GraphicsWindowEmbedded;
+  class CompositeViewer;
   class Viewer;
 }
 
