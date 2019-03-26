@@ -38,6 +38,7 @@ namespace osg
 namespace osgGA
 {
   class EventQueue;
+  class TrackballManipulator;
 }
 
 namespace osgText
