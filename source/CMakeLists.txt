@@ -21,7 +21,8 @@ set ( CMAKE_POSITION_INDEPENDENT_CODE ON )
 
 # Define a variable that holds all the source files.
 set ( SOURCE_FILES
-  OsgTools/Group.cpp
+  OsgTools/Group/Group.cpp
+  OsgTools/Strings/Format.cpp
 )
 
 # Make the library using the source files.

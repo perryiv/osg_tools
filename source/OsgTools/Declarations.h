@@ -19,20 +19,25 @@
 
 namespace osg
 {
-  class Node;
-  class Group;
   class Geode;
-  class StateSet;
-  class LOD;
-  class PrimitiveSet;
-  class Transform;
-  class Viewport;
-  class Matrixf;
-  class Matrixd;
-  class Vec4f;
-  class MatrixTransform;
   class Geometry;
+  class Group;
+  class LOD;
   class Material;
+  class Matrixd;
+  class Matrixf;
+  class MatrixTransform;
+  class Node;
+  class PrimitiveSet;
+  class StateSet;
+  class Transform;
+  class Vec4d;
+  class Vec4f;
+  class Vec3d;
+  class Vec3f;
+  class Vec2d;
+  class Vec2f;
+  class Viewport;
 }
 
 namespace osgGA
@@ -48,8 +53,8 @@ namespace osgText
 
 namespace osgViewer
 {
-  class GraphicsWindowEmbedded;
   class CompositeViewer;
+  class GraphicsWindowEmbedded;
   class Viewer;
 }
 

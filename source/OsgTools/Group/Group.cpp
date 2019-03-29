@@ -13,9 +13,10 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "OsgTools/Group.h"
+#include "OsgTools/Group/Group.h"
 
 #include "osg/Group"
+
 
 namespace OsgTools {
 

@@ -12,7 +12,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "OsgTools/Group.h"
+#include "OsgTools/Group/Group.h"
 
 // Temporarily disable the warning we get when compiling with -Woverloaded-virtual or -Wall.
 #ifdef __GNUC__
