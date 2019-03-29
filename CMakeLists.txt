@@ -92,7 +92,7 @@ if ( OSG_TOOLS_ENABLE_STRICT_WARNINGS )
   if ( MSVC ) # Also true for Intel compiler. Means "looks like Visual C++".
     add_compile_options ( /W4 )
   else()
-    add_compile_options ( -Wall -Wextra -pedantic -pedantic-errors )
+    add_compile_options ( -Wall -Wextra -pedantic -pedantic-errors -Wconversion -Wsign-conversion )
   endif()
 endif()
 
