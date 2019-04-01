@@ -17,7 +17,7 @@
 #define _OSG_TOOLS_GROUP_CLASS_H_
 
 #include "OsgTools/Export.h"
-#include "OsgTools/Declarations.h"
+#include "OsgTools/Forward.h"
 
 
 namespace OsgTools {

@@ -16,7 +16,7 @@
 #ifndef _OSG_TOOLS_STRINGS_FORMAT_H_
 #define _OSG_TOOLS_STRINGS_FORMAT_H_
 
-#include "OsgTools/Declarations.h"
+#include "OsgTools/Forward.h"
 
 #include "Usul/Strings/Format.h"
 
