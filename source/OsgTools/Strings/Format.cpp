@@ -17,6 +17,12 @@
 
 #include "osg/Matrixd"
 #include "osg/Matrixf"
+#include "osg/Vec4d"
+#include "osg/Vec4f"
+#include "osg/Vec3d"
+#include "osg/Vec3f"
+#include "osg/Vec2d"
+#include "osg/Vec2f"
 
 #include <sstream>
 
@@ -31,25 +37,37 @@ namespace Strings {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Details
+std::string format ( const osg::Vec4d &v )
 {
-  template < class T > inline std::string formatMatrix ( const T &m )
-  {
-    std::ostringstream out;
-    out << m(0,0) << ", " << m(0,1) << ", " << m(0,2) << ", " << m(0,3) << '\n';
-    out << m(1,0) << ", " << m(1,1) << ", " << m(1,2) << ", " << m(1,3) << '\n';
-    out << m(2,0) << ", " << m(2,1) << ", " << m(2,2) << ", " << m(2,3) << '\n';
-    out << m(3,0) << ", " << m(3,1) << ", " << m(3,2) << ", " << m(3,3);
-    return out.str();
-  }
+  return Usul::Strings::formatVec4 ( v );
+}
+std::string format ( const osg::Vec4f &v )
+{
+  return Usul::Strings::formatVec4 ( v );
+}
+std::string format ( const osg::Vec3d &v )
+{
+  return Usul::Strings::formatVec3 ( v );
+}
+std::string format ( const osg::Vec3f &v )
+{
+  return Usul::Strings::formatVec3 ( v );
+}
+std::string format ( const osg::Vec2d &v )
+{
+  return Usul::Strings::formatVec2 ( v );
+}
+std::string format ( const osg::Vec2f &v )
+{
+  return Usul::Strings::formatVec2 ( v );
 }
 std::string format ( const osg::Matrixd &m )
 {
-  return Details::formatMatrix ( m );
+  return Usul::Strings::formatMatrix44 ( m );
 }
 std::string format ( const osg::Matrixf &m )
 {
-  return Details::formatMatrix ( m );
+  return Usul::Strings::formatMatrix44 ( m );
 }
 
 

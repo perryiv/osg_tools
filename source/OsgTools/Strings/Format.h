@@ -37,6 +37,8 @@ std::string format ( const osg::Vec4d &v );
 std::string format ( const osg::Vec4f &v );
 std::string format ( const osg::Vec3d &v );
 std::string format ( const osg::Vec3f &v );
+std::string format ( const osg::Vec2d &v );
+std::string format ( const osg::Vec2f &v );
 
 
 } // namespace Strings
