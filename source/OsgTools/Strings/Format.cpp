@@ -39,27 +39,27 @@ namespace Strings {
 
 std::string format ( const osg::Vec4d &v )
 {
-  return Usul::Strings::formatVec4 ( v );
+  return Usul::Strings::formatVector4 ( v );
 }
 std::string format ( const osg::Vec4f &v )
 {
-  return Usul::Strings::formatVec4 ( v );
+  return Usul::Strings::formatVector4 ( v );
 }
 std::string format ( const osg::Vec3d &v )
 {
-  return Usul::Strings::formatVec3 ( v );
+  return Usul::Strings::formatVector3 ( v );
 }
 std::string format ( const osg::Vec3f &v )
 {
-  return Usul::Strings::formatVec3 ( v );
+  return Usul::Strings::formatVector3 ( v );
 }
 std::string format ( const osg::Vec2d &v )
 {
-  return Usul::Strings::formatVec2 ( v );
+  return Usul::Strings::formatVector2 ( v );
 }
 std::string format ( const osg::Vec2f &v )
 {
-  return Usul::Strings::formatVec2 ( v );
+  return Usul::Strings::formatVector2 ( v );
 }
 std::string format ( const osg::Matrixd &m )
 {
