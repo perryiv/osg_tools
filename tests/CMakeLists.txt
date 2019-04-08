@@ -42,7 +42,8 @@ include_directories ( ${CMAKE_CURRENT_SOURCE_DIR} )
 # Define a variable that holds all the source files.
 set ( SOURCE_FILES
   OsgTools/Main.cpp
-  OsgTools/Group.cpp
+  OsgTools/Groups/Group.cpp
+  OsgTools/Math/Three.cpp
 )
 
 # Make an executable.

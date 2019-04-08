@@ -11,3 +11,4 @@ external
 CMakeSettings.json
 source/OsgTools/Config.h
 source/OsgTools/Version.h
+.vscode
