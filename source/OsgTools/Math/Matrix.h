@@ -20,6 +20,10 @@
 
 #include "osg/Matrixd"
 #include "osg/Matrixf"
+#include "osg/Vec4d"
+#include "osg/Vec4f"
+#include "osg/Vec3d"
+#include "osg/Vec3f"
 
 #include <type_traits>
 
@@ -41,6 +45,36 @@ namespace Usul
     inline bool inverse ( const osg::Matrixf &a, osg::Matrixf &b )
     {
       return b.invert ( a );
+    };
+  }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Adapter functions for use with Usul::Math::unProject
+//
+///////////////////////////////////////////////////////////////////////////////
+
+namespace Usul
+{
+  namespace Math
+  {
+    inline osg::Vec4d multiply ( const osg::Matrixd &a, const osg::Vec4d &b )
+    {
+      return b * a;
+    };
+    inline osg::Vec4f multiply ( const osg::Matrixf &a, const osg::Vec4f &b )
+    {
+      return b * a;
+    };
+    inline osg::Vec3d multiply ( const osg::Matrixd &a, const osg::Vec3d &b )
+    {
+      return b * a;
+    };
+    inline osg::Vec3f multiply ( const osg::Matrixf &a, const osg::Vec3f &b )
+    {
+      return b * a;
     };
   }
 }
