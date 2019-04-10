@@ -30,6 +30,61 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//  Older versions of osg::Matrix do not have a transpose function.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+namespace Usul
+{
+  namespace Math
+  {
+    namespace Details
+    {
+      template < class M >
+      inline void transposeMatrix ( const M &a, M &b )
+      {
+        b(0,0) = a(0,0);
+        b(0,1) = a(1,0);
+        b(0,2) = a(2,0);
+        b(0,3) = a(3,0);
+        b(1,0) = a(0,1);
+        b(1,1) = a(1,1);
+        b(1,2) = a(2,1);
+        b(1,3) = a(3,1);
+        b(2,0) = a(0,2);
+        b(2,1) = a(1,2);
+        b(2,2) = a(2,2);
+        b(2,3) = a(3,2);
+        b(3,0) = a(0,3);
+        b(3,1) = a(1,3);
+        b(3,2) = a(2,3);
+        b(3,3) = a(3,3);
+      }
+    }
+    inline void transpose ( const osg::Matrixd &a, osg::Matrixd &b )
+    {
+      Details::transposeMatrix ( a, b );
+    }
+    inline void transpose ( osg::Matrixd &m )
+    {
+      osg::Matrixd temp ( m );
+      transpose ( temp, m );
+    }
+    inline void transpose ( const osg::Matrixf &a, osg::Matrixf &b )
+    {
+      Details::transposeMatrix ( a, b );
+    }
+    inline void transpose ( osg::Matrixf &m )
+    {
+      osg::Matrixf temp ( m );
+      transpose ( temp, m );
+    }
+  }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //  Adapter functions for use with Usul::Math::unProject
 //
 ///////////////////////////////////////////////////////////////////////////////

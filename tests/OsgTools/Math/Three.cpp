@@ -78,7 +78,7 @@ TEST_CASE ( "3D template math functions" )
       0, 0, -1.0002000200020005, -0.06487231313253677,
       0, 0, -1, 0
     );
-    projMatrix.transpose ( projMatrix );
+    Usul::Math::transpose ( projMatrix );
 
     osg::Vec3d answer;
     const bool result = Usul::Math::unProject ( screen, viewMatrix, projMatrix, viewport, answer );
