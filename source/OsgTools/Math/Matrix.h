@@ -41,11 +41,11 @@ namespace Usul
     inline bool inverse ( const osg::Matrixd &a, osg::Matrixd &b )
     {
       return b.invert ( a );
-    };
+    }
     inline bool inverse ( const osg::Matrixf &a, osg::Matrixf &b )
     {
       return b.invert ( a );
-    };
+    }
   }
 }
 
@@ -63,19 +63,19 @@ namespace Usul
     inline osg::Vec4d multiply ( const osg::Matrixd &a, const osg::Vec4d &b )
     {
       return b * a;
-    };
+    }
     inline osg::Vec4f multiply ( const osg::Matrixf &a, const osg::Vec4f &b )
     {
       return b * a;
-    };
+    }
     inline osg::Vec3d multiply ( const osg::Matrixd &a, const osg::Vec3d &b )
     {
       return b * a;
-    };
+    }
     inline osg::Vec3f multiply ( const osg::Matrixf &a, const osg::Vec3f &b )
     {
       return b * a;
-    };
+    }
   }
 }
 
@@ -124,46 +124,46 @@ namespace Usul
     inline void convert ( const Usul::Math::Matrix44d &from, osg::Matrixd &to )
     {
       Details::convertMatrix44 ( from, to );
-    };
+    }
     inline osg::Matrixd convert ( const Usul::Math::Matrix44d &from )
     {
       osg::Matrixd to;
       convert ( from, to );
       return to;
-    };
+    }
 
     inline void convert ( const Usul::Math::Matrix44f &from, osg::Matrixf &to )
     {
       Details::convertMatrix44 ( from, to );
-    };
+    }
     inline osg::Matrixf convert ( const Usul::Math::Matrix44f &from )
     {
       osg::Matrixf to;
       convert ( from, to );
       return to;
-    };
+    }
 
     inline void convert ( const osg::Matrixd &from, Usul::Math::Matrix44d &to )
     {
       Details::convertMatrix44 ( from, to );
-    };
+    }
     inline Usul::Math::Matrix44d convert ( const osg::Matrixd &from )
     {
       Usul::Math::Matrix44d to;
       convert ( from, to );
       return to;
-    };
+    }
 
     inline void convert ( const osg::Matrixf &from, Usul::Math::Matrix44f &to )
     {
       Details::convertMatrix44 ( from, to );
-    };
+    }
     inline Usul::Math::Matrix44f convert ( const osg::Matrixf &from )
     {
       Usul::Math::Matrix44f to;
       convert ( from, to );
       return to;
-    };
+    }
   }
 }
 
