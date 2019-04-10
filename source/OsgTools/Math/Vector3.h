@@ -35,11 +35,11 @@ namespace Usul
     inline double dot ( const osg::Vec3d &a, const osg::Vec3d &b )
     {
       return ( a * b );
-    };
+    }
     inline float dot ( const osg::Vec3f &a, const osg::Vec3f &b )
     {
       return ( a * b );
-    };
+    }
   }
 }
 
@@ -57,11 +57,11 @@ namespace Usul
     inline osg::Vec3d cross ( const osg::Vec3d &a, const osg::Vec3d &b )
     {
       return ( a ^ b );
-    };
+    }
     inline osg::Vec3f cross ( const osg::Vec3f &a, const osg::Vec3f &b )
     {
       return ( a ^ b );
-    };
+    }
   }
 }
 
@@ -79,19 +79,19 @@ namespace Usul
     inline osg::Vec3d convert ( const Usul::Math::Vec3d &v )
     {
       return osg::Vec3d ( v[0], v[1], v[2] );
-    };
+    }
     inline osg::Vec3f convert ( const Usul::Math::Vec3f &v )
     {
       return osg::Vec3f ( v[0], v[1], v[2] );
-    };
+    }
     inline Usul::Math::Vec3d convert ( const osg::Vec3d &v )
     {
       return Usul::Math::Vec3d ( v[0], v[1], v[2] );
-    };
+    }
     inline Usul::Math::Vec3f convert ( const osg::Vec3f &v )
     {
       return Usul::Math::Vec3f ( v[0], v[1], v[2] );
-    };
+    }
   }
 }
 
