@@ -29,7 +29,7 @@ namespace osg
   class MatrixTransform;
   class Node;
   class PrimitiveSet;
-  class Quatd;
+  class Quat;
   class StateSet;
   class Transform;
   class Vec4d;
