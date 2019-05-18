@@ -1,6 +1,6 @@
 {
   "name": "osg_tools",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Classes and functions for working with OpenSceneGraph",
   "scripts": {
     "build":          "cd build && cmake --build .",
