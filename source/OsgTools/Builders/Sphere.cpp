@@ -9,11 +9,12 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Functions for building a sphere.
+//  Class for building a sphere.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "OsgTools/Builders/Sphere.h"
+#include "OsgTools/Builders/Options.h"
 
 #include "osg/Geode"
 #include "osg/Group"
@@ -29,24 +30,87 @@ namespace Builders {
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//  Constructor.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+Sphere::Sphere() : BaseClass(),
+  _radius ( 1.0 )
+{
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Constructor.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+Sphere::Sphere ( const Options &options ) : BaseClass ( options ),
+  _radius ( Builders::getNumber ( options, "radius", 1.0 ) )
+{
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Destructor.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+Sphere::~Sphere()
+{
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //  Build a sphere.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-osg::Geode *sphere ( const osg::Vec3f &center, float radius )
+osg::Node *Sphere::build()
 {
-  const float randMax = static_cast < float > ( RAND_MAX );
-  const float r = static_cast < float > ( std::rand() ) / randMax;
-  const float g = static_cast < float > ( std::rand() ) / randMax;
-  const float b = static_cast < float > ( std::rand() ) / randMax;
+  const osg::Vec3d &center ( this->getCenter() );
+  const float radius ( static_cast < float > ( this->getRadius() ) );
+  const osg::Vec4f &color ( this->getColor() );
 
   osg::ref_ptr < osg::Sphere > sphere ( new osg::Sphere ( center, radius ) );
-  osg::ref_ptr < osg::ShapeDrawable > sd ( new osg::ShapeDrawable ( sphere ) );
-  sd->setColor ( osg::Vec4 ( r, g, b, 1.0f ) );
+  osg::ref_ptr < osg::ShapeDrawable > shape ( new osg::ShapeDrawable ( sphere ) );
+  shape->setColor ( color );
   osg::ref_ptr < osg::Geode > geode ( new osg::Geode() );
-  geode->addDrawable ( sd );
+  geode->addDrawable ( shape );
 
   return geode.release();
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Build a sphere.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+osg::Node *Sphere::build ( const Options &options )
+{
+  Sphere builder ( options );
+  return builder.build();
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Set the radius.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void Sphere::setRadius ( double radius )
+{
+  _radius = radius;
+}
+void Sphere::setRadius ( float radius )
+{
+  _radius = radius;
 }
 
 

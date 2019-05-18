@@ -9,21 +9,42 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Functions for building a sphere.
+//  Class for building a sphere.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifndef _OSG_TOOLS_BUILDERS_SPHERE_CLASS_H_
 #define _OSG_TOOLS_BUILDERS_SPHERE_CLASS_H_
 
-#include "OsgTools/Forward.h"
+#include "OsgTools/Builders/Primitive.h"
 
 
 namespace OsgTools {
 namespace Builders {
 
 
-osg::Geode *sphere ( const osg::Vec3f &center, float radius );
+class Sphere : public Primitive
+{
+public:
+
+  typedef Primitive BaseClass;
+  typedef BaseClass::Options Options;
+
+  Sphere();
+  Sphere ( const Options & );
+  ~Sphere();
+
+  virtual osg::Node *build();
+  static  osg::Node *build ( const Options & );
+
+  double getRadius() const { return _radius; }
+  void   setRadius ( double radius );
+  void   setRadius ( float radius );
+
+private:
+
+  double _radius;
+};
 
 
 } // namespace Builders

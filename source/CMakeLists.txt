@@ -21,6 +21,8 @@ set ( CMAKE_POSITION_INDEPENDENT_CODE ON )
 
 # Define a variable that holds all the source files.
 set ( SOURCE_FILES
+  OsgTools/Builders/Builder.cpp
+  OsgTools/Builders/Primitive.cpp
   OsgTools/Builders/Sphere.cpp
   OsgTools/Group/Group.cpp
   OsgTools/Strings/Format.cpp
