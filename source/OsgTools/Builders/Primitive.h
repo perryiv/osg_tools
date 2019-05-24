@@ -28,7 +28,7 @@ namespace OsgTools {
 namespace Builders {
 
 
-class Primitive : public Builder
+class OSG_TOOLS_EXPORT Primitive : public Builder
 {
 public:
 

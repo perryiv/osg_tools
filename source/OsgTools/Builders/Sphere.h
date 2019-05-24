@@ -23,7 +23,7 @@ namespace OsgTools {
 namespace Builders {
 
 
-class Sphere : public Primitive
+class OSG_TOOLS_EXPORT Sphere : public Primitive
 {
 public:
 

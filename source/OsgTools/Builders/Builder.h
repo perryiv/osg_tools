@@ -16,6 +16,7 @@
 #ifndef _OSG_TOOLS_BUILDERS_BASE_CLASS_H_
 #define _OSG_TOOLS_BUILDERS_BASE_CLASS_H_
 
+#include "OsgTools/Export.h"
 #include "OsgTools/Forward.h"
 
 #include "Usul/Tools/NoCopying.h"
@@ -26,7 +27,7 @@ namespace OsgTools {
 namespace Builders {
 
 
-class Builder : public Usul::Tools::NoCopying
+class OSG_TOOLS_EXPORT Builder : public Usul::Tools::NoCopying
 {
 public:
 
