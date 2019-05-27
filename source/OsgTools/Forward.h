@@ -19,6 +19,7 @@
 
 namespace osg
 {
+  class Camera;
   class Geode;
   class Geometry;
   class Group;
