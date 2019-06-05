@@ -53,6 +53,13 @@ namespace osgText
   class Text;
 }
 
+namespace osgUtil
+{
+  class IntersectionVisitor;
+  class LineSegmentIntersector;
+  class RayIntersector;
+}
+
 namespace osgViewer
 {
   class CompositeViewer;
