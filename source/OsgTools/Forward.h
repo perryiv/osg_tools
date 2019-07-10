@@ -23,6 +23,7 @@ namespace osg
   class Geode;
   class Geometry;
   class Group;
+  class Image;
   class LOD;
   class Material;
   class Matrixd;
