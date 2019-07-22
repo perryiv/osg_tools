@@ -32,7 +32,7 @@
 cmake_minimum_required ( VERSION 3.12.0 )
 
 # The name of this project.
-project ( osg_tools VERSION 0.1.0 )
+project ( osg_tools VERSION 1.0.1 )
 
 # Use this C++ standard unless the user specifies otherwise with:
 # cmake path/to/source/dir -DCMAKE_CXX_STANDARD=14
