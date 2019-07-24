@@ -119,6 +119,11 @@ endif()
 # Does the user want to build the tests?
 option ( OSG_TOOLS_BUILD_TESTS "Build the tests" OFF )
 
+# Need Catch2 to build the tests
+if ( OSG_TOOLS_BUILD_TESTS )
+  find_package ( Catch2 REQUIRED )
+endif()
+
 # Set default postfix if none was given on the command line.
 if ( NOT DEFINED CMAKE_DEBUG_POSTFIX )
   set ( CMAKE_DEBUG_POSTFIX "_d" )
