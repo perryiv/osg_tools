@@ -9,6 +9,4 @@ node_modules
 external
 .vs
 CMakeSettings.json
-source/OsgTools/Config.h
-source/OsgTools/Version.h
 .vscode
