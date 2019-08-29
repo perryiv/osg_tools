@@ -35,6 +35,15 @@ namespace OsgTools {
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//  Typedefs
+//
+///////////////////////////////////////////////////////////////////////////////
+
+typedef osg::StateAttribute::GLModeValue GLModeValue;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //  Get the lighting state.
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -113,7 +122,7 @@ void State::setNormalize ( osg::Node *node, bool on )
   osg::ref_ptr < osg::StateSet > ss ( node->getOrCreateStateSet() );
 
   // Set the mode.
-  ss->setMode ( GL_NORMALIZE, ( ( on ) ? osg::StateAttribute::ON : osg::StateAttribute::OFF ) | osg::StateAttribute::PROTECTED );
+  ss->setMode ( GL_NORMALIZE, static_cast < GLModeValue > ( ( on ) ? osg::StateAttribute::ON : osg::StateAttribute::OFF ) | osg::StateAttribute::PROTECTED );
 }
 
 
@@ -132,7 +141,7 @@ void State::setNormalize ( osg::StateSet *ss, bool on )
   }
 
   // Set the mode.
-  ss->setMode ( GL_NORMALIZE, ( ( on ) ? osg::StateAttribute::ON : osg::StateAttribute::OFF ) | osg::StateAttribute::PROTECTED );
+  ss->setMode ( GL_NORMALIZE, static_cast < GLModeValue > ( ( on ) ? osg::StateAttribute::ON : osg::StateAttribute::OFF ) | osg::StateAttribute::PROTECTED );
 }
 
 
@@ -198,7 +207,7 @@ namespace Helper
                                osg::StateAttribute::ON |
                                osg::StateAttribute::PROTECTED );
   }
-};
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -246,7 +255,7 @@ namespace Helper
     // Is the mode the same?
     return ( pm->getMode ( face ) == mode );
   }
-};
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -279,7 +288,7 @@ namespace Helper
                                osg::StateAttribute::OVERRIDE |
                                osg::StateAttribute::ON );
   }
-};
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -322,7 +331,7 @@ namespace Helper
     // See if th emode is the same.
     return ( sm->getMode() == mode );
   }
-};
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -483,7 +492,7 @@ bool State::getPolygonsTextures ( osg::StateSet* ss )
     return false;
   }
 
-  osg::StateAttribute::GLModeValue texture_value = ss->getTextureMode(0,GL_TEXTURE_2D);
+  const GLModeValue texture_value = ss->getTextureMode ( 0, GL_TEXTURE_2D );
 
   // If 2D textures are turned on...
   if ( texture_value == ( osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE ) )
@@ -932,7 +941,7 @@ bool State::getBackFaceCulling ( const osg::StateSet *ss )
   }
 
   // Query the mode.
-  return Usul::Bits::has ( ss->getMode ( GL_CULL_FACE ), osg::StateAttribute::ON );
+  return Usul::Bits::has ( ss->getMode ( GL_CULL_FACE ), static_cast < GLModeValue > ( osg::StateAttribute::ON ) );
 }
 
 
@@ -951,7 +960,7 @@ void State::setBackFaceCulling ( osg::StateSet *ss, bool state )
   }
 
   // Apply the mode settings
-  ss->setMode ( GL_CULL_FACE, ( ( state ) ? osg::StateAttribute::ON : osg::StateAttribute::OFF ) | osg::StateAttribute::OVERRIDE | osg::StateAttribute::PROTECTED );
+  ss->setMode ( GL_CULL_FACE, static_cast < GLModeValue > ( ( state ) ? osg::StateAttribute::ON : osg::StateAttribute::OFF ) | osg::StateAttribute::OVERRIDE | osg::StateAttribute::PROTECTED );
 }
 
 
