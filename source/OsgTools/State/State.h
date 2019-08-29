@@ -26,78 +26,80 @@ namespace OsgTools {
 struct OSG_TOOLS_EXPORT State
 {
   // Set/get the lighting state
-  static bool            getLighting  ( osg::Node *node );
-  static bool            getLighting  ( const osg::StateSet *ss );
-  static void            setLighting  ( osg::Node *node, bool state );
-  static void            setLighting  ( osg::StateSet *ss, bool state );
+  static bool            getLighting  ( osg::Node * );
+  static bool            getLighting  ( const osg::StateSet * );
+  static void            setLighting  ( osg::Node *, bool );
+  static void            setLighting  ( osg::StateSet *, bool );
 
   // Set/Get the two sided lighting state.
-  static bool            getTwoSidedLighting ( osg::Node *node );
-  static bool            getTwoSidedLighting ( const osg::StateSet *ss );
-  static void            setTwoSidedLighting ( osg::Node *node, bool state );
-  static void            setTwoSidedLighting ( osg::StateSet *ss, bool state );
+  static bool            getTwoSidedLighting ( osg::Node * );
+  static bool            getTwoSidedLighting ( const osg::StateSet * );
+  static void            setTwoSidedLighting ( osg::Node *, bool );
+  static void            setTwoSidedLighting ( osg::StateSet *, bool );
 
   // Set/get the normalization state.
-  static bool            getNormalize ( const osg::Node *node );
-  static void            setNormalize ( osg::Node *node, bool state );
-  static void            setNormalize ( osg::StateSet *ss, bool state );
+  static bool            getNormalize ( const osg::Node * );
+  static void            setNormalize ( osg::Node *, bool );
+  static void            setNormalize ( osg::StateSet *, bool );
 
   // Set/get the polygon state.
-  static bool            getPolygonsFilled ( const osg::Node *node, bool state );
-  static void            setPolygonsFilled ( osg::Node *node, bool state );
+  static bool            getPolygonsFilled ( const osg::Node *, bool );
+  static void            setPolygonsFilled ( osg::Node *, bool );
 
   // Make polygons draw with lines.
-  static bool            getPolygonsLines ( const osg::Node *node, bool state );
-  static void            setPolygonsLines ( osg::Node *node, bool state );
+  static bool            getPolygonsLines ( const osg::Node *, bool );
+  static void            setPolygonsLines ( osg::Node *, bool );
 
   // Make polygons draw with points.
-  static bool            getPolygonsPoints ( const osg::Node *node, bool state );
-  static void            setPolygonsPoints ( osg::Node *node, bool state );
+  static bool            getPolygonsPoints ( const osg::Node *, bool );
+  static void            setPolygonsPoints ( osg::Node *, bool );
 
   // Make filled polygons draw with smooth shading.
-  static bool            getPolygonsSmooth ( const osg::Node *node );
-  static void            setPolygonsSmooth ( osg::Node *node );
+  static bool            getPolygonsSmooth ( const osg::Node * );
+  static void            setPolygonsSmooth ( osg::Node * );
 
   // Make filled polygons draw with flat shading.
-  static bool            getPolygonsFlat ( const osg::Node *node );
-  static void            setPolygonsFlat ( osg::Node *node );
+  static bool            getPolygonsFlat ( const osg::Node * );
+  static void            setPolygonsFlat ( osg::Node * );
 
   // Make filled polygons draw with flat shading.
-  static bool            getPolygonsTextures ( osg::StateSet* ss );
-  static void            setPolygonsTextures ( osg::StateSet* ss, bool todo );
+  static bool            getPolygonsTextures ( osg::StateSet * );
+  static void            setPolygonsTextures ( osg::StateSet *, bool );
 
   // Set/get the polygon mode.
-  static void            setPolygonMode ( osg::Node *node, unsigned int face, unsigned int mode );
-  static bool            getPolygonMode ( osg::Node *node, unsigned int face, unsigned int mode );
+  static void            setPolygonMode ( osg::Node *, unsigned int face, unsigned int mode );
+  static bool            getPolygonMode ( osg::Node *, unsigned int face, unsigned int mode );
 
   // Set/Get line width
-  static void            setLineWidth ( osg::StateSet *ss, float width );
-  static void            setLineWidth ( osg::Node *node, float width );
-  static float           getLineWidth ( osg::Node *node );
+  static void            setLineWidth ( osg::StateSet *, float width );
+  static void            setLineWidth ( osg::Node *, float width );
+  static float           getLineWidth ( osg::Node * );
 
   // Set/Get point size.
-  static void            setPointSize ( osg::StateSet *ss, float width );
-  static void            setPointSize ( osg::Node *node, float width );
-  static float           getPointSize ( osg::Node *node );
+  static void            setPointSize ( osg::StateSet *, float size );
+  static void            setPointSize ( osg::Node *, float size );
+  static float           getPointSize ( osg::Node * );
 
   // Set the states for hidden lines.
   static void            hiddenLines ( const osg::Vec4f &color, osg::StateSet *normal, osg::StateSet *hidden );
 
   // Materials.
-  static void            setMaterial ( osg::Node *node, osg::Material *mat );
-  static void            setMaterial ( osg::StateSet *ss, osg::Material *mat );
+  static void            setMaterial ( osg::Node *, osg::Material * );
+  static void            setMaterial ( osg::StateSet *, osg::Material * );
   static osg::Material * getMaterialDefault();
   static osg::Material * getMaterialRandom();
-  static void            removeMaterial ( osg::Node *node );
-  static void            removeMaterial ( osg::StateSet *ss );
+  static void            removeMaterial ( osg::Node * );
+  static void            removeMaterial ( osg::StateSet * );
 
   // Set the alpha value. Adds default material if needed.
-  static void            setAlpha ( osg::Node *node, float );
-  static void            setAlpha ( osg::StateSet *ss, float );
+  static void            setAlpha ( osg::Node *, float );
+  static void            setAlpha ( osg::StateSet *, float );
 
   // Back face culling.
-  static void            setBackFaceCulling ( osg::StateSet* ss, bool b );
-  static bool            getBackFaceCulling ( const osg::StateSet* ss );
+  static void            setBackFaceCulling ( osg::Node *, bool );
+  static void            setBackFaceCulling ( osg::StateSet *, bool );
+  static bool            getBackFaceCulling ( osg::Node * );
+  static bool            getBackFaceCulling ( const osg::StateSet * );
 };
 
 
