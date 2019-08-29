@@ -86,9 +86,9 @@ void State::setLighting ( osg::StateSet *ss, bool state )
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-bool State::getLighting ( osg::Node *node )
+bool State::getLighting ( const osg::Node *node )
 {
-  return State::getLighting ( ( node ) ? node->getOrCreateStateSet() : nullptr );
+  return State::getLighting ( ( node ) ? node->getStateSet() : nullptr );
 }
 
 
@@ -106,23 +106,20 @@ void State::setLighting ( osg::Node *node, bool state )
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Set the normalization state.
+//  Get the normalization state.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-void State::setNormalize ( osg::Node *node, bool on )
+bool State::getNormalize ( const osg::StateSet *ss )
 {
   // Handle bad input.
-  if ( nullptr == node )
+  if ( nullptr == ss )
   {
-    return;
+    return false;
   }
 
-  // Get the state set, or make one.
-  osg::ref_ptr < osg::StateSet > ss ( node->getOrCreateStateSet() );
-
-  // Set the mode.
-  ss->setMode ( GL_NORMALIZE, static_cast < GLModeValue > ( ( on ) ? osg::StateAttribute::ON : osg::StateAttribute::OFF ) | osg::StateAttribute::PROTECTED );
+  // Query the mode.
+  return ( osg::StateAttribute::ON == ss->getMode ( GL_NORMALIZE ) );
 }
 
 
@@ -141,7 +138,7 @@ void State::setNormalize ( osg::StateSet *ss, bool on )
   }
 
   // Set the mode.
-  ss->setMode ( GL_NORMALIZE, static_cast < GLModeValue > ( ( on ) ? osg::StateAttribute::ON : osg::StateAttribute::OFF ) | osg::StateAttribute::PROTECTED );
+  ss->setMode ( GL_NORMALIZE, static_cast < GLModeValue > ( ( on ) ? osg::StateAttribute::ON : osg::StateAttribute::OFF ) );
 }
 
 
@@ -153,21 +150,19 @@ void State::setNormalize ( osg::StateSet *ss, bool on )
 
 bool State::getNormalize ( const osg::Node *node )
 {
-  // Handle bad input.
-  if ( nullptr == node )
-  {
-    return false;
-  }
+  return State::getNormalize ( ( node ) ? node->getStateSet() : nullptr );
+}
 
-  // Get the state set.
-  osg::ref_ptr <  const osg:: StateSet > ss ( node->getStateSet() );
-  if ( false == ss.valid() )
-  {
-    return false;
-  }
 
-  // Query the mode.
-  return ( osg::StateAttribute::ON == ss->getMode ( GL_NORMALIZE ) );
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Get the normalization state.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setNormalize ( osg::Node *node, bool state )
+{
+  State::setNormalize ( ( node ) ? node->getOrCreateStateSet() : nullptr, state );
 }
 
 
@@ -204,8 +199,7 @@ namespace Helper
     // Set the state. Make it override any other similar states.
     ss->setAttributeAndModes ( pm.get(),
                                osg::StateAttribute::OVERRIDE |
-                               osg::StateAttribute::ON |
-                               osg::StateAttribute::PROTECTED );
+                               osg::StateAttribute::ON );
   }
 }
 
@@ -460,7 +454,7 @@ bool State::getPolygonsFlat ( const osg::Node *node )
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-void State::setPolygonsTextures ( osg::StateSet* ss, bool on )
+void State::setPolygonsTextures ( osg::StateSet *ss, bool on )
 {
   if ( nullptr == ss )
   {
@@ -469,12 +463,12 @@ void State::setPolygonsTextures ( osg::StateSet* ss, bool on )
 
   if ( on ) // Turn on textures.
   {
-    ss->setTextureMode ( 0, GL_TEXTURE_2D, osg::StateAttribute::INHERIT | osg::StateAttribute::PROTECTED | osg::StateAttribute::ON );
+    ss->setTextureMode ( 0, GL_TEXTURE_2D, osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON );
   }
 
   else
   {
-    ss->setTextureMode( 0, GL_TEXTURE_2D, osg::StateAttribute::OVERRIDE | osg::StateAttribute::PROTECTED | osg::StateAttribute::OFF );
+    ss->setTextureMode( 0, GL_TEXTURE_2D, osg::StateAttribute::OVERRIDE | osg::StateAttribute::OFF );
   }
 }
 
@@ -485,17 +479,17 @@ void State::setPolygonsTextures ( osg::StateSet* ss, bool on )
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-bool State::getPolygonsTextures ( osg::StateSet* ss )
+bool State::getPolygonsTextures ( const osg::StateSet *ss )
 {
-  if( nullptr == ss )
+  // Handle no state set.
+  if ( nullptr == ss )
   {
     return false;
   }
 
-  const GLModeValue texture_value = ss->getTextureMode ( 0, GL_TEXTURE_2D );
+  const GLModeValue mode = ss->getTextureMode ( 0, GL_TEXTURE_2D );
 
-  // If 2D textures are turned on...
-  if ( texture_value == ( osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE ) )
+  if ( mode == ( osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE ) )
   {
     return false;
   }
@@ -515,6 +509,7 @@ bool State::getPolygonsTextures ( osg::StateSet* ss )
 
 bool State::getTwoSidedLighting ( const osg::StateSet *ss )
 {
+  // Handle no state set.
   if ( nullptr == ss )
   {
     return false;
@@ -547,6 +542,7 @@ bool State::getTwoSidedLighting ( const osg::StateSet *ss )
 
 void State::setTwoSidedLighting ( osg::StateSet *ss, bool state )
 {
+  // Handle no state set.
   if ( nullptr == ss )
   {
     return;
@@ -569,8 +565,7 @@ void State::setTwoSidedLighting ( osg::StateSet *ss, bool state )
   lm->setTwoSided ( state );
 
   // Set the state. Make it override any other similar states.
-  typedef osg::StateAttribute Attribute;
-  ss->setAttributeAndModes ( lm.get(), Attribute::OVERRIDE | Attribute::ON | Attribute::PROTECTED );
+  ss->setAttributeAndModes ( lm.get(), osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON );
 }
 
 
@@ -580,9 +575,9 @@ void State::setTwoSidedLighting ( osg::StateSet *ss, bool state )
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-bool State::getTwoSidedLighting ( osg::Node *node )
+bool State::getTwoSidedLighting ( const osg::Node *node )
 {
-  return State::getTwoSidedLighting ( ( node ) ? node->getOrCreateStateSet() : nullptr );
+  return State::getTwoSidedLighting ( ( node ) ? node->getStateSet() : nullptr );
 }
 
 
@@ -600,21 +595,23 @@ void State::setTwoSidedLighting ( osg::Node *node, bool state )
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Helper function to set the line width.
+//  Set line width.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Helper
+void State::setLineWidth ( osg::StateSet *ss, float width )
 {
-  void setLineWidth ( osg::StateSet* ss, float width )
+  // Handle no state set.
+  if ( nullptr == ss )
   {
-    osg::ref_ptr < osg::LineWidth > lw ( new osg::LineWidth );
-    lw->setWidth( width );
-
-    // Set the state. Make it override any other similar states.
-    typedef osg::StateAttribute Attribute;
-    ss->setAttributeAndModes ( lw.get(), Attribute::OVERRIDE | Attribute::ON );
+    return;
   }
+
+  osg::ref_ptr < osg::LineWidth > lw ( new osg::LineWidth() );
+  lw->setWidth ( width );
+
+  // Set the state. Make it override any other similar states.
+  ss->setAttributeAndModes ( lw.get(), osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON );
 }
 
 
@@ -626,19 +623,7 @@ namespace Helper
 
 void State::setLineWidth ( osg::Node *node, float width )
 {
-  State::setLineWidth ( ( ( node ) ? node->getOrCreateStateSet() : nullptr ), width );
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
-//  Set line width.
-//
-///////////////////////////////////////////////////////////////////////////////
-
-void State::setLineWidth ( osg::StateSet *ss, float width )
-{
-  Helper::setLineWidth ( ss, width );
+  State::setLineWidth ( ( ( node ) ? node->getStateSet() : nullptr ), width );
 }
 
 
@@ -648,23 +633,26 @@ void State::setLineWidth ( osg::StateSet *ss, float width )
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-float State::getLineWidth ( osg::Node *node )
+float State::getLineWidth ( const osg::StateSet *ss )
 {
-  // Get or create the state set.
-  osg::ref_ptr < osg::StateSet > ss ( node->getOrCreateStateSet() );
+  // Handle no state set.
+  if ( nullptr == ss )
+  {
+    return 1.0f;
+  }
 
-  // Get the shade-model attribute, if any.
+  // Get the attribute, if any.
   const osg::StateAttribute *sa = ss->getAttribute ( osg::StateAttribute::LINEWIDTH );
   if ( nullptr == sa )
   {
-    return 1.0;
+    return 1.0f;
   }
 
   // Should be true.
   const osg::LineWidth *lw = dynamic_cast < const osg::LineWidth * > ( sa );
   if ( nullptr == lw )
   {
-    return 1.0;
+    return 1.0f;
   }
 
   // Get the line width
@@ -674,21 +662,35 @@ float State::getLineWidth ( osg::Node *node )
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Helper function to set the point size.
+//   Get line width.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Helper
+float State::getLineWidth ( const osg::Node *node )
 {
-  void setPointSize ( osg::StateSet* ss, float size )
-  {
-    osg::ref_ptr < osg::Point > pt ( new osg::Point );
-    pt->setSize ( size );
+  return State::getLineWidth ( node ? node->getStateSet() : nullptr );
+}
 
-    // Set the state. Make it override any other similar states.
-    typedef osg::StateAttribute Attribute;
-    ss->setAttributeAndModes ( pt.get(), Attribute::OVERRIDE | Attribute::ON );
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Set point size.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setPointSize ( osg::StateSet *ss, float size )
+{
+  // Handle no state set.
+  if ( nullptr == ss )
+  {
+    return;
   }
+
+  osg::ref_ptr < osg::Point > pt ( new osg::Point );
+  pt->setSize ( size );
+
+  // Set the state. Make it override any other similar states.
+  ss->setAttributeAndModes ( pt.get(), osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON );
 }
 
 
@@ -706,26 +708,17 @@ void State::setPointSize ( osg::Node *node, float size )
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Set point size.
-//
-///////////////////////////////////////////////////////////////////////////////
-
-void State::setPointSize ( osg::StateSet *ss, float size )
-{
-  Helper::setPointSize ( ss, size );
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
 //   Get point size.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-float State::getPointSize ( osg::Node *node )
+float State::getPointSize ( const osg::StateSet *ss )
 {
-  // Get or create the state set.
-  osg::ref_ptr < osg::StateSet > ss ( node->getOrCreateStateSet() );
+  // Handle no state set.
+  if ( nullptr == ss )
+  {
+    return 1.0f;
+  }
 
   // Get the shade-model attribute, if any.
   const osg::StateAttribute *sa = ss->getAttribute ( osg::StateAttribute::POINT );
@@ -748,6 +741,18 @@ float State::getPointSize ( osg::Node *node )
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//   Get point size.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+float State::getPointSize ( const osg::Node *node )
+{
+  return State::getPointSize ( node ? node->getStateSet() : nullptr );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //  Make the state for hidden lines.
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -763,20 +768,20 @@ void State::hiddenLines ( const osg::Vec4f &color, osg::StateSet *normal, osg::S
   // Set the polygon-mode.
   osg::ref_ptr < osg::PolygonMode > mode ( new osg::PolygonMode );
   mode->setMode ( osg::PolygonMode::FRONT_AND_BACK, osg::PolygonMode::LINE );
-  hidden->setAttributeAndModes ( mode.get(), osg::StateAttribute::OVERRIDE | osg::StateAttribute::PROTECTED | osg::StateAttribute::ON );
+  hidden->setAttributeAndModes ( mode.get(), osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON );
 
   // Set the polygon-offset. See osgscribe example.
   osg::ref_ptr < osg::PolygonOffset > offset ( new osg::PolygonOffset );
   offset->setFactor ( -1.0f );
   offset->setUnits  ( -1.0f );
-  hidden->setAttributeAndModes ( offset.get(), osg::StateAttribute::OVERRIDE | osg::StateAttribute::PROTECTED | osg::StateAttribute::ON );
+  hidden->setAttributeAndModes ( offset.get(), osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON );
 
   // Material same as background and no lighting.
   osg::ref_ptr < osg::Material > material ( new osg::Material );
   material->setAmbient ( osg::Material::FRONT_AND_BACK, color );
   material->setDiffuse ( osg::Material::FRONT_AND_BACK, color );
-  normal->setAttributeAndModes ( material.get(), osg::StateAttribute::OVERRIDE | osg::StateAttribute::PROTECTED | osg::StateAttribute::ON );
-  normal->setMode ( GL_LIGHTING, osg::StateAttribute::OVERRIDE | osg::StateAttribute::PROTECTED | osg::StateAttribute::OFF );
+  normal->setAttributeAndModes ( material.get(), osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON );
+  normal->setMode ( GL_LIGHTING, osg::StateAttribute::OVERRIDE | osg::StateAttribute::OFF );
 }
 
 
@@ -861,7 +866,7 @@ void State::setMaterial ( osg::StateSet *ss, osg::Material *mat )
     return;
   }
 
-  ss->setAttributeAndModes ( mat, osg::StateAttribute::OVERRIDE | osg::StateAttribute::PROTECTED | osg::StateAttribute::ON );
+  ss->setAttributeAndModes ( mat, osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON );
 }
 
 
@@ -917,7 +922,7 @@ void State::setAlpha ( osg::StateSet *ss, float alpha )
   // Set these other properties if it's not completely opaque.
   if ( alpha < 1 )
   {
-    ss->setMode ( GL_BLEND, osg::StateAttribute::OVERRIDE | osg::StateAttribute::PROTECTED | osg::StateAttribute::ON );
+    ss->setMode ( GL_BLEND, osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON );
     ss->setRenderingHint ( osg::StateSet::TRANSPARENT_BIN );
   }
 
@@ -960,7 +965,7 @@ void State::setBackFaceCulling ( osg::StateSet *ss, bool state )
   }
 
   // Apply the mode settings
-  ss->setMode ( GL_CULL_FACE, static_cast < GLModeValue > ( ( state ) ? osg::StateAttribute::ON : osg::StateAttribute::OFF ) | osg::StateAttribute::OVERRIDE | osg::StateAttribute::PROTECTED );
+  ss->setMode ( GL_CULL_FACE, static_cast < GLModeValue > ( ( state ) ? osg::StateAttribute::ON : osg::StateAttribute::OFF ) | osg::StateAttribute::OVERRIDE );
 }
 
 
@@ -970,9 +975,9 @@ void State::setBackFaceCulling ( osg::StateSet *ss, bool state )
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-bool State::getBackFaceCulling ( osg::Node *node )
+bool State::getBackFaceCulling ( const osg::Node *node )
 {
-  return State::getBackFaceCulling ( ( node ) ? node->getOrCreateStateSet() : nullptr );
+  return State::getBackFaceCulling ( ( node ) ? node->getStateSet() : nullptr );
 }
 
 
@@ -998,7 +1003,7 @@ void State::removeMaterial ( osg::Node *node )
 {
   if ( nullptr != node )
   {
-    OsgTools::State::removeMaterial ( node->getOrCreateStateSet() );
+    OsgTools::State::removeMaterial ( node->getStateSet() );
   }
 }
 
