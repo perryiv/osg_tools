@@ -1,0 +1,992 @@
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Copyright (c) 2019, Perry L Miller IV and John K Grant
+//  All rights reserved.
+//  MIT License: https://opensource.org/licenses/mit-license.html
+//
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Class for working with the state.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+#include "OsgTools/State/State.h"
+
+#include "Usul/Bits/Bits.h"
+#include "Usul/Math/Random.h"
+
+#include "osg/Node"
+#include "osg/StateSet"
+#include "osg/PolygonMode"
+#include "osg/PolygonOffset"
+#include "osg/ShadeModel"
+#include "osg/LightModel"
+#include "osg/LineWidth"
+#include "osg/Point"
+#include "osg/Material"
+
+#include <stdexcept>
+#include <iostream>
+
+namespace OsgTools {
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Get the lighting state.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+bool State::getLighting ( const osg::StateSet *ss )
+{
+  // Handle bad input
+  if ( nullptr == ss )
+  {
+    return false;
+  }
+
+  // Query the mode.
+  return ( osg::StateAttribute::ON == ss->getMode ( GL_LIGHTING ) );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Set the lighting state.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setLighting ( osg::StateSet *ss, bool state )
+{
+  // Handle bad input
+  if ( nullptr == ss )
+  {
+    return;
+  }
+
+  // Apply the mode settings
+  ss->setMode ( GL_LIGHTING, ( ( state ) ? osg::StateAttribute::ON : osg::StateAttribute::OFF ) );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Get the lighting state.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+bool State::getLighting ( osg::Node *node )
+{
+  return State::getLighting ( ( node ) ? node->getOrCreateStateSet() : nullptr );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Get the lighting state.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setLighting ( osg::Node *node, bool state )
+{
+  State::setLighting ( ( node ) ? node->getOrCreateStateSet() : nullptr, state );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Set the normalization state.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setNormalize ( osg::Node *node, bool on )
+{
+  // Handle bad input.
+  if ( nullptr == node )
+  {
+    return;
+  }
+
+  // Get the state set, or make one.
+  osg::ref_ptr < osg::StateSet > ss ( node->getOrCreateStateSet() );
+
+  // Set the mode.
+  ss->setMode ( GL_NORMALIZE, ( ( on ) ? osg::StateAttribute::ON : osg::StateAttribute::OFF ) | osg::StateAttribute::PROTECTED );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Set the normalization state.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setNormalize ( osg::StateSet *ss, bool on )
+{
+  // Handle bad input.
+  if ( nullptr == ss )
+  {
+    return;
+  }
+
+  // Set the mode.
+  ss->setMode ( GL_NORMALIZE, ( ( on ) ? osg::StateAttribute::ON : osg::StateAttribute::OFF ) | osg::StateAttribute::PROTECTED );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Get the normalization state.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+bool State::getNormalize ( const osg::Node *node )
+{
+  // Handle bad input.
+  if ( nullptr == node )
+  {
+    return false;
+  }
+
+  // Get the state set.
+  osg::ref_ptr <  const osg:: StateSet > ss ( node->getStateSet() );
+  if ( false == ss.valid() )
+  {
+    return false;
+  }
+
+  // Query the mode.
+  return ( osg::StateAttribute::ON == ss->getMode ( GL_NORMALIZE ) );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Helper function for polygon-mode.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+namespace Helper
+{
+  void setPolygonMode ( osg::Node *node, bool twoSided, osg::PolygonMode::Mode mode )
+  {
+    // Handle bad input.
+    if ( nullptr == node )
+    {
+      return;
+    }
+
+    // Get the state set, or make one.
+    osg::ref_ptr < osg::StateSet > ss ( node->getOrCreateStateSet() );
+
+    // Make a polygon-mode.
+    osg::ref_ptr < osg::PolygonMode > pm ( new osg::PolygonMode );
+
+    // Set the face.
+    osg::PolygonMode::Face face ( ( twoSided ) ?
+                                  osg::PolygonMode::FRONT_AND_BACK :
+                                  osg::PolygonMode::FRONT );
+
+    // Set the mode.
+    pm->setMode ( face, mode );
+
+    // Set the state. Make it override any other similar states.
+    ss->setAttributeAndModes ( pm.get(),
+                               osg::StateAttribute::OVERRIDE |
+                               osg::StateAttribute::ON |
+                               osg::StateAttribute::PROTECTED );
+  }
+};
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Helper function for quering the polygon mode.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+namespace Helper
+{
+  bool hasPolygonMode ( const osg::Node *node, bool twoSided, osg::PolygonMode::Mode mode )
+  {
+    // Handle bad input.
+    if ( nullptr == node )
+    {
+      return false;
+    }
+
+    // Get the state set.
+    const osg::StateSet *ss = node->getStateSet();
+    if ( nullptr == ss )
+    {
+      return false;
+    }
+
+    // Get the polygon-mode attribute, if any.
+    const osg::StateAttribute *sa = ss->getAttribute ( osg::StateAttribute::POLYGONMODE );
+    if ( nullptr == sa )
+    {
+      return false;
+    }
+
+    // Should be true.
+    const osg::PolygonMode *pm = dynamic_cast < const osg::PolygonMode * > ( sa );
+    if ( nullptr == pm )
+    {
+      return false;
+    }
+
+    // Set the face.
+    osg::PolygonMode::Face face ( ( twoSided ) ?
+                                  osg::PolygonMode::FRONT_AND_BACK :
+                                  osg::PolygonMode::FRONT );
+
+    // Is the mode the same?
+    return ( pm->getMode ( face ) == mode );
+  }
+};
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Helper function for setting the shading models.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+namespace Helper
+{
+  void setShadeModel ( osg::Node *node, osg::ShadeModel::Mode mode )
+  {
+    // Handle bad input.
+    if ( nullptr == node )
+    {
+      return;
+    }
+
+    // Get the state set, or make one.
+    osg::ref_ptr < osg::StateSet > ss ( node->getOrCreateStateSet() );
+
+    // Make a shade-model.
+    osg::ref_ptr < osg::ShadeModel > sm ( new osg::ShadeModel );
+
+    // Set the mode.
+    sm->setMode ( mode );
+
+    // Set the state. Make it override any other similar states.
+    ss->setAttributeAndModes ( sm.get(),
+                               osg::StateAttribute::OVERRIDE |
+                               osg::StateAttribute::ON );
+  }
+};
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Helper function for quering the shading models.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+namespace Helper
+{
+  bool hasShadeModel ( const osg::Node *node, osg::ShadeModel::Mode mode )
+  {
+    // Handle bad input.
+    if ( nullptr == node )
+    {
+      return false;
+    }
+
+    // Get the state set.
+    const osg::StateSet *ss = node->getStateSet();
+    if ( nullptr == ss )
+    {
+      return false;
+    }
+
+    // Get the shading attribute, if any.
+    const osg::StateAttribute *sa = ss->getAttribute ( osg::StateAttribute::SHADEMODEL );
+    if ( nullptr == sa )
+    {
+      return false;
+    }
+
+    // Should be true.
+    const osg::ShadeModel *sm = dynamic_cast < const osg::ShadeModel * > ( sa );
+    if ( nullptr == sm )
+    {
+      return false;
+    }
+
+    // See if th emode is the same.
+    return ( sm->getMode() == mode );
+  }
+};
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Make polygons draw filled.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setPolygonsFilled ( osg::Node *node, bool twoSided )
+{
+  Helper::setPolygonMode ( node, twoSided, osg::PolygonMode::FILL );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Get the polygon state.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+bool State::getPolygonsFilled ( const osg::Node *node, bool twoSided )
+{
+  return Helper::hasPolygonMode ( node, twoSided, osg::PolygonMode::FILL );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Make polygons draw with lines.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setPolygonsLines ( osg::Node *node, bool twoSided )
+{
+  Helper::setPolygonMode ( node, twoSided, osg::PolygonMode::LINE );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Get the polygon state.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+bool State::getPolygonsLines ( const osg::Node *node, bool twoSided )
+{
+  return Helper::hasPolygonMode ( node, twoSided, osg::PolygonMode::LINE );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Make polygons draw with points.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setPolygonsPoints ( osg::Node *node, bool twoSided )
+{
+  Helper::setPolygonMode ( node, twoSided, osg::PolygonMode::POINT );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Get the polygon state.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+bool State::getPolygonsPoints ( const osg::Node *node, bool twoSided )
+{
+  return Helper::hasPolygonMode ( node, twoSided, osg::PolygonMode::POINT );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Make filled polygons draw with smooth shading.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setPolygonsSmooth ( osg::Node *node )
+{
+  Helper::setShadeModel ( node, osg::ShadeModel::SMOOTH );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Get the polygon shading model.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+bool State::getPolygonsSmooth ( const osg::Node *node )
+{
+  return Helper::hasShadeModel ( node, osg::ShadeModel::SMOOTH );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Make filled polygons draw with flat shading.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setPolygonsFlat ( osg::Node *node )
+{
+  Helper::setShadeModel ( node, osg::ShadeModel::FLAT );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Get the polygon shading model.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+bool State::getPolygonsFlat ( const osg::Node *node )
+{
+  return Helper::hasShadeModel ( node, osg::ShadeModel::FLAT );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Set the Texture state
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setPolygonsTextures ( osg::StateSet* ss, bool on )
+{
+  if ( nullptr == ss )
+  {
+    return;
+  }
+
+  if ( on ) // Turn on textures.
+  {
+    ss->setTextureMode ( 0, GL_TEXTURE_2D, osg::StateAttribute::INHERIT | osg::StateAttribute::PROTECTED | osg::StateAttribute::ON );
+  }
+
+  else
+  {
+    ss->setTextureMode( 0, GL_TEXTURE_2D, osg::StateAttribute::OVERRIDE | osg::StateAttribute::PROTECTED | osg::StateAttribute::OFF );
+  }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Get the Texture state
+//
+///////////////////////////////////////////////////////////////////////////////
+
+bool State::getPolygonsTextures ( osg::StateSet* ss )
+{
+  if( nullptr == ss )
+  {
+    return false;
+  }
+
+  osg::StateAttribute::GLModeValue texture_value = ss->getTextureMode(0,GL_TEXTURE_2D);
+
+  // If 2D textures are turned on...
+  if ( texture_value == ( osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE ) )
+  {
+    return false;
+  }
+
+  else
+  {
+    return true;
+  }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Get the two sided lighting state.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+bool State::getTwoSidedLighting ( const osg::StateSet *ss )
+{
+  if ( nullptr == ss )
+  {
+    return false;
+  }
+
+  // Get the light-model attribute, if any.
+  const osg::StateAttribute *sa = ss->getAttribute ( osg::StateAttribute::LIGHTMODEL );
+  if ( nullptr == sa )
+  {
+    return false;
+  }
+
+  // Should be true.
+  const osg::LightModel *lm = dynamic_cast < const osg::LightModel * > ( sa );
+  if ( nullptr == lm )
+  {
+    return false;
+  }
+
+  // Is two sided light on?
+  return ( lm->getTwoSided() );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Set the two sided lighting state.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setTwoSidedLighting ( osg::StateSet *ss, bool state )
+{
+  if ( nullptr == ss )
+  {
+    return;
+  }
+
+  // Initialize.
+  osg::ref_ptr < osg::LightModel > lm;
+
+  // Get the light-model attribute, if any.
+  osg::StateAttribute *sa = ss->getAttribute ( osg::StateAttribute::LIGHTMODEL );
+  if ( nullptr == sa )
+  {
+    lm = new osg::LightModel;
+  }
+  else
+  {
+    lm = dynamic_cast < osg::LightModel * > ( sa );
+  }
+
+  lm->setTwoSided ( state );
+
+  // Set the state. Make it override any other similar states.
+  typedef osg::StateAttribute Attribute;
+  ss->setAttributeAndModes ( lm.get(), Attribute::OVERRIDE | Attribute::ON | Attribute::PROTECTED );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Get the two sided lighting state.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+bool State::getTwoSidedLighting ( osg::Node *node )
+{
+  return State::getTwoSidedLighting ( ( node ) ? node->getOrCreateStateSet() : nullptr );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Set the two sided lighting state.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setTwoSidedLighting ( osg::Node *node, bool state )
+{
+  State::setTwoSidedLighting ( ( node ) ? node->getOrCreateStateSet() : nullptr, state );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Helper function to set the line width.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+namespace Helper
+{
+  void setLineWidth ( osg::StateSet* ss, float width )
+  {
+    osg::ref_ptr < osg::LineWidth > lw ( new osg::LineWidth );
+    lw->setWidth( width );
+
+    // Set the state. Make it override any other similar states.
+    typedef osg::StateAttribute Attribute;
+    ss->setAttributeAndModes ( lw.get(), Attribute::OVERRIDE | Attribute::ON );
+  }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Set line width.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setLineWidth ( osg::Node *node, float width )
+{
+  State::setLineWidth ( ( ( node ) ? node->getOrCreateStateSet() : nullptr ), width );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Set line width.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setLineWidth ( osg::StateSet *ss, float width )
+{
+  Helper::setLineWidth ( ss, width );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//   Get line width.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+float State::getLineWidth ( osg::Node *node )
+{
+  // Get or create the state set.
+  osg::ref_ptr < osg::StateSet > ss ( node->getOrCreateStateSet() );
+
+  // Get the shade-model attribute, if any.
+  const osg::StateAttribute *sa = ss->getAttribute ( osg::StateAttribute::LINEWIDTH );
+  if ( nullptr == sa )
+  {
+    return 1.0;
+  }
+
+  // Should be true.
+  const osg::LineWidth *lw = dynamic_cast < const osg::LineWidth * > ( sa );
+  if ( nullptr == lw )
+  {
+    return 1.0;
+  }
+
+  // Get the line width
+  return ( lw->getWidth() );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Helper function to set the point size.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+namespace Helper
+{
+  void setPointSize ( osg::StateSet* ss, float size )
+  {
+    osg::ref_ptr < osg::Point > pt ( new osg::Point );
+    pt->setSize ( size );
+
+    // Set the state. Make it override any other similar states.
+    typedef osg::StateAttribute Attribute;
+    ss->setAttributeAndModes ( pt.get(), Attribute::OVERRIDE | Attribute::ON );
+  }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Set point size.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setPointSize ( osg::Node *node, float size )
+{
+  State::setPointSize ( ( ( node ) ? node->getOrCreateStateSet() : nullptr ), size );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Set point size.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setPointSize ( osg::StateSet *ss, float size )
+{
+  Helper::setPointSize ( ss, size );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//   Get point size.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+float State::getPointSize ( osg::Node *node )
+{
+  // Get or create the state set.
+  osg::ref_ptr < osg::StateSet > ss ( node->getOrCreateStateSet() );
+
+  // Get the shade-model attribute, if any.
+  const osg::StateAttribute *sa = ss->getAttribute ( osg::StateAttribute::POINT );
+  if ( nullptr == sa )
+  {
+    return 1.0f;
+  }
+
+  // Should be true.
+  const osg::Point *pt = dynamic_cast < const osg::Point * > ( sa );
+  if ( nullptr == pt )
+  {
+    return 1.0f;
+  }
+
+  // Get the line width
+  return ( pt->getSize() );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Make the state for hidden lines.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::hiddenLines ( const osg::Vec4f &color, osg::StateSet *normal, osg::StateSet *hidden )
+{
+  // Handle bad input.
+  if ( ( nullptr == normal ) && ( nullptr == hidden ) )
+  {
+    return;
+  }
+
+  // Set the polygon-mode.
+  osg::ref_ptr < osg::PolygonMode > mode ( new osg::PolygonMode );
+  mode->setMode ( osg::PolygonMode::FRONT_AND_BACK, osg::PolygonMode::LINE );
+  hidden->setAttributeAndModes ( mode.get(), osg::StateAttribute::OVERRIDE | osg::StateAttribute::PROTECTED | osg::StateAttribute::ON );
+
+  // Set the polygon-offset. See osgscribe example.
+  osg::ref_ptr < osg::PolygonOffset > offset ( new osg::PolygonOffset );
+  offset->setFactor ( -1.0f );
+  offset->setUnits  ( -1.0f );
+  hidden->setAttributeAndModes ( offset.get(), osg::StateAttribute::OVERRIDE | osg::StateAttribute::PROTECTED | osg::StateAttribute::ON );
+
+  // Material same as background and no lighting.
+  osg::ref_ptr < osg::Material > material ( new osg::Material );
+  material->setAmbient ( osg::Material::FRONT_AND_BACK, color );
+  material->setDiffuse ( osg::Material::FRONT_AND_BACK, color );
+  normal->setAttributeAndModes ( material.get(), osg::StateAttribute::OVERRIDE | osg::StateAttribute::PROTECTED | osg::StateAttribute::ON );
+  normal->setMode ( GL_LIGHTING, osg::StateAttribute::OVERRIDE | osg::StateAttribute::PROTECTED | osg::StateAttribute::OFF );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Get a random material.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+osg::Material *State::getMaterialRandom()
+{
+  const float mn = 0.2f;
+  const float mx = 1.0f;
+  const float r = Usul::Math::random ( mn, mx );
+  const float g = Usul::Math::random ( mn, mx );
+  const float b = Usul::Math::random ( mn, mx );
+
+  const osg::Vec4 diffuse ( r, g, b, 1.0f );
+  const osg::Vec4 ambient ( diffuse );
+
+  osg::ref_ptr < osg::Material > mat ( new osg::Material );
+
+  mat->setAmbient   ( osg::Material::FRONT_AND_BACK, ambient );
+  mat->setDiffuse   ( osg::Material::FRONT_AND_BACK, diffuse );
+  mat->setEmission  ( osg::Material::FRONT_AND_BACK, osg::Vec4 ( 0.0f, 0.0f, 0.0f, 1.0f ) );
+  mat->setSpecular  ( osg::Material::FRONT_AND_BACK, osg::Vec4 ( 0.2f, 0.2f, 0.2f, 1.0f ) );
+  mat->setShininess ( osg::Material::FRONT_AND_BACK, 100 );
+
+  return mat.release();
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Get a default material.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+osg::Material *State::getMaterialDefault()
+{
+  osg::ref_ptr < osg::Material > mat ( new osg::Material );
+
+  mat->setAmbient   ( osg::Material::FRONT_AND_BACK, osg::Vec4 ( 1.0f, 1.0f, 1.0f, 1.0f ) );
+  mat->setDiffuse   ( osg::Material::FRONT_AND_BACK, osg::Vec4 ( 1.0f, 1.0f, 1.0f, 1.0f ) );
+  mat->setEmission  ( osg::Material::FRONT_AND_BACK, osg::Vec4 ( 0.0f, 0.0f, 0.0f, 1.0f ) );
+  mat->setSpecular  ( osg::Material::FRONT_AND_BACK, osg::Vec4 ( 0.2f, 0.2f, 0.2f, 1.0f ) );
+  mat->setShininess ( osg::Material::FRONT_AND_BACK, 100 );
+
+  return mat.release();
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Set the material.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setMaterial ( osg::Node *node, osg::Material *mat )
+{
+  // Handle bad input.
+  if ( ( nullptr == node ) || ( nullptr == mat ) )
+  {
+    return;
+  }
+
+  OsgTools::State::setMaterial ( node->getOrCreateStateSet(), mat );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Set the material.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setMaterial ( osg::StateSet *ss, osg::Material *mat )
+{
+  // Handle bad input.
+  if ( ( nullptr == ss ) || ( nullptr == mat ) )
+  {
+    return;
+  }
+
+  ss->setAttributeAndModes ( mat, osg::StateAttribute::OVERRIDE | osg::StateAttribute::PROTECTED | osg::StateAttribute::ON );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Set the alpha. Add default material if needed.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setAlpha ( osg::Node *node, float alpha )
+{
+  // Handle bad input.
+  if ( nullptr == node )
+  {
+    return;
+  }
+
+  osg::ref_ptr < osg::StateSet > ss ( node->getOrCreateStateSet() );
+  OsgTools::State::setAlpha ( ss.get(), alpha );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Set the alpha. Add default material if needed.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setAlpha ( osg::StateSet *ss, float alpha )
+{
+  // Handle bad input.
+  if ( nullptr == ss )
+  {
+    return;
+  }
+
+  // Get the material attribute.
+  osg::ref_ptr < osg::Material > mat ( dynamic_cast < osg::Material * > ( ss->getAttribute ( osg::StateAttribute::MATERIAL ) ) );
+
+  // Set a default material if there isn't one.
+  if ( false == mat.valid() )
+  {
+    OsgTools::State::setMaterial ( ss, OsgTools::State::getMaterialDefault() );
+    mat = dynamic_cast < osg::Material * > ( ss->getAttribute ( osg::StateAttribute::MATERIAL ) );
+  }
+
+  // Check.
+  if ( false == mat.valid() )
+  {
+    return;
+  }
+
+  // Set these other properties if it's not completely opaque.
+  if ( alpha < 1 )
+  {
+    ss->setMode ( GL_BLEND, osg::StateAttribute::OVERRIDE | osg::StateAttribute::PROTECTED | osg::StateAttribute::ON );
+    ss->setRenderingHint ( osg::StateSet::TRANSPARENT_BIN );
+  }
+
+  // Set the alpha.
+  mat->setAlpha ( osg::Material::FRONT_AND_BACK, alpha );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Get the back face culling state.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+bool State::getBackFaceCulling ( const osg::StateSet *ss )
+{
+  // Handle bad input
+  if ( nullptr == ss )
+  {
+    return false;
+  }
+
+  // Query the mode.
+  return Usul::Bits::has ( ss->getMode ( GL_CULL_FACE ), osg::StateAttribute::ON );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Set the back face culling state.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setBackFaceCulling ( osg::StateSet *ss, bool state )
+{
+  // Handle bad input
+  if ( nullptr == ss )
+  {
+    return;
+  }
+
+  // Apply the mode settings
+  ss->setMode ( GL_CULL_FACE, ( ( state ) ? osg::StateAttribute::ON : osg::StateAttribute::OFF ) | osg::StateAttribute::OVERRIDE | osg::StateAttribute::PROTECTED );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Remove the material, if there is any.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::removeMaterial ( osg::Node *node )
+{
+  if ( nullptr != node )
+  {
+    OsgTools::State::removeMaterial ( node->getOrCreateStateSet() );
+  }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Remove the material, if there is any.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::removeMaterial ( osg::StateSet *ss )
+{
+  // Handle bad input
+  if ( nullptr == ss )
+  {
+    return;
+  }
+
+  // Remove the material.
+  ss->removeAttribute ( osg::StateAttribute::MATERIAL );
+}
+
+
+} // namespace OsgTools
