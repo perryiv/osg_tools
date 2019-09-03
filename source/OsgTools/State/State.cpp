@@ -13,6 +13,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "OsgTools/State/State.h"
+#include "OsgTools/Flags.h"
 
 #include "Usul/Bits/Bits.h"
 #include "Usul/Math/Random.h"
@@ -1024,6 +1025,33 @@ void State::removeMaterial ( osg::StateSet *ss )
 
   // Remove the material.
   ss->removeAttribute ( osg::StateAttribute::MATERIAL );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Get the visible state.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+bool State::getVisible ( const osg::Node *node )
+{
+  return ( node ? Usul::Bits::has ( node->getNodeMask(), OsgTools::Flags::VISIBLE ) : false );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Set the visible state.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setVisible ( osg::Node *node, bool visible )
+{
+  if ( nullptr != node )
+  {
+    node->setNodeMask ( Usul::Bits::set ( node->getNodeMask(), OsgTools::Flags::VISIBLE, visible ) );
+  }
 }
 
 

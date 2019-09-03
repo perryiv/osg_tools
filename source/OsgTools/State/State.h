@@ -103,6 +103,10 @@ struct OSG_TOOLS_EXPORT State
   static bool            getBackFaceCulling ( const osg::StateSet * );
   static void            setBackFaceCulling ( osg::Node *, bool );
   static void            setBackFaceCulling ( osg::StateSet *, bool );
+
+  // Get/set the visible state.
+  static bool            getVisible ( const osg::Node * );
+  static void            setVisible ( osg::Node *, bool );
 };
 
 
