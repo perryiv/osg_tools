@@ -38,6 +38,7 @@ set ( SOURCE_FILES
   OsgTools/Groups/Group.cpp
   OsgTools/Main.cpp
   OsgTools/Math/Three.cpp
+  OsgTools/Properties/Map.cpp
   OsgTools/Version.cpp
 )
 
