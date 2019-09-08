@@ -19,11 +19,11 @@
 
 namespace OsgTools
 {
-  enum Flags
+  namespace Flags
   {
-    VISIBLE  = 0x00000001,
-    PICKABLE = 0x00000002
-  };
+    const unsigned int VISIBLE  = 0x00000001;
+    const unsigned int PICKABLE = 0x00000002;
+  }
 }
 
 
