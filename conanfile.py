@@ -17,6 +17,22 @@ class OsgTools(intel.ConanFile):
         "OpenSceneGraph/[^3.6.3]@vaone-dev/master",
     )
 
+    def system_requirements(self):
+        if tools.os_info.is_linux:
+            packages = []
+
+            if tools.os_info.with_yum:
+                arch = ""
+                if self.settings.arch == "x86":
+                    arch = ".i686"
+                elif self.settings.arch == "x86_64":
+                    arch = ".x86_64"
+                packages.append("mesa-libGL-devel" + arch)
+    
+            installer = tools.SystemPackageTool()
+            for package in packages:
+                installer.install(package)
+
     def build_requirements(self):
         if self.options.build_tests:
             self.build_requires("Catch2/[^2.9.1]@catchorg/stable")
