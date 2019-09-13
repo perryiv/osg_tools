@@ -63,3 +63,4 @@ class OsgTools(intel.ConanFile):
     def package_id(self):
         super().package_id()
         del self.info.options.build_tests
+        self.info.requires["OpenSceneGraph"].full_version_mode()
