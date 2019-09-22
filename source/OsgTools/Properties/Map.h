@@ -46,7 +46,7 @@ namespace Details {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-template <> struct Getter < osg::Vec2d >
+template <> struct Getter < false, osg::Vec2d >
 {
   static osg::Vec2d get ( const Map &m, const std::string &name, const osg::Vec2d &defaultValue )
   {
@@ -64,7 +64,7 @@ template <> struct Getter < osg::Vec2d >
     return defaultValue;
   }
 };
-template <> struct Getter < osg::Vec3d >
+template <> struct Getter < false, osg::Vec3d >
 {
   static osg::Vec3d get ( const Map &m, const std::string &name, const osg::Vec3d &defaultValue )
   {
@@ -82,7 +82,7 @@ template <> struct Getter < osg::Vec3d >
     return defaultValue;
   }
 };
-template <> struct Getter < osg::Vec4d >
+template <> struct Getter < false, osg::Vec4d >
 {
   static osg::Vec4d get ( const Map &m, const std::string &name, const osg::Vec4d &defaultValue )
   {
@@ -100,7 +100,7 @@ template <> struct Getter < osg::Vec4d >
     return defaultValue;
   }
 };
-template <> struct Getter < osg::Vec2f >
+template <> struct Getter < false, osg::Vec2f >
 {
   static osg::Vec2f get ( const Map &m, const std::string &name, const osg::Vec2f &defaultValue )
   {
@@ -118,7 +118,7 @@ template <> struct Getter < osg::Vec2f >
     return defaultValue;
   }
 };
-template <> struct Getter < osg::Vec3f >
+template <> struct Getter < false, osg::Vec3f >
 {
   static osg::Vec3f get ( const Map &m, const std::string &name, const osg::Vec3f &defaultValue )
   {
@@ -136,7 +136,7 @@ template <> struct Getter < osg::Vec3f >
     return defaultValue;
   }
 };
-template <> struct Getter < osg::Vec4f >
+template <> struct Getter < false, osg::Vec4f >
 {
   static osg::Vec4f get ( const Map &m, const std::string &name, const osg::Vec4f &defaultValue )
   {
@@ -163,7 +163,7 @@ template <> struct Getter < osg::Vec4f >
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-template <> struct Require < osg::Vec2d >
+template <> struct Require < false, osg::Vec2d >
 {
   static osg::Vec2d get ( const Map &m, const std::string &name )
   {
@@ -181,7 +181,7 @@ template <> struct Require < osg::Vec2d >
     throw std::runtime_error ( Usul::Strings::format ( "Property '", name, "' is an unknown type" ) );
   }
 };
-template <> struct Require < osg::Vec3d >
+template <> struct Require < false, osg::Vec3d >
 {
   static osg::Vec3d get ( const Map &m, const std::string &name )
   {
@@ -199,7 +199,7 @@ template <> struct Require < osg::Vec3d >
     throw std::runtime_error ( Usul::Strings::format ( "Property '", name, "' is an unknown type" ) );
   }
 };
-template <> struct Require < osg::Vec4d >
+template <> struct Require < false, osg::Vec4d >
 {
   static osg::Vec4d get ( const Map &m, const std::string &name )
   {
@@ -217,7 +217,7 @@ template <> struct Require < osg::Vec4d >
     throw std::runtime_error ( Usul::Strings::format ( "Property '", name, "' is an unknown type" ) );
   }
 };
-template <> struct Require < osg::Vec2f >
+template <> struct Require < false, osg::Vec2f >
 {
   static osg::Vec2f get ( const Map &m, const std::string &name )
   {
@@ -235,7 +235,7 @@ template <> struct Require < osg::Vec2f >
     throw std::runtime_error ( Usul::Strings::format ( "Property '", name, "' is an unknown type" ) );
   }
 };
-template <> struct Require < osg::Vec3f >
+template <> struct Require < false, osg::Vec3f >
 {
   static osg::Vec3f get ( const Map &m, const std::string &name )
   {
@@ -253,7 +253,7 @@ template <> struct Require < osg::Vec3f >
     throw std::runtime_error ( Usul::Strings::format ( "Property '", name, "' is an unknown type" ) );
   }
 };
-template <> struct Require < osg::Vec4f >
+template <> struct Require < false, osg::Vec4f >
 {
   static osg::Vec4f get ( const Map &m, const std::string &name )
   {
