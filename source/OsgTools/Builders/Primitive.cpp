@@ -14,7 +14,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "OsgTools/Builders/Primitive.h"
-#include "OsgTools/Builders/Options.h"
 
 #include "Usul/Math/Random.h"
 #include "Usul/Math/Vector3.h"
@@ -28,28 +27,35 @@ namespace Builders {
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Constructor.
+//  Constructors.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
 Primitive::Primitive() : BaseClass(),
   _center ( 0.0, 0.0, 0.0 ),
-  _color ( 0.5, 0.5, 0.5, 1.0 )
+  _color  ( 0.5, 0.5, 0.5, 1.0 )
 {
 }
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
-//  Constructor.
-//
-///////////////////////////////////////////////////////////////////////////////
-
 Primitive::Primitive ( const Options &options ) : BaseClass ( options ),
-  _center ( Builders::getVec3 ( options, "center", osg::Vec3d ( 0.0, 0.0, 0.0 ) ) ),
-  _color ( Builders::getVec4 ( options, "color", osg::Vec4d ( 0.5, 0.5, 0.5, 1.0 ) ) )
+  _center ( Usul::Properties::get ( options, "center", osg::Vec3d ( 0.0, 0.0, 0.0 ) ) ),
+  _color  ( Usul::Properties::get ( options, "color",  osg::Vec4d ( 0.5, 0.5, 0.5, 1.0 ) ) )
 {
-  if ( "random" == Builders::getString ( options, "color", std::string ( "something" ) ) )
+  if ( "random" == Usul::Properties::get ( options, "color", std::string ( "something" ) ) )
+  {
+    Usul::Math::Vec3d color;
+    Usul::Math::random ( color, 0.2, 0.8 );
+    this->setColor ( color[0], color[1], color[2], 1.0 );
+  }
+}
+Primitive::Primitive ( const Options::Values &values ) : BaseClass ( values ),
+  _center ( 0.0, 0.0, 0.0 ),
+  _color  ( 0.5, 0.5, 0.5, 1.0 )
+{
+  const Options options ( values );
+  _center = Usul::Properties::get ( options, "center", _center );
+  _color  = Usul::Properties::get ( options, "color",  _color  );
+
+  if ( "random" == Usul::Properties::get ( options, "color", std::string ( "something" ) ) )
   {
     Usul::Math::Vec3d color;
     Usul::Math::random ( color, 0.2, 0.8 );

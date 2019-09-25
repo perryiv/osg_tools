@@ -53,6 +53,7 @@ protected:
 
   Primitive();
   Primitive ( const Options & );
+  Primitive ( const Options::Values & );
 
 private:
 

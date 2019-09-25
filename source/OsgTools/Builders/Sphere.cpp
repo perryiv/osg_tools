@@ -14,7 +14,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "OsgTools/Builders/Sphere.h"
-#include "OsgTools/Builders/Options.h"
 
 #include "osg/Geode"
 #include "osg/Group"
@@ -30,7 +29,7 @@ namespace Builders {
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Constructor.
+//  Constructors.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -38,17 +37,15 @@ Sphere::Sphere() : BaseClass(),
   _radius ( 1.0 )
 {
 }
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
-//  Constructor.
-//
-///////////////////////////////////////////////////////////////////////////////
-
 Sphere::Sphere ( const Options &options ) : BaseClass ( options ),
-  _radius ( Builders::getNumber ( options, "radius", 1.0 ) )
+  _radius ( Usul::Properties::get ( options, "radius", 1.0 ) )
 {
+}
+Sphere::Sphere ( const Options::Values &values ) : BaseClass ( values ),
+  _radius ( 1.0 )
+{
+  const Options options ( values );
+  _radius = Usul::Properties::get ( options, "radius", _radius );
 }
 
 
@@ -95,6 +92,10 @@ osg::Node *Sphere::build ( const Options &options )
 {
   Sphere builder ( options );
   return builder.build();
+}
+osg::Node *Sphere::build ( const Options::Values &values )
+{
+  return Sphere::build ( Options ( values ) );
 }
 
 

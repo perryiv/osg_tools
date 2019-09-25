@@ -32,10 +32,12 @@ public:
 
   Sphere();
   Sphere ( const Options & );
+  Sphere ( const Options::Values & );
   ~Sphere();
 
   virtual osg::Node *build();
   static  osg::Node *build ( const Options & );
+  static  osg::Node *build ( const Options::Values & );
 
   double getRadius() const { return _radius; }
   void   setRadius ( double radius );

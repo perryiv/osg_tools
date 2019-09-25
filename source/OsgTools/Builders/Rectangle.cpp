@@ -14,7 +14,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "OsgTools/Builders/Rectangle.h"
-#include "OsgTools/Builders/Options.h"
 
 #include "osg/Geode"
 #include "osg/Group"
@@ -30,27 +29,27 @@ namespace Builders {
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Constructor.
+//  Constructors.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
 Rectangle::Rectangle() : BaseClass(),
   _height ( 1.0 ),
-  _width ( 1.0 )
+  _width  ( 1.0 )
 {
 }
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
-//  Constructor.
-//
-///////////////////////////////////////////////////////////////////////////////
-
 Rectangle::Rectangle ( const Options &options ) : BaseClass ( options ),
-  _height ( Builders::getNumber ( options, "height", 1.0 ) ),
-  _width ( Builders::getNumber ( options, "width", 1.0 ) )
+  _height ( Usul::Properties::get ( options, "height", 1.0 ) ),
+  _width  ( Usul::Properties::get ( options, "width",  1.0 ) )
 {
+}
+Rectangle::Rectangle ( const Options::Values &values ) : BaseClass ( values ),
+  _height ( 1.0 ),
+  _width  ( 1.0 )
+{
+  const Options options ( values );
+  _height = Usul::Properties::get ( options, "height", _height );
+  _width  = Usul::Properties::get ( options, "width",  _width );
 }
 
 
@@ -88,6 +87,10 @@ osg::Node *Rectangle::build ( const Options &options )
 {
   Rectangle builder ( options );
   return builder.build();
+}
+osg::Node *Rectangle::build ( const Options::Values &values )
+{
+  return Rectangle::build ( Options ( values ) );
 }
 
 

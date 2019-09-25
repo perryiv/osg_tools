@@ -18,9 +18,9 @@
 
 #include "OsgTools/Export.h"
 #include "OsgTools/Forward.h"
+#include "OsgTools/Properties/Map.h"
 
 #include "Usul/Tools/NoCopying.h"
-#include "Usul/Tools/Properties.h"
 
 
 namespace OsgTools {
@@ -31,7 +31,7 @@ class OSG_TOOLS_EXPORT Builder : public Usul::Tools::NoCopying
 {
 public:
 
-  typedef Usul::Tools::Properties::MapType Options;
+  typedef Usul::Properties::Map Options;
 
   ~Builder();
 
@@ -41,6 +41,7 @@ protected:
 
   Builder();
   Builder ( const Options & );
+  Builder ( const Options::Values & );
 };
 
 

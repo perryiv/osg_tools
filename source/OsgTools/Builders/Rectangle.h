@@ -32,10 +32,12 @@ public:
 
   Rectangle();
   Rectangle ( const Options & );
+  Rectangle ( const Options::Values & );
   ~Rectangle();
 
   virtual osg::Node *build();
   static  osg::Node *build ( const Options & );
+  static  osg::Node *build ( const Options::Values & );
 
   double getHeight() const { return _height; }
   void   setHeight ( double height );
