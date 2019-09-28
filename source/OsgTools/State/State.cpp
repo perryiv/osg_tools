@@ -1050,6 +1050,7 @@ void State::setVisible ( osg::Node *node, bool visible )
 {
   if ( nullptr != node )
   {
+    // http://forum.openscenegraph.org/viewtopic.php?t=5445
     node->setNodeMask ( Usul::Bits::set ( node->getNodeMask(), OsgTools::Flags::VISIBLE, visible ) );
   }
 }
