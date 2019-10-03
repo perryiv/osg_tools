@@ -6,14 +6,14 @@ intel = python_requires("intel_helper/0.0.0@vaone-dev/master")
 
 class OsgTools(intel.ConanFile):
     name = "osg_tools"
-    version = "2.0.0"
+    version = "3.0.0"
     settings = "os", "arch", "compiler", "build_type"
     options = {"shared": [True, False], "build_tests": [True, False]}
     default_options = {"shared": True, "build_tests": False}
     no_copy_source = True
     scm = {"type": "git", "url": "auto"}
     requires = (
-        "usul/[^2.0.0]@vaone-dev/master",
+        "usul/[^3.0.0]@vaone-dev/develop",
         "OpenSceneGraph/[^3.6.3]@vaone-dev/master",
     )
 
