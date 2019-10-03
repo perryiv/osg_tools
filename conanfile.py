@@ -6,14 +6,14 @@ intel = python_requires("intel_helper/0.0.0@vaone-dev/master")
 
 class OsgTools(intel.ConanFile):
     name = "osg_tools"
-    version = "1.0.1"
+    version = "2.0.0"
     settings = "os", "arch", "compiler", "build_type"
     options = {"shared": [True, False], "build_tests": [True, False]}
     default_options = {"shared": True, "build_tests": False}
     no_copy_source = True
     scm = {"type": "git", "url": "auto"}
     requires = (
-        "usul/[^1.0.1]@vaone-dev/develop",
+        "usul/[^2.0.0]@vaone-dev/master",
         "OpenSceneGraph/[^3.6.3]@vaone-dev/master",
     )
 
@@ -28,7 +28,7 @@ class OsgTools(intel.ConanFile):
                 elif self.settings.arch == "x86_64":
                     arch = ".x86_64"
                 packages.append("mesa-libGL-devel" + arch)
-    
+
             installer = tools.SystemPackageTool()
             for package in packages:
                 installer.install(package)
