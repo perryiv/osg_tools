@@ -20,6 +20,7 @@
 namespace osg
 {
   class Camera;
+  class Drawable;
   class Geode;
   class Geometry;
   class Group;
@@ -33,6 +34,7 @@ namespace osg
   class PrimitiveSet;
   class Quat;
   class StateSet;
+  class Switch;
   class Transform;
   class Vec4d;
   class Vec4f;

@@ -21,6 +21,38 @@
 #include "osg/Vec3d"
 #include "osg/Vec3f"
 
+#include <cmath>
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Adapter functions that sees if the vector is finite.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+namespace Usul
+{
+  namespace Math
+  {
+    inline bool isFinite ( const osg::Vec3d &v )
+    {
+      return (
+        ( true == std::isfinite ( v[0] ) ) &&
+        ( true == std::isfinite ( v[0] ) ) &&
+        ( true == std::isfinite ( v[0] ) )
+      );
+    }
+    inline bool isFinite ( const osg::Vec3f &v )
+    {
+      return (
+        ( true == std::isfinite ( v[0] ) ) &&
+        ( true == std::isfinite ( v[0] ) ) &&
+        ( true == std::isfinite ( v[0] ) )
+      );
+    }
+  }
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //

@@ -25,6 +25,7 @@ set ( SOURCE_FILES
   OsgTools/Group/Group.cpp
   OsgTools/State/State.cpp
   OsgTools/Strings/Format.cpp
+  OsgTools/Visitors/Visitor.cpp
 )
 
 # Make the library using the source files.
