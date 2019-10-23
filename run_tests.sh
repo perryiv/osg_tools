@@ -13,7 +13,7 @@
 #
 ################################################################################
 
-# Exit immediately if one of the following commands do not return zero.
+# Exit immediately if one of the following commands does not return zero.
 set -e
 
 # Echo all the commands.
