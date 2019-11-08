@@ -1030,6 +1030,31 @@ void State::removeMaterial ( osg::StateSet *ss )
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//  Update the flags.
+//
+//  This is a work-around for the counterintuitive way OSG implements
+//  NodeVisitor::validNodeMask().
+//
+///////////////////////////////////////////////////////////////////////////////
+
+namespace Details
+{
+  void updateFlags ( osg::Node *node )
+  {
+    if ( nullptr != node )
+    {
+      const bool state = (
+        ( true == Usul::Bits::has ( node->getNodeMask(), OsgTools::Flags::VISIBLE ) ) &&
+        ( true == Usul::Bits::has ( node->getNodeMask(), OsgTools::Flags::PICKABLE ) )
+      );
+      node->setNodeMask ( Usul::Bits::set ( node->getNodeMask(), OsgTools::Flags::VISIBLE_AND_PICKABLE, state ) );
+    }
+  }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //  Get the visible state.
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -1052,6 +1077,36 @@ void State::setVisible ( osg::Node *node, bool visible )
   {
     // http://forum.openscenegraph.org/viewtopic.php?t=5445
     node->setNodeMask ( Usul::Bits::set ( node->getNodeMask(), OsgTools::Flags::VISIBLE, visible ) );
+    Details::updateFlags ( node );
+  }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Get the pickable state.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+bool State::getPickable ( const osg::Node *node )
+{
+  return ( node ? Usul::Bits::has ( node->getNodeMask(), OsgTools::Flags::PICKABLE ) : false );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Set the pickable state.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setPickable ( osg::Node *node, bool visible )
+{
+  if ( nullptr != node )
+  {
+    // http://forum.openscenegraph.org/viewtopic.php?t=5445
+    node->setNodeMask ( Usul::Bits::set ( node->getNodeMask(), OsgTools::Flags::PICKABLE, visible ) );
+    Details::updateFlags ( node );
   }
 }
 

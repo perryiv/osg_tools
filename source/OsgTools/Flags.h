@@ -24,6 +24,10 @@ namespace OsgTools
   {
     const unsigned int VISIBLE  = 0x00000001;
     const unsigned int PICKABLE = 0x00000002;
+
+    // This is a work-around for the counterintuitive way OSG implements
+    // NodeVisitor::validNodeMask().
+    const unsigned int VISIBLE_AND_PICKABLE = 0x00000004;
   }
 }
 
