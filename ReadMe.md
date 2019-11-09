@@ -7,10 +7,11 @@ which is itself just an unaltered copy of
 
 ### Dependencies
 
-Building the library requires
-[OpenSceneGraph](http://www.openscenegraph.org/)
-and
-[CMake](https://cmake.org/).
+Building the library requires:
+
+- [CMake](https://cmake.org/)
+- [OpenSceneGraph](http://www.openscenegraph.org/)
+- [Usul](https://github.com/perryiv/usul)
 
 Building the test program requires
 [Catch2](https://github.com/catchorg/Catch2).
