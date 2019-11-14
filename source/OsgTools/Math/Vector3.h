@@ -21,12 +21,13 @@
 #include "osg/Vec3d"
 #include "osg/Vec3f"
 
+#include <algorithm>
 #include <cmath>
 
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Adapter functions that sees if the vector is finite.
+//  Adapter functions that see if the vector is finite.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -38,16 +39,16 @@ namespace Usul
     {
       return (
         ( true == std::isfinite ( v[0] ) ) &&
-        ( true == std::isfinite ( v[0] ) ) &&
-        ( true == std::isfinite ( v[0] ) )
+        ( true == std::isfinite ( v[1] ) ) &&
+        ( true == std::isfinite ( v[2] ) )
       );
     }
     inline bool isFinite ( const osg::Vec3f &v )
     {
       return (
         ( true == std::isfinite ( v[0] ) ) &&
-        ( true == std::isfinite ( v[0] ) ) &&
-        ( true == std::isfinite ( v[0] ) )
+        ( true == std::isfinite ( v[1] ) ) &&
+        ( true == std::isfinite ( v[2] ) )
       );
     }
   }
@@ -123,6 +124,32 @@ namespace Usul
     inline Usul::Math::Vec3f convert ( const osg::Vec3f &v )
     {
       return Usul::Math::Vec3f ( v[0], v[1], v[2] );
+    }
+  }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Clamp the vectors to the given range.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+namespace Usul
+{
+  namespace Math
+  {
+    inline void clamp ( osg::Vec3d &v, const double mn, const double mx )
+    {
+      v[0] = std::clamp ( v[0], mn, mx );
+      v[1] = std::clamp ( v[1], mn, mx );
+      v[2] = std::clamp ( v[2], mn, mx );
+    }
+    inline void clamp ( osg::Vec3f &v, const float mn, const float mx )
+    {
+      v[0] = std::clamp ( v[0], mn, mx );
+      v[1] = std::clamp ( v[1], mn, mx );
+      v[2] = std::clamp ( v[2], mn, mx );
     }
   }
 }
