@@ -23,6 +23,7 @@ namespace osg
   class Drawable;
   class Geode;
   class Geometry;
+  class GraphicsContext;
   class Group;
   class Image;
   class LOD;
@@ -66,6 +67,7 @@ namespace osgUtil
 namespace osgViewer
 {
   class CompositeViewer;
+  class GraphicsWindow;
   class GraphicsWindowEmbedded;
   class Viewer;
 }
