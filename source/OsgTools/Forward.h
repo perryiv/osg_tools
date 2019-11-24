@@ -33,6 +33,7 @@ namespace osg
   class MatrixTransform;
   class Node;
   class PrimitiveSet;
+  class Projection;
   class Quat;
   class StateSet;
   class Switch;
