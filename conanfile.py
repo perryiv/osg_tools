@@ -11,7 +11,8 @@ class OsgTools(intel.ConanFile):
     options = {"shared": [True, False], "build_tests": [True, False]}
     default_options = {"shared": True, "build_tests": False}
     no_copy_source = True
-    scm = {"type": "git", "url": "auto"}
+    scm = {"type": "git", "url": "auto", "revision": "auto"}
+    revision_mode = "scm"
     requires = (
         "usul/[^3.0.0]@vaone-dev/develop",
         "OpenSceneGraph/[^3.6.3]@vaone-dev/master",
