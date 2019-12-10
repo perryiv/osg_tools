@@ -73,12 +73,22 @@ configure_file (
   ${OSG_TOOLS_CONFIG_DIR_INPUT}/Config.h.in
   ${OSG_TOOLS_CONFIG_DIR_OUTPUT}/OsgTools/Config.h )
 
-# Install generated files wherever the user specified to install things.
-install (
-  DIRECTORY ${OSG_TOOLS_CONFIG_DIR_OUTPUT}/OsgTools
-  DESTINATION include
-  FILES_MATCHING PATTERN "*.h"
-)
+# Does the user want to be able to install osg_tools
+if ( "${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}" )
+  set ( ${PROJECT_NAME}_INSTALL_DEFAULT ON )
+else()
+  set ( ${PROJECT_NAME}_INSTALL_DEFAULT OFF )
+endif()
+option ( ${PROJECT_NAME}_INSTALL "Able to install ${PROJECT_NAME}" ${${PROJECT_NAME}_INSTALL_DEFAULT} )
+
+if ( ${PROJECT_NAME}_INSTALL )
+  # Install generated files wherever the user specified to install things.
+  install (
+    DIRECTORY ${OSG_TOOLS_CONFIG_DIR_OUTPUT}/OsgTools
+    DESTINATION include
+    FILES_MATCHING PATTERN "*.h"
+  )
+endif()
 
 # Find OpenGL. This is the right way to do things.
 find_package ( OpenGL REQUIRED )
