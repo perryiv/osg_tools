@@ -67,7 +67,7 @@ TEST_CASE ( "Working with groups" )
 
     // Remove the child from the group.
     // It has been added twice.
-    OsgTools::Group::removeAllOccurances ( child, group );
+    OsgTools::Group::removeAllOccurances ( child.get(), group.get() );
 
     // Should have this many children now.
     const unsigned int numChildren = group->getNumChildren();
