@@ -25,6 +25,7 @@
 #include "osg/Vec3d"
 #include "osg/Vec3f"
 
+#include <stdexcept>
 #include <type_traits>
 
 
@@ -218,6 +219,62 @@ namespace Usul
       Usul::Math::Matrix44f to;
       convert ( from, to );
       return to;
+    }
+  }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Rotate the matrix by the given angle about the given axis.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+namespace Usul
+{
+  namespace Math
+  {
+    inline bool rotate ( const osg::Matrixd &m, const osg::Vec3d &axis, const double &angle, osg::Matrixd &answer )
+    {
+      // Handle zero-length axis vectors.
+      const double len = axis.length();
+      if ( 0.0 == len )
+      {
+        return false;
+      }
+
+      // Shortcuts.
+      double x = axis[0];
+      double y = axis[1];
+      double z = axis[2];
+
+      // Normalize if we have to.
+      if ( 1.0 != len )
+      {
+        const double invLen = 1.0 / len;
+        x *= invLen;
+        y *= invLen;
+        z *= invLen;
+      }
+
+      // Make the rotation matrix.
+      osg::Matrixd rotation;
+      rotation.makeRotate ( angle, osg::Vec3d ( x, y, z ) );
+
+      // The answer is the product of the two matrices.
+      answer = rotation * m; // TODO: Make sure this is the correct order.
+
+      // It worked.
+      return true;
+    }
+    inline osg::Matrixd rotate ( const osg::Matrixd &m, const osg::Vec3d &axis, const double &angle )
+    {
+      osg::Matrixd answer;
+      if ( false == rotate ( m, axis, angle, answer ) )
+      {
+        throw std::runtime_error ( "Could not rotate matrix" );
+      }
+      return answer;
     }
   }
 }

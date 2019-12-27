@@ -155,4 +155,26 @@ namespace Usul
 }
 
 
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Return the length of the vector.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+namespace Usul
+{
+  namespace Math
+  {
+    inline double length ( const osg::Vec3d &v )
+    {
+      return v.length();
+    }
+    inline float length ( const osg::Vec3f &v )
+    {
+      return v.length();
+    }
+  }
+}
+
+
 #endif // _OSG_TOOLS_VECTOR_3D_MATH_FUNCTIONS_H_
