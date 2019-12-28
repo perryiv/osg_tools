@@ -86,7 +86,7 @@ namespace Usul
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Adapter functions for use with Usul::Math::unProject
+//  Adapter functions for use with Usul::Math::unProject and elsewhere.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -108,7 +108,7 @@ namespace Usul
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Adapter functions for use with Usul::Math::unProject
+//  Adapter functions for use with Usul::Math::unProject and elsewhere.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -116,21 +116,37 @@ namespace Usul
 {
   namespace Math
   {
-    inline osg::Vec4d multiply ( const osg::Matrixd &a, const osg::Vec4d &b )
+    inline void multiply ( const osg::Matrixd &m, const osg::Vec4d &a, osg::Vec4d &b )
     {
-      return b * a;
+      b = a * m;
     }
-    inline osg::Vec4f multiply ( const osg::Matrixf &a, const osg::Vec4f &b )
+    inline void multiply ( const osg::Matrixf &m, const osg::Vec4f &a, osg::Vec4f &b )
     {
-      return b * a;
+      b = a * m;
     }
-    inline osg::Vec3d multiply ( const osg::Matrixd &a, const osg::Vec3d &b )
+    inline void multiply ( const osg::Matrixd &m, const osg::Vec3d &a, osg::Vec3d &b )
     {
-      return b * a;
+      b = a * m;
     }
-    inline osg::Vec3f multiply ( const osg::Matrixf &a, const osg::Vec3f &b )
+    inline void multiply ( const osg::Matrixf &m, const osg::Vec3f &a, osg::Vec3f &b )
     {
-      return b * a;
+      b = a * m;
+    }
+    inline osg::Vec4d multiply ( const osg::Matrixd &m, const osg::Vec4d &a )
+    {
+      return a * m;
+    }
+    inline osg::Vec4f multiply ( const osg::Matrixf &m, const osg::Vec4f &a )
+    {
+      return a * m;
+    }
+    inline osg::Vec3d multiply ( const osg::Matrixd &m, const osg::Vec3d &a )
+    {
+      return a * m;
+    }
+    inline osg::Vec3f multiply ( const osg::Matrixf &m, const osg::Vec3f &a )
+    {
+      return a * m;
     }
   }
 }
