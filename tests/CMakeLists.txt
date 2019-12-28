@@ -37,6 +37,7 @@ include_directories ( ${CMAKE_CURRENT_SOURCE_DIR} )
 set ( SOURCE_FILES
   OsgTools/Groups/Group.cpp
   OsgTools/Main.cpp
+  OsgTools/Math/Sequence.cpp
   OsgTools/Math/Three.cpp
   OsgTools/Properties/Map.cpp
   OsgTools/Version.cpp
