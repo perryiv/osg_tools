@@ -60,8 +60,10 @@ void Visitor::_visit ( const osg::Matrixd &m1, osg::Node *node, NodeCallback &nc
     ncb1 ( m2, node );
   }
 
-  Visitor::_visit ( m2, dynamic_cast < osg::Geode * > ( node ), dcb );
-  Visitor::_visit ( m2, dynamic_cast < osg::Group * > ( node ), ncb1, ncb2, dcb );
+  // It's only going to be one of these.
+  Visitor::_visit ( m2, dynamic_cast < osg::Group *    > ( node ), ncb1, ncb2, dcb );
+  Visitor::_visit ( m2, dynamic_cast < osg::Geode *    > ( node ), dcb );
+  Visitor::_visit ( m2, dynamic_cast < osg::Drawable * > ( node ), dcb );
 
   if ( ncb2 )
   {

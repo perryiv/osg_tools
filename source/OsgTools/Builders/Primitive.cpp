@@ -18,6 +18,9 @@
 #include "Usul/Math/Random.h"
 #include "Usul/Math/Vector3.h"
 
+#include "OsgTools/Properties/Vector3.h"
+#include "OsgTools/Properties/Vector4.h"
+
 #include <cstdlib>
 
 

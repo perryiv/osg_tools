@@ -1,0 +1,49 @@
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Copyright (c) 2019, Perry L Miller IV
+//  All rights reserved.
+//  MIT License: https://opensource.org/licenses/mit-license.html
+//
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Type traits for 4x4 matrices.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+#ifndef _OSG_TOOLS_TYPE_TRAITS_4_BY_4_MATRIX_H_
+#define _OSG_TOOLS_TYPE_TRAITS_4_BY_4_MATRIX_H_
+
+#include "Usul/Traits/Matrix44.h"
+
+#include "osg/Matrixd"
+#include "osg/Matrixf"
+
+
+namespace Usul {
+namespace Traits {
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Specialization for matrix type. Add more as needed.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+template <> struct Matrix44 < osg::Matrixd >
+{
+  static constexpr bool VALUE = true;
+};
+template <> struct Matrix44 < osg::Matrixf >
+{
+  static constexpr bool VALUE = true;
+};
+
+
+} // namespace Traits
+} // namespace Usul
+
+
+#endif // _OSG_TOOLS_TYPE_TRAITS_4_BY_4_MATRIX_H_

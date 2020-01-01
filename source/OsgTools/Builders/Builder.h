@@ -18,8 +18,8 @@
 
 #include "OsgTools/Export.h"
 #include "OsgTools/Forward.h"
-#include "OsgTools/Properties/Map.h"
 
+#include "Usul/Properties/Map.h"
 #include "Usul/Tools/NoCopying.h"
 
 

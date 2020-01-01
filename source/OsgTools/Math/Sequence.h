@@ -16,7 +16,7 @@
 #ifndef _OSG_TOOLS_MATH_SEQUENCE_FUNCTIONS_H_
 #define _OSG_TOOLS_MATH_SEQUENCE_FUNCTIONS_H_
 
-#include "OsgTools/Math/Matrix.h"
+#include "OsgTools/Math/Matrix44.h"
 #include "OsgTools/Math/Vector3.h"
 
 #include "osg/Matrixd"

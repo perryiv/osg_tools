@@ -13,8 +13,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef _OSG_TOOLS_MATRIX_MATH_FUNCTIONS_H_
-#define _OSG_TOOLS_MATRIX_MATH_FUNCTIONS_H_
+#ifndef _OSG_TOOLS_4_BY_4_MATRIX_MATH_FUNCTIONS_H_
+#define _OSG_TOOLS_4_BY_4_MATRIX_MATH_FUNCTIONS_H_
 
 #include "Usul/Math/Matrix44.h"
 
@@ -296,4 +296,4 @@ namespace Usul
 }
 
 
-#endif // _OSG_TOOLS_MATRIX_MATH_FUNCTIONS_H_
+#endif // _OSG_TOOLS_4_BY_4_MATRIX_MATH_FUNCTIONS_H_

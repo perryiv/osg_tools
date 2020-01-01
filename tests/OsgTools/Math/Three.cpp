@@ -13,7 +13,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "OsgTools/Math/Matrix.h"
+#include "OsgTools/Math/Matrix44.h"
 
 #include "Usul/Math/Matrix44.h"
 #include "Usul/Math/Three.h"
