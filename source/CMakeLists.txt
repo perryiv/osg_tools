@@ -48,10 +48,12 @@ target_include_directories (
 )
 
 # CMake will automatically add -I, -L, and -D (etc) appropriately.
-target_link_libraries ( ${PROJECT_NAME} PUBLIC
-  OpenGL::GL
-  OpenSceneGraph::OSG
-  usul
+target_link_libraries ( ${PROJECT_NAME}
+  PRIVATE
+    OpenGL::GL
+  PUBLIC
+    OpenSceneGraph::OSG
+    usul
 )
 
 # Bake the version into the file name and create symlinks if appropriate.
