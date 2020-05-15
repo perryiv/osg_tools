@@ -90,8 +90,32 @@ if ( ${PROJECT_NAME}_INSTALL )
   )
 endif()
 
-# Find OpenGL. This is the right way to do things.
-find_package ( OpenGL REQUIRED )
+# Does the user want to use OSMesa?
+option ( OSG_TOOLS_USE_OSMESA
+  "Use OSMesa instead of regular OpenGL" OFF )
+
+# Are we supposed to look for OSMesa?
+if ( OSG_TOOLS_USE_OSMESA )
+  find_package ( OSMesa REQUIRED )
+  if ( OSMesa_FOUND )
+    message ( "   -- OSMesa_INCLUDE_DIRS =  ${OSMesa_INCLUDE_DIRS}" )
+    message ( "   -- OSMesa_LIBRARIES =     ${OSMesa_LIBRARIES}" )
+    message ( "   -- OSMesa_VERSION =       ${OSMesa_VERSION}" )
+  endif() # OSMesa_FOUND
+  add_compile_definitions ( OSG_TOOLS_USE_OSMESA )
+else()
+  find_package ( OpenGL REQUIRED )
+  if ( OPENGL_FOUND )
+    message ( "   -- OPENGL_XMESA_FOUND =      ${OPENGL_XMESA_FOUND}" )
+    message ( "   -- OPENGL_GLU_FOUND =        ${OPENGL_GLU_FOUND}" )
+    message ( "   -- OpenGL_OpenGL_FOUND =     ${OpenGL_OpenGL_FOUND}" )
+    message ( "   -- OpenGL_GLX_FOUND =        ${OpenGL_GLX_FOUND}" )
+    message ( "   -- OpenGL_EGL_FOUND =        ${OpenGL_EGL_FOUND}" )
+    message ( "   -- OPENGL_INCLUDE_DIR =      ${OPENGL_INCLUDE_DIR}" )
+    message ( "   -- OPENGL_EGL_INCLUDE_DIRS = ${OPENGL_EGL_INCLUDE_DIRS}" )
+    message ( "   -- OPENGL_LIBRARIES =        ${OPENGL_LIBRARIES}" )
+  endif()
+endif() # OSG_TOOLS_USE_OSMESA
 
 # Find and use OpenSceneGraph. Set OSG_ROOT environment variable.
 find_package ( OpenSceneGraph REQUIRED )
@@ -146,7 +170,7 @@ endif()
 add_compile_definitions ( $<$<CONFIG:Debug>:_DEBUG> )
 
 # We do not need to see all those deprecation warnings in OpenSceneGraph.
-add_definitions ( -DGL_SILENCE_DEPRECATION )
+add_compile_definitions ( GL_SILENCE_DEPRECATION )
 
 # Also process the CMakeLists.txt files found in these directories.
 add_subdirectory ( source )

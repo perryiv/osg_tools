@@ -48,8 +48,24 @@ add_executable ( ${PROJECT_NAME}_test ${SOURCE_FILES} )
 
 # Append a "d" to the file name if this is a debug build.
 # Unlike with the library files, this does not happen automatically.
-set_target_properties ( ${PROJECT_NAME}_test PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX} )
+set_target_properties ( ${PROJECT_NAME}_test PROPERTIES
+  DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX}
+)
 
 # Tell cmake we are going to use these libraries.
 # It will automatically add -I, -L, and -D (etc) appropriately.
-target_link_libraries ( ${PROJECT_NAME}_test PRIVATE ${PROJECT_NAME} Catch2::Catch2 )
+target_link_libraries ( ${PROJECT_NAME}_test PRIVATE
+  ${PROJECT_NAME}
+  Catch2::Catch2
+)
+
+# Link to the correct graphics library.
+if ( OSG_TOOLS_USE_OSMESA )
+  target_link_libraries ( ${PROJECT_NAME}_test PRIVATE
+    OSMesa::OSMesa
+  )
+else()
+  target_link_libraries ( ${PROJECT_NAME}_test PRIVATE
+    OpenGL::GL
+  )
+endif()
