@@ -90,12 +90,15 @@ if ( ${PROJECT_NAME}_INSTALL )
   )
 endif()
 
+# Add our CMake scripts to help it find some packages.
+list ( APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake )
+
 # Does the user want to use OSMesa?
-option ( OSG_TOOLS_USE_OSMESA
-  "Use OSMesa instead of regular OpenGL" OFF )
+option ( OSG_TOOLS_USE_OSMESA "Use OSMesa instead of regular OpenGL" OFF )
 
 # Are we supposed to look for OSMesa?
 if ( OSG_TOOLS_USE_OSMESA )
+  message ( "   -- Building ${PROJECT_NAME} using OSMesa" )
   find_package ( OSMesa REQUIRED )
   if ( OSMesa_FOUND )
     message ( "   -- OSMesa_INCLUDE_DIRS =  ${OSMesa_INCLUDE_DIRS}" )
@@ -104,6 +107,7 @@ if ( OSG_TOOLS_USE_OSMESA )
   endif() # OSMesa_FOUND
   add_compile_definitions ( OSG_TOOLS_USE_OSMESA )
 else()
+  message ( "   -- Building ${PROJECT_NAME} using OpenGL" )
   find_package ( OpenGL REQUIRED )
   if ( OPENGL_FOUND )
     message ( "   -- OPENGL_XMESA_FOUND =      ${OPENGL_XMESA_FOUND}" )

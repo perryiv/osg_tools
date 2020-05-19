@@ -49,12 +49,21 @@ target_include_directories (
 
 # CMake will automatically add -I, -L, and -D (etc) appropriately.
 target_link_libraries ( ${PROJECT_NAME}
-  PRIVATE
-    OpenGL::GL
   PUBLIC
     OpenSceneGraph::OSG
     usul
 )
+
+# Link to the correct graphics library.
+if ( OSG_TOOLS_USE_OSMESA )
+  target_link_libraries ( ${PROJECT_NAME} PRIVATE
+    OSMesa::OSMesa
+  )
+else()
+  target_link_libraries ( ${PROJECT_NAME} PRIVATE
+    OpenGL::GL
+  )
+endif()
 
 # Bake the version into the file name and create symlinks if appropriate.
 set_target_properties ( ${PROJECT_NAME} PROPERTIES
