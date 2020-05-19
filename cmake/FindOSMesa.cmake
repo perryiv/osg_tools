@@ -1,3 +1,10 @@
+
+###############################################################################
+#
+#  https://github.com/Kitware/VTK/blob/master/CMake/FindOSMesa.cmake
+#
+###############################################################################
+
 # Try to find Mesa off-screen library and include dir.
 # Once done this will define
 #
