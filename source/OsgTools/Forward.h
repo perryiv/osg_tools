@@ -47,6 +47,11 @@ namespace osg
   class Viewport;
 }
 
+namespace osgDB
+{
+  class ReaderWriter;
+}
+
 namespace osgGA
 {
   class EventQueue;

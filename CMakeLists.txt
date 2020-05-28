@@ -122,7 +122,7 @@ else()
 endif() # OSG_TOOLS_USE_OSMESA
 
 # Find and use OpenSceneGraph. Set OSG_ROOT environment variable.
-find_package ( OpenSceneGraph REQUIRED )
+find_package ( OpenSceneGraph REQUIRED COMPONENTS osg osgDB osgUtil )
 
 # Extra steps for FindOpenSceneGraph because that module is somewhat dated.
 # Note: We do not have to do this with OpenGL; it happens automatically.
