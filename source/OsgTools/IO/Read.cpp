@@ -43,6 +43,12 @@ typedef Usul::File::Buffer < char > FileBuffer;
 
 osgDB::ReaderWriter *Reader::findReader ( const std::string &file )
 {
+  // Handle no file.
+  if ( true == file.empty() )
+  {
+    throw std::runtime_error ( "Error 1591222466: Empty file name when finding reader" );
+  }
+
   // Get file extension.
   const std::string ext ( osgDB::getLowerCaseFileExtension ( file ) );
 
