@@ -14,6 +14,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "OsgTools/Builders/Rectangle.h"
+#include "OsgTools/Factory/Factory.h"
 
 #include "osg/Geode"
 #include "osg/Group"
@@ -72,7 +73,7 @@ Rectangle::~Rectangle()
 
 osg::Node *Rectangle::build()
 {
-  osg::ref_ptr < osg::Geode > geode ( new osg::Geode() );
+  osg::ref_ptr < osg::Geode > geode ( OSG_TOOLS_FACTORY_CREATE ( osg::Geode ) );
   return geode.release();
 }
 

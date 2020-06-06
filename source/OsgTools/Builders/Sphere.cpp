@@ -14,6 +14,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "OsgTools/Builders/Sphere.h"
+#include "OsgTools/Factory/Factory.h"
 
 #include "osg/Geode"
 #include "osg/Group"
@@ -75,7 +76,7 @@ osg::Node *Sphere::build()
   osg::ref_ptr < osg::Sphere > sphere ( new osg::Sphere ( center, radius ) );
   osg::ref_ptr < osg::ShapeDrawable > shape ( new osg::ShapeDrawable ( sphere ) );
   shape->setColor ( color );
-  osg::ref_ptr < osg::Geode > geode ( new osg::Geode() );
+  osg::ref_ptr < osg::Geode > geode ( OSG_TOOLS_FACTORY_CREATE ( osg::Geode ) );
   geode->addDrawable ( shape );
 
   return geode.release();
