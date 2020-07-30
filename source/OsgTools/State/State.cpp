@@ -331,6 +331,78 @@ namespace Helper
 
 ///////////////////////////////////////////////////////////////////////////////
 //
+//  Get the polygon mode.
+//  This is similar to Helper::hasPolygonMode but not exactly the same.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+unsigned int State::getPolygonMode ( const osg::Node *node, unsigned int face )
+{
+  if ( nullptr == node )
+  {
+    return 0;
+  }
+
+  const osg::StateSet *ss = node->getStateSet();
+  if ( nullptr == ss )
+  {
+    return 0;
+  }
+
+  const osg::StateAttribute *sa = ss->getAttribute ( osg::StateAttribute::POLYGONMODE );
+  if ( nullptr == sa )
+  {
+    return 0;
+  }
+
+  const osg::PolygonMode *pm = dynamic_cast < const osg::PolygonMode * > ( sa );
+  if ( nullptr == pm )
+  {
+    return 0;
+  }
+
+  return pm->getMode ( static_cast < osg::PolygonMode::Face > ( face ) );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Set the polygon mode.
+//  This is similar to Helper::setPolygonMode but not exactly the same.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setPolygonMode ( osg::Node *node, unsigned int face, unsigned int mode )
+{
+  // Handle bad input.
+  if ( nullptr == node )
+  {
+    return;
+  }
+
+  // Get the state set, or make one.
+  osg::ref_ptr < osg::StateSet > ss ( node->getOrCreateStateSet() );
+
+  // Make a polygon-mode.
+  osg::ref_ptr < osg::PolygonMode > pm ( new osg::PolygonMode );
+
+  // Set the mode.
+  pm->setMode (
+    static_cast < osg::PolygonMode::Face > ( face ),
+    static_cast < osg::PolygonMode::Mode > ( mode )
+  );
+
+  // Set the state. Make it override any other similar states.
+  ss->setAttributeAndModes (
+    pm.get(),
+    osg::StateAttribute::OVERRIDE |
+    osg::StateAttribute::ON
+  );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
 //  Make polygons draw filled.
 //
 ///////////////////////////////////////////////////////////////////////////////

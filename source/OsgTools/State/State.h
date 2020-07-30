@@ -68,7 +68,7 @@ struct OSG_TOOLS_EXPORT State
   static void            setPolygonsTextures ( osg::StateSet *, bool );
 
   // Get/set the polygon mode.
-  static bool            getPolygonMode ( const osg::Node *, unsigned int face, unsigned int mode );
+  static unsigned int    getPolygonMode ( const osg::Node *, unsigned int face );
   static void            setPolygonMode ( osg::Node *,       unsigned int face, unsigned int mode );
 
   // Set/Get line width
