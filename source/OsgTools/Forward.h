@@ -20,6 +20,8 @@
 namespace osg
 {
   class Camera;
+  class ClipNode;
+  class ClipPlane;
   class Drawable;
   class Geode;
   class Geometry;
