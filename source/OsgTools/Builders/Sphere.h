@@ -16,36 +16,24 @@
 #ifndef _OSG_TOOLS_BUILDERS_SPHERE_CLASS_H_
 #define _OSG_TOOLS_BUILDERS_SPHERE_CLASS_H_
 
-#include "OsgTools/Builders/Primitive.h"
+#include "OsgTools/Export.h"
+#include "OsgTools/Forward.h"
+
+#include "Usul/Properties/Map.h"
 
 
 namespace OsgTools {
 namespace Builders {
 
 
-class OSG_TOOLS_EXPORT Sphere : public Primitive
+class OSG_TOOLS_EXPORT Sphere
 {
 public:
 
-  typedef Primitive BaseClass;
-  typedef BaseClass::Options Options;
+  typedef Usul::Properties::Map Options;
 
-  Sphere();
-  Sphere ( const Options & );
-  Sphere ( const Options::Values & );
-  ~Sphere();
-
-  virtual osg::Node *build();
-  static  osg::Node *build ( const Options & );
-  static  osg::Node *build ( const Options::Values & );
-
-  double getRadius() const { return _radius; }
-  void   setRadius ( double radius );
-  void   setRadius ( float radius );
-
-private:
-
-  double _radius;
+  static osg::Node *build ( const Options & );
+  static osg::Node *build ( const Options::Values & );
 };
 
 
