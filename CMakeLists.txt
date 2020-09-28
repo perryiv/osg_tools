@@ -31,8 +31,11 @@
 # https://cmake.org/cmake/help/v3.12/release/3.12.html
 cmake_minimum_required ( VERSION 3.12.0 )
 
+# Get the version from this file.
+file ( STRINGS ${CMAKE_CURRENT_LIST_DIR}/version.txt PROJECT_VERSION )
+
 # The name of this project.
-project ( osg_tools VERSION 3.2.0 LANGUAGES CXX )
+project ( osg_tools VERSION ${PROJECT_VERSION} LANGUAGES CXX )
 
 # Default to building usul as a shared library
 if ( NOT DEFINED BUILD_SHARED_LIBS )
@@ -179,6 +182,7 @@ add_compile_definitions ( GL_SILENCE_DEPRECATION )
 # Also process the CMakeLists.txt files found in these directories.
 add_subdirectory ( source )
 if ( OSG_TOOLS_BUILD_TESTS )
+  enable_testing()
   add_subdirectory ( tests ) # The tests.
 endif()
 

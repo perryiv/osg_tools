@@ -1,67 +1,68 @@
-from conans import python_requires, tools
-import glob, os, subprocess
-
-intel = python_requires("intel_helper/0.0.0@vaone-dev/master")
+from conans import CMake, CMakeToolchain, ConanFile, tools
+import os
 
 
-class OsgTools(intel.ConanFile):
+class OsgTools(ConanFile):
     name = "osg_tools"
-    version = "3.1.0"
-    settings = "os", "arch", "compiler", "build_type"
-    options = {"shared": [True, False], "build_tests": [True, False]}
-    default_options = {"shared": True, "build_tests": False}
-    no_copy_source = True
+    license = "MIT"
+    author = "Perry L Miller IV (perry@modelspace.com)"
+    url = "https://github.com/perryiv/osg_tools"
+    description = "Classes and functions that use OpenSceneGraph"
+    topics = "OpenSceneGraph", "C++", "utility"
+    settings = "os", "compiler", "build_type", "arch"
+    options = {
+        "shared": [True, False],
+        "run_tests": [True, False],
+    }
+    default_options = {"shared": False, "run_tests": True}
+
     scm = {"type": "git", "url": "auto", "revision": "auto"}
     revision_mode = "scm"
     requires = (
-        "usul/[^3.1.0]@vaone-dev/master",
-        "OpenSceneGraph/[^3.6.3]@vaone-dev/master",
+        "usul/3.2.0@perryiv/stable",
+        "openscenegraph/3.6.5",
     )
 
-    def system_requirements(self):
-        if tools.os_info.is_linux:
-            packages = []
+    no_copy_source = True
+    generators = "cmake_find_package",
 
-            if tools.os_info.with_yum:
-                arch = ""
-                if self.settings.arch == "x86":
-                    arch = ".i686"
-                elif self.settings.arch == "x86_64":
-                    arch = ".x86_64"
-                packages.append("mesa-libGL-devel" + arch)
+    def set_version(self):
+        with open("version.txt") as file:
+            self.version = file.read()
 
-            installer = tools.SystemPackageTool()
-            for package in packages:
-                installer.install(package)
+    def requirements(self):
+        if self.options.run_tests:
+            self.requires("catch2/2.13.0", private=True)
 
-    def build_requirements(self):
-        if self.options.build_tests:
-            self.build_requires("Catch2/[^2.9.1]@catchorg/stable")
+    def toolchain(self):
+        toolchain = CMakeToolchain(self)
+        toolchain.definitions["OSG_TOOLS_BUILD_TESTS"] = self.options.run_tests
+        toolchain.definitions["OSG_TOOLS_ENABLE_CODE_COVERAGE"] = False
+        toolchain.definitions["CMAKE_DEBUG_POSTFIX"] = ""
+        toolchain.definitions["CMAKE_VERBOSE_MAKEFILE"] = True
+        toolchain.write_toolchain_files()
 
     def build(self):
-        cmake = intel.CMake(self)
-        defs = {
-            "CMAKE_BUILD_WITH_INSTALL_RPATH": True,
-            "OSG_DIR": self.deps_cpp_info["OpenSceneGraph"].rootpath,
-            "usul_ROOT": self.deps_cpp_info["usul"].rootpath,
-            "CMAKE_DEBUG_POSTFIX": "",
-            "OSG_TOOLS_BUILD_TESTS": self.options.build_tests,
-        }
-        if self.options.build_tests:
-            defs["Catch2_ROOT"] = self.deps_cpp_info["Catch2"].rootpath
-        cmake.configure(defs=defs)
+        cmake = CMake(self)
+        cmake.configure()
         cmake.build()
+        if self.options.run_tests:
+            cmake.test(output_on_failure=True)
 
     def package(self):
-        cmake = intel.CMake(self)
+        cmake = CMake(self)
         cmake.install()
+        self.copy(pattern="License.md", dst="licenses")
 
     def package_info(self):
         self.cpp_info.libs = ["osg_tools"]
         if not self.options.shared:
             self.cpp_info.defines = ["OSG_TOOLS_STATIC_DEFINE"]
+        if not self.in_local_cache:
+            self.cpp_info.includedirs = [
+                "source",
+                os.path.join("build", self.settings.build_type.value, "config")
+            ]
 
     def package_id(self):
-        super().package_id()
-        del self.info.options.build_tests
-        self.info.requires["OpenSceneGraph"].full_version_mode()
+        del self.info.options.run_tests

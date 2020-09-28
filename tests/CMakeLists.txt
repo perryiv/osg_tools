@@ -14,7 +14,7 @@
 ################################################################################
 
 # Does the user want to generate code coverage?
-option ( OSG_TOOLS_ENABLE_CODE_COVERAGE
+option ( USUL_ENABLE_CODE_COVERAGE
   "Generate test code coverage in supported configurations" OFF )
 if ( OSG_TOOLS_ENABLE_CODE_COVERAGE )
   if ( UNIX ) # True for Linux, Mac, and Cygwin.
@@ -45,12 +45,23 @@ set ( SOURCE_FILES
 
 # Make an executable.
 add_executable ( ${PROJECT_NAME}_test ${SOURCE_FILES} )
+add_test (
+  NAME ${PROJECT_NAME}
+  COMMAND ${PROJECT_NAME}_test --abort --use-colour=yes --durations=no
+)
+
+if ( WIN32 AND BUILD_SHARED_LIBS )
+  add_custom_command ( TARGET ${PROJECT_NAME}_test
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> $<TARGET_FILE_DIR:${PROJECT_NAME}_test>
+  )
+endif()
 
 # Append a "d" to the file name if this is a debug build.
 # Unlike with the library files, this does not happen automatically.
-set_target_properties ( ${PROJECT_NAME}_test PROPERTIES
-  DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX}
-)
+if ( ( DEFINED CMAKE_DEBUG_POSTFIX ) AND ( NOT ${CMAKE_DEBUG_POSTFIX} STREQUAL "" ) )
+  set_target_properties ( ${PROJECT_NAME}_test PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX} )
+endif()
 
 # Tell cmake we are going to use these libraries.
 # It will automatically add -I, -L, and -D (etc) appropriately.
