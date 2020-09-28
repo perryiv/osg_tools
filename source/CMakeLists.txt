@@ -52,7 +52,7 @@ target_include_directories (
 target_link_libraries ( ${PROJECT_NAME}
   PUBLIC
     OpenSceneGraph::OSG
-    usul
+    usul::usul
 )
 
 # Link to the correct graphics library.

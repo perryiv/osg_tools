@@ -14,7 +14,7 @@
 ################################################################################
 
 # Does the user want to generate code coverage?
-option ( USUL_ENABLE_CODE_COVERAGE
+option ( OSG_TOOLS_ENABLE_CODE_COVERAGE
   "Generate test code coverage in supported configurations" OFF )
 if ( OSG_TOOLS_ENABLE_CODE_COVERAGE )
   if ( UNIX ) # True for Linux, Mac, and Cygwin.
