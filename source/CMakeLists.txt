@@ -57,12 +57,14 @@ target_link_libraries ( ${PROJECT_NAME}
 
 # Link to the correct graphics library.
 if ( OSG_TOOLS_USE_OSMESA )
-  target_link_libraries ( ${PROJECT_NAME} PRIVATE
-    OSMesa::OSMesa
+  target_link_libraries ( ${PROJECT_NAME}
+    PRIVATE
+      OSMesa::OSMesa
   )
 else()
-  target_link_libraries ( ${PROJECT_NAME} PRIVATE
-    OpenGL::GL
+  target_link_libraries ( ${PROJECT_NAME}
+    PRIVATE
+      OpenGL::GL
   )
 endif()
 

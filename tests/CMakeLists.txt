@@ -65,18 +65,21 @@ endif()
 
 # Tell cmake we are going to use these libraries.
 # It will automatically add -I, -L, and -D (etc) appropriately.
-target_link_libraries ( ${PROJECT_NAME}_test PRIVATE
-  ${PROJECT_NAME}
-  Catch2::Catch2
+target_link_libraries ( ${PROJECT_NAME}_test
+  PRIVATE
+    ${PROJECT_NAME}
+    Catch2::Catch2
 )
 
 # Link to the correct graphics library.
 if ( OSG_TOOLS_USE_OSMESA )
-  target_link_libraries ( ${PROJECT_NAME}_test PRIVATE
-    OSMesa::OSMesa
+  target_link_libraries ( ${PROJECT_NAME}_test
+    PRIVATE
+      OSMesa::OSMesa
   )
 else()
-  target_link_libraries ( ${PROJECT_NAME}_test PRIVATE
-    OpenGL::GL
+  target_link_libraries ( ${PROJECT_NAME}_test
+    PRIVATE
+      OpenGL::GL
   )
 endif()
