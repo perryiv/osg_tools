@@ -47,7 +47,8 @@ class OsgTools(ConanFile):
         cmake.configure()
         cmake.build()
         if self.options.run_tests:
-            cmake.test(output_on_failure=True)
+            with tools.run_environment(self):
+                cmake.test(output_on_failure=True)
 
     def package(self):
         cmake = CMake(self)
