@@ -36,10 +36,10 @@ class OsgTools(ConanFile):
 
     def toolchain(self):
         toolchain = CMakeToolchain(self)
-        toolchain.definitions["OSG_TOOLS_BUILD_TESTS"] = self.options.run_tests
-        toolchain.definitions["OSG_TOOLS_ENABLE_CODE_COVERAGE"] = False
-        toolchain.definitions["CMAKE_DEBUG_POSTFIX"] = ""
-        toolchain.definitions["CMAKE_VERBOSE_MAKEFILE"] = True
+        toolchain.variables["OSG_TOOLS_BUILD_TESTS"] = self.options.run_tests
+        toolchain.variables["OSG_TOOLS_ENABLE_CODE_COVERAGE"] = False
+        toolchain.variables["CMAKE_DEBUG_POSTFIX"] = ""
+        toolchain.variables["CMAKE_VERBOSE_MAKEFILE"] = True
         toolchain.write_toolchain_files()
 
     def build(self):
