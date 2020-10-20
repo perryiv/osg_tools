@@ -40,7 +40,6 @@ class OsgTools(ConanFile):
         toolchain.variables["OSG_TOOLS_ENABLE_CODE_COVERAGE"] = False
         toolchain.variables["CMAKE_DEBUG_POSTFIX"] = ""
         toolchain.variables["CMAKE_VERBOSE_MAKEFILE"] = True
-        toolchain.variables["CONAN_DISABLE_CHECK_COMPILER"] = True
         toolchain.write_toolchain_files()
 
     def build(self):
