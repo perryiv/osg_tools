@@ -1,19 +1,107 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+################################################################################
+#
+#  Azure Pipelines configuration file.
+#
+#  Pipeline results are here:
+#
+#    https://dev.azure.com/perryiv/osg_tools
+#
+#  Resources:
+#
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/container-phases
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted
+#    https://medium.com/@brentrobinson5/containerised-ci-cd-pipelines-with-azure-devops-74064c679f20
+#    https://github.com/conan-io/conan-docker-tools/blob/master/azure-pipelines.yml
+#    https://jaylee.org/archive/2019/03/21/azure-devops-wasm-build-container.html
+#    https://github.com/microsoft/azure-pipelines-agent/issues/2043
+#    https://hub.docker.com/r/conanio/gcc8
+#    https://hub.docker.com/_/microsoft-windows-servercore
+#    https://github.com/jonico/libzengithub/blob/master/azure-pipelines.yml
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables#secret-variables
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/phases#timeouts
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/utility/shell-script
+#    https://github.com/actions/virtual-environments
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks
+#
+################################################################################
 
 trigger:
 - master
 
+strategy:
+  matrix:
+    Ubuntu_20_04:
+      imageName: 'ubuntu 20.04'
+      displayName: Ubuntu 20.04
+      timeoutInMinutes: 0
+      gcc-version: 10
+      python-arch: "x64"
+      python-version: "3.x"
+    Ubuntu_18_04:
+      imageName: 'ubuntu 18.04'
+      displayName: Ubuntu 18.04
+      timeoutInMinutes: 0
+      gcc-version: 9
+      python-arch: "x64"
+      python-version: "3.x"
+    # Ubuntu_16_04: # Getting a compile error.
+    #   imageName: 'ubuntu-16.04'
+    #   displayName: Ubuntu 16.04
+    #   timeoutInMinutes: 0
+    #   gcc-version: 8
+    #   python-arch: "x64"
+    #   python-version: "3.x"
+    Mac_10_15:
+      imageName: 'macOS-10.15'
+      displayName: macOS-10.15
+      timeoutInMinutes: 0
+      clang-version: 12.0
+      python-arch: "x64"
+      python-version: "3.x"
+    Windows_2019:
+      imageName: 'windows-2019'
+      displayName: Windows 2019
+      timeoutInMinutes: 0
+      vs-version: 16 # Visual Studio 2019
+      python-arch: "x64"
+      python-version: "3.x"
+    # Windows_2016: # CMake is too old.
+    #   imageName: 'vs2017-win2016' # windows-2016 does not exist.
+    #   displayName: Windows 2016
+    #   timeoutInMinutes: 0
+    #   vs-version: 15 # Visual Studio 2017
+    #   python-arch: "x86"
+    #   python-version: "2.x"
+
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: $(imageName)
+
+variables:
+  CONAN_USERNAME: perryiv
+  CONAN_PASSWORD: $(SECRET_BINTRAY_PASSWORD) # Configured in Azure UI
+  CONAN_CHANNEL: stable
+  CONAN_UPLOAD: https://api.bintray.com/conan/perryiv/conan
+  CONAN_UPLOAD_ONLY_WHEN_STABLE: 1
+  CONAN_STABLE_BRANCH_PATTERN: "^master$"
+  CONAN_REVISIONS_ENABLED: 1
+  CONAN_VISUAL_VERSIONS: $(vs-version)
+  CONAN_APPLE_CLANG_VERSIONS: $(clang-version)
+  CONAN_GCC_VERSIONS: $(gcc-version)
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: $(python-version)
+      addToPath: true
+      architecture: $(python-arch)
+  - script: |
+      python --version
+      python -m pip install --upgrade pip
+      pip --version
+      pip install conan --upgrade
+      pip install conan_package_tools
+      conan user
+    displayName: Configure
+  - script: |
+      python build.py
+    displayName: Build
