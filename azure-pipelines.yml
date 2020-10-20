@@ -89,6 +89,7 @@ variables:
   CONAN_VISUAL_VERSIONS: $(vs-version)
   CONAN_APPLE_CLANG_VERSIONS: $(clang-version)
   CONAN_GCC_VERSIONS: $(gcc-version)
+  CONAN_DISABLE_CHECK_COMPILER: 1 # Why am I getting a compiler version mismatch?
 
 steps:
   - task: UsePythonVersion@0
