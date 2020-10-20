@@ -86,9 +86,9 @@ variables:
   CONAN_REVISIONS_ENABLED: 1
   CONAN_SYSREQUIRES_MODE: enabled
   # CONAN_BUILD_TYPES: Release
-  # CONAN_VISUAL_VERSIONS: $(vs-version)
-  # CONAN_APPLE_CLANG_VERSIONS: $(clang-version)
-  # CONAN_GCC_VERSIONS: $(gcc-version)
+  CONAN_VISUAL_VERSIONS: $(vs-version)
+  CONAN_APPLE_CLANG_VERSIONS: $(clang-version)
+  CONAN_GCC_VERSIONS: $(gcc-version)
 
 steps:
   - task: UsePythonVersion@0
