@@ -44,28 +44,28 @@ strategy:
       use_docker: 1
       docker_image: conanio/gcc10
       compiler_version: 10
-      timeoutInMinutes: 120
+      timeoutInMinutes: zero
 
     Linux_GCC_9:
       imageName: 'ubuntu-latest'
       use_docker: 1
       docker_image: conanio/gcc9
       compiler_version: 9
-      timeoutInMinutes: 120
+      timeoutInMinutes: zero
 
     Linux_GCC_8:
       imageName: 'ubuntu-latest'
       use_docker: 1
       docker_image: conanio/gcc8
       compiler_version: 8
-      timeoutInMinutes: 120
+      timeoutInMinutes: zero
 
     Linux_GCC_7:
       imageName: 'ubuntu-latest'
       use_docker: 1
       docker_image: conanio/gcc7
       compiler_version: 7
-      timeoutInMinutes: 120
+      timeoutInMinutes: zero
 
     # All versions of macOS appear to be using clang 11, so just doing one.
 
@@ -73,7 +73,7 @@ strategy:
       imageName: 'macOS-10.15'
       use_docker: 0
       compiler_version: 11.0
-      timeoutInMinutes: 120
+      timeoutInMinutes: zero
 
     # On windows the kernel version of the host and docker image must match.
     # However, neither of these have pip so just using the host machine.
@@ -84,14 +84,14 @@ strategy:
       imageName: 'windows-2019'
       use_docker: 0
       compiler_version: 16 # Visual Studio 2019
-      timeoutInMinutes: 120
+      timeoutInMinutes: zero
 
     # Not working. The original cmake 3.12 is still getting used.
     # Visual_Studio_2017:
     #   imageName: 'vs2017-win2016'
     #   use_docker: 0
     #   compiler_version: 15 # Visual Studio 2017
-    #   timeoutInMinutes: 120
+    #   timeoutInMinutes: zero
 
 pool:
   vmImage: $(imageName)
