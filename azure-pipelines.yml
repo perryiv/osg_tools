@@ -106,6 +106,7 @@ variables:
   CONAN_UPLOAD_ONLY_WHEN_STABLE: 1
   CONAN_STABLE_BRANCH_PATTERN: "^master$"
   CONAN_REVISIONS_ENABLED: 1
+  CONAN_SYSREQUIRES_MODE: enabled
 
   # These are used in build.py
   THIS_JOB_USE_DOCKER: $(use_docker)
