@@ -4,24 +4,30 @@
 #
 #  Pipeline results are here:
 #
-#    https://dev.azure.com/perryiv/osg_tools
+#    https://dev.azure.com/perryiv/usul
 #
 #  Resources:
 #
-#    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/container-phases
+#    https://docs.conan.io/en/1.10/howtos/run_conan_in_docker.html
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted
-#    https://medium.com/@brentrobinson5/containerised-ci-cd-pipelines-with-azure-devops-74064c679f20
-#    https://github.com/conan-io/conan-docker-tools/blob/master/azure-pipelines.yml
-#    https://jaylee.org/archive/2019/03/21/azure-devops-wasm-build-container.html
-#    https://github.com/microsoft/azure-pipelines-agent/issues/2043
-#    https://hub.docker.com/r/conanio/gcc8
-#    https://hub.docker.com/_/microsoft-windows-servercore
-#    https://github.com/jonico/libzengithub/blob/master/azure-pipelines.yml
-#    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables#secret-variables
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/container-phases
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/expressions
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/phases#timeouts
-#    https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/utility/shell-script
-#    https://github.com/actions/virtual-environments
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables#secret-variables
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/utility/shell-script
+#    https://docs.microsoft.com/en-us/visualstudio/install/build-tools-container
+#    https://docs.microsoft.com/en-us/visualstudio/install/use-command-line-parameters-to-install-visual-studio
+#    https://github.com/actions/virtual-environments
+#    https://github.com/conan-io/conan-docker-tools/blob/master/azure-pipelines.yml
+#    https://github.com/jonico/libzengithub/blob/master/azure-pipelines.yml
+#    https://github.com/microsoft/azure-pipelines-agent/issues/2043
+#    https://github.com/microsoft/containerregistry
+#    https://hub.docker.com/_/microsoft-windows-servercore
+#    https://hub.docker.com/r/conanio/gcc8
+#    https://jaylee.org/archive/2019/03/21/azure-devops-wasm-build-container.html
+#    https://medium.com/@brentrobinson5/containerised-ci-cd-pipelines-with-azure-devops-74064c679f20
 #
 ################################################################################
 
@@ -30,53 +36,69 @@ trigger:
 
 strategy:
   matrix:
-    Ubuntu_20_04:
-      imageName: 'ubuntu 20.04'
-      displayName: Ubuntu 20.04
+
+    # Using conan's recommended docker images.
+
+    Linux_GCC_10:
+      imageName: 'ubuntu-latest'
+      use_docker: 1
+      docker_image: conanio/gcc10
+      compiler_version: 10
       timeoutInMinutes: 120
-      gcc-version: 10
-      python-arch: "x64"
-      python-version: "3.x"
-    Ubuntu_18_04:
-      imageName: 'ubuntu 18.04'
-      displayName: Ubuntu 18.04
+
+    Linux_GCC_9:
+      imageName: 'ubuntu-latest'
+      use_docker: 1
+      docker_image: conanio/gcc9
+      compiler_version: 9
       timeoutInMinutes: 120
-      gcc-version: 9
-      python-arch: "x64"
-      python-version: "3.x"
-    # Ubuntu_16_04: # Getting a compile error.
-    #   imageName: 'ubuntu-16.04'
-    #   displayName: Ubuntu 16.04
-    #   timeoutInMinutes: 120
-    #   gcc-version: 8
-    #   python-arch: "x64"
-    #   python-version: "3.x"
-    Mac_10_15:
+
+    Linux_GCC_8:
+      imageName: 'ubuntu-latest'
+      use_docker: 1
+      docker_image: conanio/gcc8
+      compiler_version: 8
+      timeoutInMinutes: 120
+
+    Linux_GCC_7:
+      imageName: 'ubuntu-latest'
+      use_docker: 1
+      docker_image: conanio/gcc7
+      compiler_version: 7
+      timeoutInMinutes: 120
+
+    # All versions of macOS appear to be using clang 11, so just doing one.
+
+    Apple_Clang_11:
       imageName: 'macOS-10.15'
-      displayName: macOS-10.15
+      use_docker: 0
+      compiler_version: 11.0
       timeoutInMinutes: 120
-      clang-version: 12.0
-      python-arch: "x64"
-      python-version: "3.x"
-    Windows_2019:
+
+    # On windows the kernel version of the host and docker image must match.
+    # However, neither of these have pip so just using the host machine.
+    # -- mcr.microsoft.com/windows/servercore:ltsc2019
+    # -- mcr.microsoft.com/windows/servercore:ltsc2016
+
+    Visual_Studio_2019:
       imageName: 'windows-2019'
-      displayName: Windows 2019
+      use_docker: 0
+      compiler_version: 16 # Visual Studio 2019
       timeoutInMinutes: 120
-      vs-version: 16 # Visual Studio 2019
-      python-arch: "x64"
-      python-version: "3.x"
-    # Windows_2016: # CMake is too old.
-    #   imageName: 'vs2017-win2016' # windows-2016 does not exist.
-    #   displayName: Windows 2016
+
+    # Not working. The original cmake 3.12 is still getting used.
+    # Visual_Studio_2017:
+    #   imageName: 'vs2017-win2016'
+    #   use_docker: 0
+    #   compiler_version: 15 # Visual Studio 2017
     #   timeoutInMinutes: 120
-    #   vs-version: 15 # Visual Studio 2017
-    #   python-arch: "x86"
-    #   python-version: "2.x"
 
 pool:
   vmImage: $(imageName)
 
 variables:
+
+  # These directly control conan.
   CONAN_USERNAME: perryiv
   CONAN_PASSWORD: $(SECRET_BINTRAY_PASSWORD) # Configured in Azure UI
   CONAN_CHANNEL: stable
@@ -84,26 +106,45 @@ variables:
   CONAN_UPLOAD_ONLY_WHEN_STABLE: 1
   CONAN_STABLE_BRANCH_PATTERN: "^master$"
   CONAN_REVISIONS_ENABLED: 1
-  CONAN_SYSREQUIRES_MODE: enabled
-  # CONAN_BUILD_TYPES: Release
-  CONAN_VISUAL_VERSIONS: $(vs-version)
-  CONAN_APPLE_CLANG_VERSIONS: $(clang-version)
-  CONAN_GCC_VERSIONS: $(gcc-version)
+
+  # These are used in build.py
+  THIS_JOB_USE_DOCKER: $(use_docker)
+  THIS_JOB_DOCKER_IMAGE: $(docker_image)
+  THIS_JOB_COMPILER_VERSION: $(compiler_version)
 
 steps:
+
   - task: UsePythonVersion@0
     inputs:
-      versionSpec: $(python-version)
+      versionSpec: "3.x"
       addToPath: true
-      architecture: $(python-arch)
+      architecture: "x64"
+    displayName: Select Python
+
+  # Not working. The original cmake 3.12 is still getting used.
+  - task: PowerShell@2
+    inputs:
+      script: |
+        Invoke-WebRequest -Uri 'https://aka.ms/vs/16/release/vs_buildtools.exe' -OutFile C:\TEMP\vs_buildtools.exe
+        C:\TEMP\vs_buildtools.exe --installPath C:\BuildTools --quiet --wait --norestart --nocache --remove Microsoft.VisualStudio.Component.VC.CMake.Project --remove Component.Linux.CMake
+      targetType: inline
+    condition: eq(variables['Agent.JobName'], 'Job Visual_Studio_2017')
+    displayName: Remove Visual Studio CMake
+
   - script: |
-      python --version
       python -m pip install --upgrade pip
-      pip --version
       pip install conan --upgrade
       pip install conan_package_tools
       conan user
-    displayName: Configure
+    displayName: Configure Conan
+
+  - script: |
+      python --version
+      pip --version
+      cmake --version
+      conan --version
+    displayName: Print Versions
+
   - script: |
       python build.py
     displayName: Build
