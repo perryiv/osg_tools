@@ -36,7 +36,7 @@ trigger:
 
 jobs:
 - job: Build
-  timeoutInMinutes: 1
+  timeoutInMinutes: 0
 
   strategy:
     matrix:
