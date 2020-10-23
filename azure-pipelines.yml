@@ -35,8 +35,8 @@ trigger:
 - master
 
 jobs:
-- job: DoEverything
-  timeoutInMinutes: 0
+- job: Build
+  timeoutInMinutes: 1
 
   strategy:
     matrix:
