@@ -17,6 +17,7 @@
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables#secret-variables
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks
 #    https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/utility/shell-script
+#    https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema
 #    https://docs.microsoft.com/en-us/visualstudio/install/build-tools-container
 #    https://docs.microsoft.com/en-us/visualstudio/install/use-command-line-parameters-to-install-visual-studio
 #    https://github.com/actions/virtual-environments
@@ -104,7 +105,6 @@ jobs:
     CONAN_STABLE_BRANCH_PATTERN: "^master$"
     CONAN_REVISIONS_ENABLED: 1
     CONAN_SYSREQUIRES_MODE: enabled
-    CONAN_BUILD_TYPES: Release
 
     # These are used in build.py
     THIS_JOB_USE_DOCKER: $(use_docker)
