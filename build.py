@@ -21,6 +21,10 @@ if __name__ == "__main__":
         os.environ["CONAN_USE_DOCKER"] = "1"
         print ( "Going to use docker" )
 
-    builder = ConanMultiPackager(archs=["x86_64"], build_policy="missing", upload_dependencies="all")
+    builder = ConanMultiPackager(
+        archs=["x86_64"],
+        build_policy="missing",
+        upload_dependencies=["openscenegraph/3.6.5"]
+    )
     builder.add_common_builds()
     builder.run()
