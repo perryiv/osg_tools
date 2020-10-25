@@ -29,7 +29,7 @@
 TEST_CASE ( "Version should be correct" )
 {
   REQUIRE ( OsgTools::Version::MAJOR == 3 );
-  REQUIRE ( OsgTools::Version::MINOR == 2 );
-  REQUIRE ( OsgTools::Version::PATCH == 3 );
-  REQUIRE ( std::string ( OsgTools::Version::STRING ) == std::string ( "3.2.3" ) );
+  REQUIRE ( OsgTools::Version::MINOR == 3 );
+  REQUIRE ( OsgTools::Version::PATCH == 0 );
+  REQUIRE ( std::string ( OsgTools::Version::STRING ) == std::string ( "3.3.0" ) );
 }
