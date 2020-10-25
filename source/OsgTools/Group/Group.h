@@ -13,30 +13,36 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef _OSG_TOOLS_GROUP_CLASS_H_
-#define _OSG_TOOLS_GROUP_CLASS_H_
+#ifndef _OSG_TOOLS_GROUP_FUNCTIONS_H_
+#define _OSG_TOOLS_GROUP_FUNCTIONS_H_
 
 #include "OsgTools/Export.h"
 #include "OsgTools/Forward.h"
 
 
 namespace OsgTools {
+namespace Group {
 
 
-struct OSG_TOOLS_EXPORT Group
+struct OSG_TOOLS_EXPORT GroupImplementation
 {
-  // Add all children from the one group to the other.
-  static void           addAllChildren ( osg::Group *from, osg::Group *to );
-
-  // Remove all the children from the node.
-  static void           removeAllChildren ( osg::Group *group );
-
-  // Remove all occurances of the given child from the group.
-  static void           removeAllOccurances ( osg::Node *child, osg::Group *group );
+  static void    addAllChildren ( osg::Group *, osg::Group * );
+  static void    removeAllChildren ( osg::Group * );
+  static void    removeAllOccurances ( osg::Node *, osg::Group * );
 };
 
+// Add all children from the one group to the other.
+inline void    addAllChildren ( osg::Group *from, osg::Group *to ) { GroupImplementation::addAllChildren ( from, to ); }
 
+// Remove all the children from the node.
+inline void    removeAllChildren ( osg::Group *group ) { GroupImplementation::removeAllChildren ( group ); }
+
+// Remove all occurances of the given child from the group.
+inline void    removeAllOccurances ( osg::Node *child, osg::Group *group ) { GroupImplementation::removeAllOccurances ( child, group ); }
+
+
+} // namespace Group
 } // namespace OsgTools
 
 
-#endif // _OSG_TOOLS_GROUP_CLASS_H_
+#endif // _OSG_TOOLS_GROUP_FUNCTIONS_H_

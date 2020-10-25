@@ -19,6 +19,7 @@
 
 
 namespace OsgTools {
+namespace Group {
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -27,7 +28,7 @@ namespace OsgTools {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-void Group::removeAllChildren ( osg::Group *group )
+void GroupImplementation::removeAllChildren ( osg::Group *group )
 {
   if ( group )
   {
@@ -42,7 +43,7 @@ void Group::removeAllChildren ( osg::Group *group )
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-void Group::removeAllOccurances ( osg::Node *child, osg::Group *group )
+void GroupImplementation::removeAllOccurances ( osg::Node *child, osg::Group *group )
 {
   // Handle bad input.
   if ( nullptr == child || nullptr == group )
@@ -63,7 +64,7 @@ void Group::removeAllOccurances ( osg::Node *child, osg::Group *group )
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-void Group::addAllChildren ( osg::Group *from, osg::Group *to )
+void GroupImplementation::addAllChildren ( osg::Group *from, osg::Group *to )
 {
   if ( from && to )
   {
@@ -76,4 +77,5 @@ void Group::addAllChildren ( osg::Group *from, osg::Group *to )
 }
 
 
+} // namespace Group
 } // namespace OsgTools
