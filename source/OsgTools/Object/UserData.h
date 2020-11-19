@@ -16,8 +16,6 @@
 #ifndef _OSG_TOOLS_OBJECT_USER_DATA_CLASS_H_
 #define _OSG_TOOLS_OBJECT_USER_DATA_CLASS_H_
 
-#include "OsgTools/Export.h"
-
 #include "Usul/Tools/NoCopying.h"
 
 #include "osg/Referenced"
