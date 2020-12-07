@@ -88,17 +88,19 @@ inline Usul::Math::Vec4f convert ( const osg::Vec4f &v )
 
 inline void clamp ( osg::Vec4d &v, const double mn, const double mx )
 {
-  v[0] = Usul::Math::clamp ( v[0], mn, mx );
-  v[1] = Usul::Math::clamp ( v[1], mn, mx );
-  v[2] = Usul::Math::clamp ( v[2], mn, mx );
-  v[3] = Usul::Math::clamp ( v[3], mn, mx );
+  typedef osg::Vec3d::value_type value_type;
+  v[0] = Usul::Math::clamp < value_type > ( v[0], mn, mx );
+  v[1] = Usul::Math::clamp < value_type > ( v[1], mn, mx );
+  v[2] = Usul::Math::clamp < value_type > ( v[2], mn, mx );
+  v[3] = Usul::Math::clamp < value_type > ( v[3], mn, mx );
 }
 inline void clamp ( osg::Vec4f &v, const float mn, const float mx )
 {
-  v[0] = Usul::Math::clamp ( v[0], mn, mx );
-  v[1] = Usul::Math::clamp ( v[1], mn, mx );
-  v[2] = Usul::Math::clamp ( v[2], mn, mx );
-  v[3] = Usul::Math::clamp ( v[3], mn, mx );
+  typedef osg::Vec4f::value_type value_type;
+  v[0] = Usul::Math::clamp < value_type > ( v[0], mn, mx );
+  v[1] = Usul::Math::clamp < value_type > ( v[1], mn, mx );
+  v[2] = Usul::Math::clamp < value_type > ( v[2], mn, mx );
+  v[3] = Usul::Math::clamp < value_type > ( v[3], mn, mx );
 }
 
 
