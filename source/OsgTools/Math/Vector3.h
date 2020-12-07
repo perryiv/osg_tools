@@ -17,6 +17,7 @@
 #define _OSG_TOOLS_VECTOR_3D_MATH_FUNCTIONS_H_
 
 #include "Usul/Math/Vector3.h"
+#include "Usul/Math/Base.h"
 
 #include "osg/Vec3d"
 #include "osg/Vec3f"
@@ -117,15 +118,15 @@ inline Usul::Math::Vec3f convert ( const osg::Vec3f &v )
 
 inline void clamp ( osg::Vec3d &v, const double mn, const double mx )
 {
-  v[0] = std::clamp ( v[0], mn, mx );
-  v[1] = std::clamp ( v[1], mn, mx );
-  v[2] = std::clamp ( v[2], mn, mx );
+  v[0] = Usul::Math::clamp ( v[0], mn, mx );
+  v[1] = Usul::Math::clamp ( v[1], mn, mx );
+  v[2] = Usul::Math::clamp ( v[2], mn, mx );
 }
 inline void clamp ( osg::Vec3f &v, const float mn, const float mx )
 {
-  v[0] = std::clamp ( v[0], mn, mx );
-  v[1] = std::clamp ( v[1], mn, mx );
-  v[2] = std::clamp ( v[2], mn, mx );
+  v[0] = Usul::Math::clamp ( v[0], mn, mx );
+  v[1] = Usul::Math::clamp ( v[1], mn, mx );
+  v[2] = Usul::Math::clamp ( v[2], mn, mx );
 }
 
 

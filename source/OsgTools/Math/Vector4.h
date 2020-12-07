@@ -17,6 +17,7 @@
 #define _OSG_TOOLS_VECTOR_4D_MATH_FUNCTIONS_H_
 
 #include "Usul/Math/Vector4.h"
+#include "Usul/Math/Base.h"
 
 #include "osg/Vec4d"
 #include "osg/Vec4f"
@@ -87,17 +88,17 @@ inline Usul::Math::Vec4f convert ( const osg::Vec4f &v )
 
 inline void clamp ( osg::Vec4d &v, const double mn, const double mx )
 {
-  v[0] = std::clamp ( v[0], mn, mx );
-  v[1] = std::clamp ( v[1], mn, mx );
-  v[2] = std::clamp ( v[2], mn, mx );
-  v[3] = std::clamp ( v[3], mn, mx );
+  v[0] = Usul::Math::clamp ( v[0], mn, mx );
+  v[1] = Usul::Math::clamp ( v[1], mn, mx );
+  v[2] = Usul::Math::clamp ( v[2], mn, mx );
+  v[3] = Usul::Math::clamp ( v[3], mn, mx );
 }
 inline void clamp ( osg::Vec4f &v, const float mn, const float mx )
 {
-  v[0] = std::clamp ( v[0], mn, mx );
-  v[1] = std::clamp ( v[1], mn, mx );
-  v[2] = std::clamp ( v[2], mn, mx );
-  v[3] = std::clamp ( v[3], mn, mx );
+  v[0] = Usul::Math::clamp ( v[0], mn, mx );
+  v[1] = Usul::Math::clamp ( v[1], mn, mx );
+  v[2] = Usul::Math::clamp ( v[2], mn, mx );
+  v[3] = Usul::Math::clamp ( v[3], mn, mx );
 }
 
 
