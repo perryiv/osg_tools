@@ -13,9 +13,15 @@
 #
 ################################################################################
 
+# Feedback.
+message ( "<>\n<> Start ${CMAKE_CURRENT_LIST_FILE}\n<>" )
+
 # Without this version or greater we get this error in Azure Pipelines:
 # "make: *** No rule to make target 'test'.  Stop."
 cmake_minimum_required ( VERSION 3.13.0 )
+
+# Include these functions.
+include ( ${CMAKE_CURRENT_SOURCE_DIR}/cmake/functions.cmake )
 
 # Get the version from this file.
 file ( STRINGS ${CMAKE_CURRENT_LIST_DIR}/version.txt PROJECT_VERSION )
@@ -98,26 +104,26 @@ option ( OSG_TOOLS_USE_OSMESA "Use OSMesa instead of regular OpenGL" OFF )
 
 # Are we supposed to look for OSMesa?
 if ( OSG_TOOLS_USE_OSMESA )
-  message ( "   -- Building ${PROJECT_NAME} using OSMesa" )
+  message ( "<> Building ${PROJECT_NAME} using OSMesa" )
   find_package ( OSMesa REQUIRED )
   if ( OSMesa_FOUND )
-    message ( "   -- OSMesa_INCLUDE_DIRS =  ${OSMesa_INCLUDE_DIRS}" )
-    message ( "   -- OSMesa_LIBRARIES =     ${OSMesa_LIBRARIES}" )
-    message ( "   -- OSMesa_VERSION =       ${OSMesa_VERSION}" )
+    message ( "   <> OSMesa_INCLUDE_DIRS =  ${OSMesa_INCLUDE_DIRS}" )
+    message ( "   <> OSMesa_LIBRARIES =     ${OSMesa_LIBRARIES}" )
+    message ( "   <> OSMesa_VERSION =       ${OSMesa_VERSION}" )
   endif() # OSMesa_FOUND
   add_compile_definitions ( OSG_TOOLS_USE_OSMESA )
 else()
-  message ( "   -- Building ${PROJECT_NAME} using OpenGL" )
+  message ( "<> Building ${PROJECT_NAME} using OpenGL" )
   find_package ( OpenGL REQUIRED )
   if ( OPENGL_FOUND )
-    message ( "   -- OPENGL_XMESA_FOUND =      ${OPENGL_XMESA_FOUND}" )
-    message ( "   -- OPENGL_GLU_FOUND =        ${OPENGL_GLU_FOUND}" )
-    message ( "   -- OpenGL_OpenGL_FOUND =     ${OpenGL_OpenGL_FOUND}" )
-    message ( "   -- OpenGL_GLX_FOUND =        ${OpenGL_GLX_FOUND}" )
-    message ( "   -- OpenGL_EGL_FOUND =        ${OpenGL_EGL_FOUND}" )
-    message ( "   -- OPENGL_INCLUDE_DIR =      ${OPENGL_INCLUDE_DIR}" )
-    message ( "   -- OPENGL_EGL_INCLUDE_DIRS = ${OPENGL_EGL_INCLUDE_DIRS}" )
-    message ( "   -- OPENGL_LIBRARIES =        ${OPENGL_LIBRARIES}" )
+    message ( "   <> OPENGL_XMESA_FOUND =      ${OPENGL_XMESA_FOUND}" )
+    message ( "   <> OPENGL_GLU_FOUND =        ${OPENGL_GLU_FOUND}" )
+    message ( "   <> OpenGL_OpenGL_FOUND =     ${OpenGL_OpenGL_FOUND}" )
+    message ( "   <> OpenGL_GLX_FOUND =        ${OpenGL_GLX_FOUND}" )
+    message ( "   <> OpenGL_EGL_FOUND =        ${OpenGL_EGL_FOUND}" )
+    message ( "   <> OPENGL_INCLUDE_DIR =      ${OPENGL_INCLUDE_DIR}" )
+    message ( "   <> OPENGL_EGL_INCLUDE_DIRS = ${OPENGL_EGL_INCLUDE_DIRS}" )
+    message ( "   <> OPENGL_LIBRARIES =        ${OPENGL_LIBRARIES}" )
   endif()
 endif() # OSG_TOOLS_USE_OSMESA
 
@@ -137,11 +143,12 @@ target_link_options ( OpenSceneGraph::OSG INTERFACE ${OPENSCENEGRAPH_LINKER_FLAG
 # 1) where it is installed, or
 # 2) it's build directory.
 find_package ( usul REQUIRED )
+print_package ( usul )
 
 # Does the user want strict warnings?
 option ( OSG_TOOLS_ENABLE_STRICT_WARNINGS "Enable strict warnings" ON )
 if ( OSG_TOOLS_ENABLE_STRICT_WARNINGS )
-  message ( "   -- Enabling strict warnings" )
+  message ( "<> Enabling strict warnings" )
   if ( MSVC ) # Also true for Intel compiler. Means "looks like Visual C++".
     add_compile_options ( /W4 )
   else()
@@ -152,7 +159,7 @@ endif()
 # Does the user want to treat warnings the same as errors?
 option ( OSG_TOOLS_TREAT_WARNINGS_LIKE_ERRORS "Treat warnings like errors" ON )
 if ( OSG_TOOLS_TREAT_WARNINGS_LIKE_ERRORS )
-  message ( "   -- Treating warnings like errors" )
+  message ( "<> Treating warnings like errors" )
   if ( MSVC ) # Also true for Intel compiler. Means "looks like Visual C++".
     add_compile_options ( /WX )
   else()
@@ -166,6 +173,7 @@ option ( OSG_TOOLS_BUILD_TESTS "Build the tests" OFF )
 # Need Catch2 to build the tests
 if ( OSG_TOOLS_BUILD_TESTS )
   find_package ( Catch2 REQUIRED )
+  print_package ( Catch2 )
 endif()
 
 # Set default postfix if none was given on the command line.
@@ -188,6 +196,9 @@ endif()
 
 # Configure how this project gets imported into other cmake projects.
 include ( ${CMAKE_CURRENT_SOURCE_DIR}/cmake/export.cmake )
+
+# Feedback.
+message ( "<>\n<> End ${CMAKE_CURRENT_LIST_FILE}" )
 
 ################################################################################
 #
