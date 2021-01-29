@@ -176,6 +176,7 @@ jobs:
         pip install conan --upgrade
         pip install conan_package_tools
         conan user
+        conan profile update env.THIS_JOB_CPP_STANDARD=$(cpp_standard) default
       displayName: Configure Conan
 
     - script: |
