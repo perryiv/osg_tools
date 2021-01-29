@@ -19,26 +19,7 @@ jobs:
   strategy:
     matrix:
 
-      Linux_GCC_10_CPP_17:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc10
-        compiler_version: 10
-        cpp_standard: 17
-
-      Linux_GCC_10_CPP_14:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc10
-        compiler_version: 10
-        cpp_standard: 14
-
-      Linux_GCC_10_CPP_11:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc10
-        compiler_version: 10
-        cpp_standard: 11
+      # Only using gcc 7, 8, and 9 because OpenSceneGraph binaries not available for 10.
 
       Linux_GCC_9_CPP_17:
         image_name: 'ubuntu-20.04'
@@ -103,8 +84,7 @@ jobs:
         compiler_version: 7
         cpp_standard: 11
 
-      # If you try to use Apple Clang 11, it will still use 12.
-      # https://dev.azure.com/perryiv/00549afa-dc6f-41c5-ad7b-e38f23cd4d78/_apis/build/builds/409/logs/67
+      # Only using apple clang 11 because OpenSceneGraph binaries not available for 12.
 
       Apple_Clang_11_CPP_17:
         image_name: 'macOS-10.14'
