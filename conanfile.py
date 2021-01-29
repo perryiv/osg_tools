@@ -19,7 +19,7 @@ class OsgTools(ConanFile):
     scm = {"type": "git", "url": "auto", "revision": "auto"}
     revision_mode = "scm"
     requires = (
-        "usul/3.8.0@perryiv/stable",
+        "usul/3.8.1@perryiv/stable",
         "openscenegraph/3.6.5",
     )
 
