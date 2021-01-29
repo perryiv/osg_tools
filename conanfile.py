@@ -1,4 +1,5 @@
-from conans import CMake, CMakeToolchain, ConanFile, tools
+from conan.tools.cmake import CMake, CMakeToolchain
+from conans import ConanFile, tools
 import os
 
 
@@ -34,13 +35,16 @@ class OsgTools(ConanFile):
         if self.options.run_tests:
             self.requires("catch2/2.13.1", private=True)
 
-    def toolchain(self):
+    def generate(self):
         toolchain = CMakeToolchain(self)
         toolchain.variables["OSG_TOOLS_BUILD_TESTS"] = self.options.run_tests
         toolchain.variables["OSG_TOOLS_ENABLE_CODE_COVERAGE"] = False
         toolchain.variables["CMAKE_DEBUG_POSTFIX"] = ""
         toolchain.variables["CMAKE_VERBOSE_MAKEFILE"] = True
-        toolchain.write_toolchain_files()
+        # Work around OpenSceneGraph package on conan center not handling different C++ standards.
+        if "THIS_JOB_CPP_STANDARD" in os.environ:
+            toolchain.variables["CMAKE_CXX_STANDARD"] = os.environ["THIS_JOB_CPP_STANDARD"]
+        toolchain.generate()
 
     def build(self):
         cmake = CMake(self)
@@ -67,3 +71,4 @@ class OsgTools(ConanFile):
 
     def package_id(self):
         del self.info.options.run_tests
+        del self.info.settings.compiler.cppstd
