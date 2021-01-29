@@ -162,9 +162,9 @@ jobs:
     CONAN_STABLE_BRANCH_PATTERN: "^master$"
     CONAN_REVISIONS_ENABLED: 1
     CONAN_VERBOSE_TRACEBACK: 1
-    CONAN_LOGIN_USERNAME: perryiv
+    # CONAN_LOGIN_USERNAME: perryiv
     CONAN_SYSREQUIRES_MODE: enabled
-    CONAN_BUILD_TYPES: Release # OSG debug is too big.
+    # CONAN_BUILD_TYPES: Release # OSG debug is too big.
 
     # These are used in build.py
     THIS_JOB_USE_DOCKER: $(use_docker)
