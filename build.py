@@ -21,9 +21,12 @@ if __name__ == "__main__":
         os.environ["CONAN_USE_DOCKER"] = "1"
         print ( "Going to use docker" )
 
+    command = "export THIS_JOB_CPP_STANDARD=" + os.environ["THIS_JOB_CPP_STANDARD"] + ";env"
+
     builder = ConanMultiPackager(
         archs=["x86_64"],
-        visual_runtimes=["MD", "MDd"]
+        visual_runtimes=["MD", "MDd"],
+        docker_entry_script=command
     )
     builder.add_common_builds()
     for conf in builder.items:
