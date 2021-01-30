@@ -26,4 +26,6 @@ if __name__ == "__main__":
         visual_runtimes=["MD", "MDd"]
     )
     builder.add_common_builds()
-    builder.run()
+    builder.run(
+        base_profile_name="default"
+    )
