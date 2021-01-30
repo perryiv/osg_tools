@@ -26,6 +26,6 @@ if __name__ == "__main__":
         visual_runtimes=["MD", "MDd"]
     )
     builder.add_common_builds()
-    builder.run(
-        base_profile_name="default"
-    )
+    for conf in builder.items:
+        conf.env_vars["THIS_JOB_CPP_STANDARD"] = os.environ["THIS_JOB_CPP_STANDARD"]
+    builder.run()
