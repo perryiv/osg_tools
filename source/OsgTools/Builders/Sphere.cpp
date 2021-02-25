@@ -22,7 +22,6 @@
 #include "Usul/Math/Random.h"
 #include "Usul/Math/Vector3.h"
 
-#include "osg/Geode"
 #include "osg/Geometry"
 #include "osg/ref_ptr"
 #include "osg/ShapeDrawable"
@@ -69,7 +68,7 @@ osg::Node *Sphere::build ( const Options &options )
   const float radius = Usul::Properties::get ( options, "radius", 1.0f );
 
   // Needed below.
-  osg::ref_ptr < osg::Geode > geode ( OSG_TOOLS_FACTORY_CREATE ( osg::Geode ) );
+  osg::ref_ptr < osg::Node > answer;
 
   // Are we supposed to make a subdivision sphere?
   if ( true == options.has ( "subdivisions" ) )
@@ -143,9 +142,9 @@ osg::Node *Sphere::build ( const Options &options )
       indices.push_back ( i3 );
     } );
 
-    // Make the geometry and add it to the geode.
+    // Make the geometry. This is what we return.
     osg::ref_ptr < osg::Geometry > geom = OSG_TOOLS_FACTORY_CREATE ( osg::Geometry );
-    geode->addDrawable ( geom );
+    answer = geom;
 
     // Add the points and normals.
     geom->setVertexArray ( points.get() );
@@ -169,7 +168,7 @@ osg::Node *Sphere::build ( const Options &options )
   {
     osg::ref_ptr < osg::Sphere > sphere = new osg::Sphere ( center, radius );
     osg::ref_ptr < osg::ShapeDrawable > shape = new osg::ShapeDrawable ( sphere );
-    geode->addDrawable ( shape );
+    answer = shape;
 
     if ( true == options.has ( "color" ) )
     {
@@ -177,7 +176,7 @@ osg::Node *Sphere::build ( const Options &options )
     }
   }
 
-  return geode.release();
+  return answer.release();
 }
 osg::Node *Sphere::build ( const Options::Values &values )
 {
