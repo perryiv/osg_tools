@@ -95,8 +95,8 @@ struct OSG_TOOLS_EXPORT State
   static void            setMaterial ( osg::StateSet *, osg::Material * );
 
   // Set the alpha value. Adds default material if needed.
-  static void            setAlpha ( osg::Node *, float );
-  static void            setAlpha ( osg::StateSet *, float );
+  static void            setAlpha ( osg::Node *, float, bool createMaterialIfNeeded = true );
+  static void            setAlpha ( osg::StateSet *, float, bool createMaterialIfNeeded = true );
 
   // Back face culling.
   static bool            getBackFaceCulling ( const osg::Node * );

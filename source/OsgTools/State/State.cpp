@@ -949,7 +949,7 @@ void State::setMaterial ( osg::StateSet *ss, osg::Material *mat )
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-void State::setAlpha ( osg::Node *node, float alpha )
+void State::setAlpha ( osg::Node *node, float alpha, bool createMaterialIfNeeded )
 {
   // Handle bad input.
   if ( nullptr == node )
@@ -958,7 +958,7 @@ void State::setAlpha ( osg::Node *node, float alpha )
   }
 
   osg::ref_ptr < osg::StateSet > ss ( node->getOrCreateStateSet() );
-  OsgTools::State::setAlpha ( ss.get(), alpha );
+  OsgTools::State::setAlpha ( ss.get(), alpha, createMaterialIfNeeded );
 }
 
 
@@ -968,7 +968,7 @@ void State::setAlpha ( osg::Node *node, float alpha )
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-void State::setAlpha ( osg::StateSet *ss, float alpha )
+void State::setAlpha ( osg::StateSet *ss, float alpha, bool createMaterialIfNeeded )
 {
   // Handle bad input.
   if ( nullptr == ss )
@@ -982,6 +982,13 @@ void State::setAlpha ( osg::StateSet *ss, float alpha )
   // Set a default material if there isn't one.
   if ( false == mat.valid() )
   {
+    // Are we supposed to skip this?
+    if ( false == createMaterialIfNeeded )
+    {
+      return;
+    }
+
+    // If we get to here then make a default material.
     OsgTools::State::setMaterial ( ss, OsgTools::State::getMaterialDefault() );
     mat = dynamic_cast < osg::Material * > ( ss->getAttribute ( osg::StateAttribute::MATERIAL ) );
   }
