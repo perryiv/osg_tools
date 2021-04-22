@@ -131,7 +131,7 @@ endif() # OSG_TOOLS_USE_OSMESA
 find_package ( OpenSceneGraph REQUIRED COMPONENTS osg osgDB osgUtil )
 
 # Does the user want to do the extra steps for old OpenSceneGraph installations?
-option ( OSG_TOOLS_DO_EXTRA_STEPS_AFTER_FINDING_OSG "Do extra steps after finding OpenSceneGraph" OFF )
+option ( OSG_TOOLS_DO_EXTRA_STEPS_AFTER_FINDING_OSG "Do extra steps after finding OpenSceneGraph" ON )
 if ( OSG_TOOLS_DO_EXTRA_STEPS_AFTER_FINDING_OSG )
   add_library ( OpenSceneGraph::OSG INTERFACE IMPORTED )
   target_include_directories ( OpenSceneGraph::OSG INTERFACE ${OPENSCENEGRAPH_INCLUDE_DIRS} )
