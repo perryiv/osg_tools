@@ -143,7 +143,6 @@ jobs:
     CONAN_STABLE_BRANCH_PATTERN: "^master$"
     CONAN_REVISIONS_ENABLED: 1
     CONAN_VERBOSE_TRACEBACK: 1
-    CONAN_LOGIN_USERNAME: perryiv
     CONAN_SYSREQUIRES_MODE: enabled
 
     # These are used in build.py
