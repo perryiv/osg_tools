@@ -1150,12 +1150,12 @@ bool State::getVisible ( const osg::Node *node )
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-void State::setVisible ( osg::Node *node, bool visible )
+void State::setVisible ( osg::Node *node, bool state )
 {
   if ( nullptr != node )
   {
     // http://forum.openscenegraph.org/viewtopic.php?t=5445
-    node->setNodeMask ( Usul::Bits::set ( node->getNodeMask(), OsgTools::Flags::VISIBLE, visible ) );
+    node->setNodeMask ( Usul::Bits::set ( node->getNodeMask(), OsgTools::Flags::VISIBLE, state ) );
     Details::updateFlags ( node );
   }
 }
@@ -1179,14 +1179,114 @@ bool State::getPickable ( const osg::Node *node )
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-void State::setPickable ( osg::Node *node, bool visible )
+void State::setPickable ( osg::Node *node, bool state )
 {
   if ( nullptr != node )
   {
     // http://forum.openscenegraph.org/viewtopic.php?t=5445
-    node->setNodeMask ( Usul::Bits::set ( node->getNodeMask(), OsgTools::Flags::PICKABLE, visible ) );
+    node->setNodeMask ( Usul::Bits::set ( node->getNodeMask(), OsgTools::Flags::PICKABLE, state ) );
     Details::updateFlags ( node );
   }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Prevent the given node from contributing to the bounds.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+namespace Details
+{
+  struct LocalComputeBoundingSphereCallback : public osg::Node::ComputeBoundingSphereCallback
+  {
+    typedef osg::Node::ComputeBoundingSphereCallback BaseClass;
+
+    LocalComputeBoundingSphereCallback() : BaseClass()
+    {
+    }
+
+    virtual osg::BoundingSphere computeBound ( const osg::Node & ) const override
+    {
+      // The invalid bounding sphere gets rejected.
+      return osg::BoundingSphere();
+    }
+  };
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Get whether or not the node contributes to the bounds.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+bool State::getContributesToBounds ( const osg::Node *node )
+{
+  // Shortcuts.
+  typedef osg::Node::ComputeBoundingSphereCallback BaseCB;
+  typedef OsgTools::Details::LocalComputeBoundingSphereCallback LocalCB;
+
+  // Handle invalid node.
+  if ( nullptr == node )
+  {
+    return false;
+  }
+
+  // Get the existing callback, if any.
+  const BaseCB *cb = node->getComputeBoundingSphereCallback();
+
+  // Is it ours?
+  const LocalCB *lcb = dynamic_cast < const LocalCB * > ( cb );
+
+  // We are contributing to the bounds if the callback is not ours.
+  return ( nullptr != lcb );
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Get whether or not the node contributes to the bounds.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+void State::setContributesToBounds ( osg::Node *node, bool state )
+{
+  // Shortcuts.
+  typedef osg::Node::ComputeBoundingSphereCallback BaseCB;
+  typedef OsgTools::Details::LocalComputeBoundingSphereCallback LocalCB;
+
+  // Handle invalid node.
+  if ( nullptr == node )
+  {
+    return;
+  }
+
+  // Get the existing callback, if any.
+  BaseCB *cb = node->getComputeBoundingSphereCallback();
+
+  // Is it ours?
+  const LocalCB *lcb = dynamic_cast < const LocalCB * > ( cb );
+
+  // If there is already a callback, and it is not ours, then do nothing.
+  // Otherwise, we may replace an important callback set by the application.
+  if ( ( nullptr != cb ) && ( nullptr == lcb ) )
+  {
+    return;
+  }
+
+  // If we get to here then make the node re-compute its bounds.
+  node->dirtyBound();
+
+  // If we are supposed to contribute then just make sure there is no callback.
+  if ( true == state )
+  {
+    node->setComputeBoundingSphereCallback ( nullptr );
+    return;
+  }
+
+  // If we get to here then set the callback.
+  node->setComputeBoundingSphereCallback ( new LocalCB );
 }
 
 
