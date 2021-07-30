@@ -8,6 +8,7 @@ class OsgTools(ConanFile):
     license = "MIT"
     author = "Perry L Miller IV (perry@modelspace.com)"
     url = "https://github.com/perryiv/osg_tools"
+    homepage = "https://github.com/perryiv/osg_tools"
     description = "Classes and functions that use OpenSceneGraph"
     topics = "OpenSceneGraph", "C++", "utility"
     settings = "os", "compiler", "build_type", "arch"
