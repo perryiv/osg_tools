@@ -23,6 +23,7 @@ namespace osg
   class ClipNode;
   class ClipPlane;
   class Drawable;
+  class FrameBufferObject;
   class Geode;
   class Geometry;
   class GraphicsContext;
