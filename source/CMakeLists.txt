@@ -52,7 +52,7 @@ target_include_directories (
 # CMake will automatically add -I, -L, and -D (etc) appropriately.
 target_link_libraries ( ${PROJECT_NAME}
   PUBLIC
-    OpenSceneGraph::OSG
+    OpenSceneGraph::OpenSceneGraph
     usul::usul
 )
 

@@ -138,12 +138,12 @@ find_package ( OpenSceneGraph REQUIRED COMPONENTS osg osgDB osgUtil )
 # Does the user want to do the extra steps for old OpenSceneGraph installations?
 option ( OSG_TOOLS_DO_EXTRA_STEPS_AFTER_FINDING_OSG "Do extra steps after finding OpenSceneGraph" ON )
 if ( OSG_TOOLS_DO_EXTRA_STEPS_AFTER_FINDING_OSG )
-  add_library ( OpenSceneGraph::OSG INTERFACE IMPORTED )
-  target_include_directories ( OpenSceneGraph::OSG INTERFACE ${OPENSCENEGRAPH_INCLUDE_DIRS} )
-  target_link_libraries ( OpenSceneGraph::OSG INTERFACE ${OPENSCENEGRAPH_LIBRARIES} )
-  target_compile_definitions ( OpenSceneGraph::OSG INTERFACE ${OPENSCENEGRAPH_COMPILE_DEFINITIONS} )
-  target_compile_options ( OpenSceneGraph::OSG INTERFACE ${OPENSCENEGRAPH_COMPILE_OPTIONS} )
-  target_link_options ( OpenSceneGraph::OSG INTERFACE ${OPENSCENEGRAPH_LINKER_FLAGS} )
+  add_library ( OpenSceneGraph::OpenSceneGraph INTERFACE IMPORTED )
+  target_include_directories ( OpenSceneGraph::OpenSceneGraph INTERFACE ${OPENSCENEGRAPH_INCLUDE_DIRS} )
+  target_link_libraries ( OpenSceneGraph::OpenSceneGraph INTERFACE ${OPENSCENEGRAPH_LIBRARIES} )
+  target_compile_definitions ( OpenSceneGraph::OpenSceneGraph INTERFACE ${OPENSCENEGRAPH_COMPILE_DEFINITIONS} )
+  target_compile_options ( OpenSceneGraph::OpenSceneGraph INTERFACE ${OPENSCENEGRAPH_COMPILE_OPTIONS} )
+  target_link_options ( OpenSceneGraph::OpenSceneGraph INTERFACE ${OPENSCENEGRAPH_LINKER_FLAGS} )
 endif() # OSG_TOOLS_DO_EXTRA_STEPS_AFTER_FINDING_OSG
 
 # Find and use usul. Set usul_ROOT environment variable to:
