@@ -27,6 +27,7 @@ if __name__ == "__main__":
         archs=["x86_64"],
         visual_runtimes=["MD", "MDd"],
         docker_entry_script=command
+        build_policy="missing"
     )
     builder.add_common_builds()
     builder.run()
