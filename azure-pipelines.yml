@@ -136,7 +136,7 @@ jobs:
         compiler_version: 17 # Visual Studio 2022
         cpp_standard: 17
 
-      Visual_Studio_2022_CPP_17:
+      Visual_Studio_2022_CPP_14:
         image_name: 'windows-2022'
         use_docker: 0
         compiler_version: 17 # Visual Studio 2022
