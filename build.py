@@ -26,7 +26,7 @@ if __name__ == "__main__":
     builder = ConanMultiPackager(
         archs=["x86_64"],
         visual_runtimes=["MD", "MDd"],
-        docker_entry_script=command
+        docker_entry_script=command,
         build_policy="missing"
     )
     builder.add_common_builds()
