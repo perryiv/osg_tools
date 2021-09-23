@@ -135,10 +135,6 @@ endif() # OSG_TOOLS_USE_OSMESA
 # Find and use OpenSceneGraph. Set OSG_ROOT environment variable.
 find_package ( OpenSceneGraph REQUIRED COMPONENTS osg osgDB osgUtil )
 
-# Does the user want to do the extra steps for old OpenSceneGraph installations?
-# option ( OSG_TOOLS_DO_EXTRA_STEPS_AFTER_FINDING_OSG "Do extra steps after finding OpenSceneGraph" OFF )
-# if ( OSG_TOOLS_DO_EXTRA_STEPS_AFTER_FINDING_OSG )
-
 # Handle old OpenSceneGraph installations.
 if ( TARGET OPENSCENEGRAPH::OPENSCENEGRAPH )
   message ( "<> Using target OPENSCENEGRAPH::OPENSCENEGRAPH as is" )

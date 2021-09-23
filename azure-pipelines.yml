@@ -92,13 +92,13 @@ jobs:
         compiler_version: 11.0
         cpp_standard: 17
 
-      Apple_Clang_11_CPP_17:
+      Apple_Clang_11_CPP_14:
         image_name: 'macOS-11'
         use_docker: 0
         compiler_version: 11.0
         cpp_standard: 14
 
-      Apple_Clang_11_CPP_17:
+      Apple_Clang_11_CPP_11:
         image_name: 'macOS-11'
         use_docker: 0
         compiler_version: 11.0
