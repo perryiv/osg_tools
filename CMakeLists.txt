@@ -136,7 +136,10 @@ endif() # OSG_TOOLS_USE_OSMESA
 find_package ( OpenSceneGraph REQUIRED COMPONENTS osg osgDB osgUtil )
 
 # Handle old OpenSceneGraph installations.
-if ( NOT TARGET OpenSceneGraph::OPENSCENEGRAPH )
+if ( TARGET OpenSceneGraph::OPENSCENEGRAPH )
+  message ( "<> Using target OpenSceneGraph::OPENSCENEGRAPH as is" )
+else()
+  message ( "<> Preparing target OpenSceneGraph::OPENSCENEGRAPH" )
   add_library ( OpenSceneGraph::OPENSCENEGRAPH INTERFACE IMPORTED )
   target_include_directories ( OpenSceneGraph::OPENSCENEGRAPH INTERFACE ${OPENSCENEGRAPH_INCLUDE_DIRS} )
   target_link_libraries ( OpenSceneGraph::OPENSCENEGRAPH INTERFACE ${OPENSCENEGRAPH_LIBRARIES} )
