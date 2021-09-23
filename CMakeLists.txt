@@ -135,10 +135,9 @@ endif() # OSG_TOOLS_USE_OSMESA
 # Find and use OpenSceneGraph. Set OSG_ROOT environment variable.
 find_package ( OpenSceneGraph REQUIRED COMPONENTS osg osgDB osgUtil )
 
-# Handle old OpenSceneGraph installations.
-if ( TARGET OpenSceneGraph::OPENSCENEGRAPH )
-  message ( "<> Using target OpenSceneGraph::OPENSCENEGRAPH as is" )
-else()
+# Does the user want to do the extra steps for old OpenSceneGraph installations?
+option ( OSG_TOOLS_DO_EXTRA_STEPS_AFTER_FINDING_OSG "Do extra steps after finding OpenSceneGraph" OFF )
+if ( OSG_TOOLS_DO_EXTRA_STEPS_AFTER_FINDING_OSG )
   message ( "<> Preparing target OpenSceneGraph::OPENSCENEGRAPH" )
   add_library ( OpenSceneGraph::OPENSCENEGRAPH INTERFACE IMPORTED )
   target_include_directories ( OpenSceneGraph::OPENSCENEGRAPH INTERFACE ${OPENSCENEGRAPH_INCLUDE_DIRS} )
@@ -146,7 +145,9 @@ else()
   target_compile_definitions ( OpenSceneGraph::OPENSCENEGRAPH INTERFACE ${OPENSCENEGRAPH_COMPILE_DEFINITIONS} )
   target_compile_options ( OpenSceneGraph::OPENSCENEGRAPH INTERFACE ${OPENSCENEGRAPH_COMPILE_OPTIONS} )
   target_link_options ( OpenSceneGraph::OPENSCENEGRAPH INTERFACE ${OPENSCENEGRAPH_LINKER_FLAGS} )
-endif()
+else()
+  message ( "<> Using target OpenSceneGraph::OPENSCENEGRAPH as is" )
+endif() # OSG_TOOLS_DO_EXTRA_STEPS_AFTER_FINDING_OSG
 
 # Find and use usul. Set usul_ROOT environment variable to:
 # 1) where it is installed, or
