@@ -84,24 +84,22 @@ jobs:
         compiler_version: 7
         cpp_standard: 11
 
-      # Only using apple clang 11 because OpenSceneGraph binaries not available for 12.
-
       Apple_Clang_11_CPP_17:
         image_name: 'macOS-11'
         use_docker: 0
-        compiler_version: 11.0
+        compiler_version: 12.0
         cpp_standard: 17
 
       Apple_Clang_11_CPP_14:
         image_name: 'macOS-11'
         use_docker: 0
-        compiler_version: 11.0
+        compiler_version: 12.0
         cpp_standard: 14
 
       Apple_Clang_11_CPP_11:
         image_name: 'macOS-11'
         use_docker: 0
-        compiler_version: 11.0
+        compiler_version: 12.0
         cpp_standard: 11
 
       # Commenting these out on 2021-May-03.
@@ -133,28 +131,26 @@ jobs:
       Visual_Studio_2022_CPP_17:
         image_name: 'windows-2022'
         use_docker: 0
-        compiler_version: 17 # Visual Studio 2022
+        compiler_version: 16
         cpp_standard: 17
 
       Visual_Studio_2022_CPP_14:
         image_name: 'windows-2022'
         use_docker: 0
-        compiler_version: 17 # Visual Studio 2022
+        compiler_version: 16
         cpp_standard: 14
 
-      # As of 2021-Sep-23 these fail because of a missing OSG binary.
+      Visual_Studio_2019_CPP_17:
+        image_name: 'windows-2019'
+        use_docker: 0
+        compiler_version: 16
+        cpp_standard: 17
 
-      # Visual_Studio_2019_CPP_17:
-      #   image_name: 'windows-2019'
-      #   use_docker: 0
-      #   compiler_version: 16 # Visual Studio 2019
-      #   cpp_standard: 17
-      #
-      # Visual_Studio_2019_CPP_14:
-      #   image_name: 'windows-2019'
-      #   use_docker: 0
-      #   compiler_version: 16 # Visual Studio 2019
-      #   cpp_standard: 14
+      Visual_Studio_2019_CPP_14:
+        image_name: 'windows-2019'
+        use_docker: 0
+        compiler_version: 16
+        cpp_standard: 14
 
       # Not working. The original cmake 3.12 is still getting used.
       # Visual_Studio_2017:
