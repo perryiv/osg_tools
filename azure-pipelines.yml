@@ -21,112 +21,86 @@ jobs:
 
       # Only using gcc 7, 8, and 9 because OpenSceneGraph binaries not available for 10.
 
-      Linux_GCC_9_CPP_17:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc9
-        compiler_version: 9
-        cpp_standard: 17
-
-      Linux_GCC_9_CPP_14:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc9
-        compiler_version: 9
-        cpp_standard: 14
-
-      Linux_GCC_9_CPP_11:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc9
-        compiler_version: 9
-        cpp_standard: 11
-
-      Linux_GCC_8_CPP_17:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc8
-        compiler_version: 8
-        cpp_standard: 17
-
-      Linux_GCC_8_CPP_14:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc8
-        compiler_version: 8
-        cpp_standard: 14
-
-      Linux_GCC_8_CPP_11:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc8
-        compiler_version: 8
-        cpp_standard: 11
-
-      Linux_GCC_7_CPP_17:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc7
-        compiler_version: 7
-        cpp_standard: 17
-
-      Linux_GCC_7_CPP_14:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc7
-        compiler_version: 7
-        cpp_standard: 14
-
-      Linux_GCC_7_CPP_11:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc7
-        compiler_version: 7
-        cpp_standard: 11
-
-      Apple_Clang_11_CPP_17:
-        image_name: 'macOS-11'
-        use_docker: 0
-        compiler_version: 12.0
-        cpp_standard: 17
-
-      Apple_Clang_11_CPP_14:
-        image_name: 'macOS-11'
-        use_docker: 0
-        compiler_version: 12.0
-        cpp_standard: 14
-
-      Apple_Clang_11_CPP_11:
-        image_name: 'macOS-11'
-        use_docker: 0
-        compiler_version: 12.0
-        cpp_standard: 11
-
-      # Commenting these out on 2021-May-03.
-      # These have not been working for some time.
-
+      # Linux_GCC_9_CPP_17:
+      #   image_name: 'ubuntu-20.04'
+      #   use_docker: 1
+      #   docker_image: conanio/gcc9
+      #   compiler_version: 9
+      #   cpp_standard: 17
+      #
+      # Linux_GCC_9_CPP_14:
+      #   image_name: 'ubuntu-20.04'
+      #   use_docker: 1
+      #   docker_image: conanio/gcc9
+      #   compiler_version: 9
+      #   cpp_standard: 14
+      #
+      # Linux_GCC_9_CPP_11:
+      #   image_name: 'ubuntu-20.04'
+      #   use_docker: 1
+      #   docker_image: conanio/gcc9
+      #   compiler_version: 9
+      #   cpp_standard: 11
+      #
+      # Linux_GCC_8_CPP_17:
+      #   image_name: 'ubuntu-20.04'
+      #   use_docker: 1
+      #   docker_image: conanio/gcc8
+      #   compiler_version: 8
+      #   cpp_standard: 17
+      #
+      # Linux_GCC_8_CPP_14:
+      #   image_name: 'ubuntu-20.04'
+      #   use_docker: 1
+      #   docker_image: conanio/gcc8
+      #   compiler_version: 8
+      #   cpp_standard: 14
+      #
+      # Linux_GCC_8_CPP_11:
+      #   image_name: 'ubuntu-20.04'
+      #   use_docker: 1
+      #   docker_image: conanio/gcc8
+      #   compiler_version: 8
+      #   cpp_standard: 11
+      #
+      # Linux_GCC_7_CPP_17:
+      #   image_name: 'ubuntu-20.04'
+      #   use_docker: 1
+      #   docker_image: conanio/gcc7
+      #   compiler_version: 7
+      #   cpp_standard: 17
+      #
+      # Linux_GCC_7_CPP_14:
+      #   image_name: 'ubuntu-20.04'
+      #   use_docker: 1
+      #   docker_image: conanio/gcc7
+      #   compiler_version: 7
+      #   cpp_standard: 14
+      #
+      # Linux_GCC_7_CPP_11:
+      #   image_name: 'ubuntu-20.04'
+      #   use_docker: 1
+      #   docker_image: conanio/gcc7
+      #   compiler_version: 7
+      #   cpp_standard: 11
+      #
       # Apple_Clang_11_CPP_17:
-      #   image_name: 'macOS-10.14'
+      #   image_name: 'macOS-11'
       #   use_docker: 0
-      #   compiler_version: 11.0
+      #   compiler_version: 12.0
       #   cpp_standard: 17
       #
       # Apple_Clang_11_CPP_14:
-      #   image_name: 'macOS-10.14'
+      #   image_name: 'macOS-11'
       #   use_docker: 0
-      #   compiler_version: 11.0
+      #   compiler_version: 12.0
       #   cpp_standard: 14
       #
       # Apple_Clang_11_CPP_11:
-      #   image_name: 'macOS-10.14'
+      #   image_name: 'macOS-11'
       #   use_docker: 0
-      #   compiler_version: 11.0
+      #   compiler_version: 12.0
       #   cpp_standard: 11
-
-      # On windows the kernel version of the host and docker image must match.
-      # However, neither of these have pip so just using the host machine.
-      # -- mcr.microsoft.com/windows/servercore:ltsc2019
-      # -- mcr.microsoft.com/windows/servercore:ltsc2016
 
       Visual_Studio_2022_CPP_17:
         image_name: 'windows-2022'
@@ -140,24 +114,17 @@ jobs:
         compiler_version: 17
         cpp_standard: 14
 
-      Visual_Studio_2019_CPP_17:
-        image_name: 'windows-2019'
-        use_docker: 0
-        compiler_version: 16
-        cpp_standard: 17
-
-      Visual_Studio_2019_CPP_14:
-        image_name: 'windows-2019'
-        use_docker: 0
-        compiler_version: 16
-        cpp_standard: 14
-
-      # Not working. The original cmake 3.12 is still getting used.
-      # Visual_Studio_2017:
-      #   image_name: 'vs2017-win2016'
+      # Visual_Studio_2019_CPP_17:
+      #   image_name: 'windows-2019'
       #   use_docker: 0
-      #   compiler_version: 15 # Visual Studio 2017
+      #   compiler_version: 16
       #   cpp_standard: 17
+      #
+      # Visual_Studio_2019_CPP_14:
+      #   image_name: 'windows-2019'
+      #   use_docker: 0
+      #   compiler_version: 16
+      #   cpp_standard: 14
 
   pool:
     vmImage: $(image_name)
@@ -190,16 +157,6 @@ jobs:
         addToPath: true
         architecture: "x64"
       displayName: Select Python
-
-    # Not working. The original cmake 3.12 is still getting used.
-    # - task: PowerShell@2
-    #   inputs:
-    #     script: |
-    #       Invoke-WebRequest -Uri 'https://aka.ms/vs/16/release/vs_buildtools.exe' -OutFile C:\TEMP\vs_buildtools.exe
-    #       C:\TEMP\vs_buildtools.exe --installPath C:\BuildTools --quiet --wait --norestart --nocache --remove Microsoft.VisualStudio.Component.VC.CMake.Project --remove Component.Linux.CMake
-    #     targetType: inline
-    #   condition: eq(variables['Agent.JobName'], 'Job Visual_Studio_2017')
-    #   displayName: Remove Visual Studio CMake
 
     - script: |
         python -m pip install --upgrade pip
@@ -246,3 +203,46 @@ jobs:
 #    https://medium.com/@brentrobinson5/containerised-ci-cd-pipelines-with-azure-devops-74064c679f20
 #
 ################################################################################
+
+# Commenting these out on 2021-May-03.
+# These have not been working for some time.
+
+# Apple_Clang_11_CPP_17:
+#   image_name: 'macOS-10.14'
+#   use_docker: 0
+#   compiler_version: 11.0
+#   cpp_standard: 17
+#
+# Apple_Clang_11_CPP_14:
+#   image_name: 'macOS-10.14'
+#   use_docker: 0
+#   compiler_version: 11.0
+#   cpp_standard: 14
+#
+# Apple_Clang_11_CPP_11:
+#   image_name: 'macOS-10.14'
+#   use_docker: 0
+#   compiler_version: 11.0
+#   cpp_standard: 11
+
+# On windows the kernel version of the host and docker image must match.
+# However, neither of these have pip so just using the host machine.
+# -- mcr.microsoft.com/windows/servercore:ltsc2019
+# -- mcr.microsoft.com/windows/servercore:ltsc2016
+
+# Not working. The original cmake 3.12 is still getting used.
+# Visual_Studio_2017:
+#   image_name: 'vs2017-win2016'
+#   use_docker: 0
+#   compiler_version: 15 # Visual Studio 2017
+#   cpp_standard: 17
+
+# Not working. The original cmake 3.12 is still getting used.
+# - task: PowerShell@2
+#   inputs:
+#     script: |
+#       Invoke-WebRequest -Uri 'https://aka.ms/vs/16/release/vs_buildtools.exe' -OutFile C:\TEMP\vs_buildtools.exe
+#       C:\TEMP\vs_buildtools.exe --installPath C:\BuildTools --quiet --wait --norestart --nocache --remove Microsoft.VisualStudio.Component.VC.CMake.Project --remove Component.Linux.CMake
+#     targetType: inline
+#   condition: eq(variables['Agent.JobName'], 'Job Visual_Studio_2017')
+#   displayName: Remove Visual Studio CMake
