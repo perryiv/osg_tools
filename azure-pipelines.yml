@@ -130,6 +130,7 @@ jobs:
     CONAN_REVISIONS_ENABLED: 1
     CONAN_VERBOSE_TRACEBACK: 1
     CONAN_SYSREQUIRES_MODE: enabled
+    CONAN_UPLOAD_DEPENDENCIES: "all"
 
     # These are used in build.py
     THIS_JOB_USE_DOCKER: $(use_docker)
@@ -182,6 +183,7 @@ jobs:
 #    https://docs.microsoft.com/en-us/visualstudio/install/use-command-line-parameters-to-install-visual-studio
 #    https://github.com/actions/virtual-environments
 #    https://github.com/conan-io/conan-docker-tools/blob/master/azure-pipelines.yml
+#    https://github.com/conan-io/conan-package-tools#upload-dependencies-237
 #    https://github.com/jonico/libzengithub/blob/master/azure-pipelines.yml
 #    https://github.com/microsoft/azure-pipelines-agent/issues/2043
 #    https://github.com/microsoft/containerregistry
