@@ -21,110 +21,98 @@ jobs:
 
       # Only using gcc 7, 8, and 9 because OpenSceneGraph binaries not available for 10.
 
-      # Linux_GCC_9_CPP_17:
-      #   image_name: 'ubuntu-20.04'
-      #   use_docker: 1
-      #   docker_image: conanio/gcc9
-      #   compiler_version: 9
-      #   cpp_standard: 17
-      #
-      # Linux_GCC_9_CPP_14:
-      #   image_name: 'ubuntu-20.04'
-      #   use_docker: 1
-      #   docker_image: conanio/gcc9
-      #   compiler_version: 9
-      #   cpp_standard: 14
-      #
-      # Linux_GCC_9_CPP_11:
-      #   image_name: 'ubuntu-20.04'
-      #   use_docker: 1
-      #   docker_image: conanio/gcc9
-      #   compiler_version: 9
-      #   cpp_standard: 11
-      #
-      # Linux_GCC_8_CPP_17:
-      #   image_name: 'ubuntu-20.04'
-      #   use_docker: 1
-      #   docker_image: conanio/gcc8
-      #   compiler_version: 8
-      #   cpp_standard: 17
-      #
-      # Linux_GCC_8_CPP_14:
-      #   image_name: 'ubuntu-20.04'
-      #   use_docker: 1
-      #   docker_image: conanio/gcc8
-      #   compiler_version: 8
-      #   cpp_standard: 14
-      #
-      # Linux_GCC_8_CPP_11:
-      #   image_name: 'ubuntu-20.04'
-      #   use_docker: 1
-      #   docker_image: conanio/gcc8
-      #   compiler_version: 8
-      #   cpp_standard: 11
-      #
-      # Linux_GCC_7_CPP_17:
-      #   image_name: 'ubuntu-20.04'
-      #   use_docker: 1
-      #   docker_image: conanio/gcc7
-      #   compiler_version: 7
-      #   cpp_standard: 17
-      #
-      # Linux_GCC_7_CPP_14:
-      #   image_name: 'ubuntu-20.04'
-      #   use_docker: 1
-      #   docker_image: conanio/gcc7
-      #   compiler_version: 7
-      #   cpp_standard: 14
-      #
-      # Linux_GCC_7_CPP_11:
-      #   image_name: 'ubuntu-20.04'
-      #   use_docker: 1
-      #   docker_image: conanio/gcc7
-      #   compiler_version: 7
-      #   cpp_standard: 11
-      #
-      # Apple_Clang_11_CPP_17:
-      #   image_name: 'macOS-11'
-      #   use_docker: 0
-      #   compiler_version: 12.0
-      #   cpp_standard: 17
-      #
-      # Apple_Clang_11_CPP_14:
-      #   image_name: 'macOS-11'
-      #   use_docker: 0
-      #   compiler_version: 12.0
-      #   cpp_standard: 14
-      #
-      # Apple_Clang_11_CPP_11:
-      #   image_name: 'macOS-11'
-      #   use_docker: 0
-      #   compiler_version: 12.0
-      #   cpp_standard: 11
-
-      Visual_Studio_2022_CPP_17:
-        image_name: 'windows-2022'
-        use_docker: 0
-        compiler_version: 17
+      Linux_GCC_9_CPP_17:
+        image_name: 'ubuntu-20.04'
+        use_docker: 1
+        docker_image: conanio/gcc9
+        compiler_version: 9
         cpp_standard: 17
 
-      Visual_Studio_2022_CPP_14:
-        image_name: 'windows-2022'
-        use_docker: 0
-        compiler_version: 17
+      Linux_GCC_9_CPP_14:
+        image_name: 'ubuntu-20.04'
+        use_docker: 1
+        docker_image: conanio/gcc9
+        compiler_version: 9
         cpp_standard: 14
 
-      # Visual_Studio_2019_CPP_17:
-      #   image_name: 'windows-2019'
-      #   use_docker: 0
-      #   compiler_version: 16
-      #   cpp_standard: 17
-      #
-      # Visual_Studio_2019_CPP_14:
-      #   image_name: 'windows-2019'
-      #   use_docker: 0
-      #   compiler_version: 16
-      #   cpp_standard: 14
+      Linux_GCC_9_CPP_11:
+        image_name: 'ubuntu-20.04'
+        use_docker: 1
+        docker_image: conanio/gcc9
+        compiler_version: 9
+        cpp_standard: 11
+
+      Linux_GCC_8_CPP_17:
+        image_name: 'ubuntu-20.04'
+        use_docker: 1
+        docker_image: conanio/gcc8
+        compiler_version: 8
+        cpp_standard: 17
+
+      Linux_GCC_8_CPP_14:
+        image_name: 'ubuntu-20.04'
+        use_docker: 1
+        docker_image: conanio/gcc8
+        compiler_version: 8
+        cpp_standard: 14
+
+      Linux_GCC_8_CPP_11:
+        image_name: 'ubuntu-20.04'
+        use_docker: 1
+        docker_image: conanio/gcc8
+        compiler_version: 8
+        cpp_standard: 11
+
+      Linux_GCC_7_CPP_17:
+        image_name: 'ubuntu-20.04'
+        use_docker: 1
+        docker_image: conanio/gcc7
+        compiler_version: 7
+        cpp_standard: 17
+
+      Linux_GCC_7_CPP_14:
+        image_name: 'ubuntu-20.04'
+        use_docker: 1
+        docker_image: conanio/gcc7
+        compiler_version: 7
+        cpp_standard: 14
+
+      Linux_GCC_7_CPP_11:
+        image_name: 'ubuntu-20.04'
+        use_docker: 1
+        docker_image: conanio/gcc7
+        compiler_version: 7
+        cpp_standard: 11
+
+      Apple_Clang_11_CPP_17:
+        image_name: 'macOS-11'
+        use_docker: 0
+        compiler_version: 12.0
+        cpp_standard: 17
+
+      Apple_Clang_11_CPP_14:
+        image_name: 'macOS-11'
+        use_docker: 0
+        compiler_version: 12.0
+        cpp_standard: 14
+
+      Apple_Clang_11_CPP_11:
+        image_name: 'macOS-11'
+        use_docker: 0
+        compiler_version: 12.0
+        cpp_standard: 11
+
+      Visual_Studio_2019_CPP_17:
+        image_name: 'windows-2019'
+        use_docker: 0
+        compiler_version: 16
+        cpp_standard: 17
+
+      Visual_Studio_2019_CPP_14:
+        image_name: 'windows-2019'
+        use_docker: 0
+        compiler_version: 16
+        cpp_standard: 14
 
   pool:
     vmImage: $(image_name)
