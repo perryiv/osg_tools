@@ -158,10 +158,13 @@ osg::Node *Sphere::build ( const Options &options )
     }
 
     // Add the primitive set.
-    geom->addPrimitiveSet ( new osg::DrawElementsUInt (
-      osg::PrimitiveSet::TRIANGLES, static_cast < unsigned int > ( indices.size() ),
-      &indices[0]
-    ) );
+    if ( false == indices.empty() )
+    {
+      geom->addPrimitiveSet ( new osg::DrawElementsUInt (
+        osg::PrimitiveSet::TRIANGLES, static_cast < unsigned int > ( indices.size() ),
+        &indices[0]
+      ) );
+    }
   }
 
   else
