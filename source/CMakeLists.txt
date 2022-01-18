@@ -21,6 +21,7 @@ set ( SOURCE_FILES
   OsgTools/Builders/Builder.cpp
   OsgTools/Builders/Primitive.cpp
   OsgTools/Builders/Rectangle.cpp
+  OsgTools/Builders/Shapes.cpp
   OsgTools/Builders/Sphere.cpp
   OsgTools/Group/ForEach.cpp
   OsgTools/Group/Group.cpp
