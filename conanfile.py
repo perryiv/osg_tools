@@ -34,7 +34,7 @@ class OsgTools(ConanFile):
 
     def requirements(self):
         if self.options.run_tests:
-            self.requires("catch2/2.13.8", private=True)
+            self.requires("catch2/2.13.1", private=True)
 
     def generate(self):
         toolchain = CMakeToolchain(self)
