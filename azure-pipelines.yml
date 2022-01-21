@@ -130,7 +130,11 @@ jobs:
     CONAN_REVISIONS_ENABLED: 1
     CONAN_VERBOSE_TRACEBACK: 1
     CONAN_SYSREQUIRES_MODE: enabled
-    CONAN_UPLOAD_DEPENDENCIES: "all"
+
+    # Upload dependencies like OSG to upload_repo for faster subsequent builds.
+    # Note: As of 2022-01-20, trying to use the OSG from conan-center because
+    # of the data-transfer limit at JFrog.
+    # CONAN_UPLOAD_DEPENDENCIES: "all"
 
     # These are used in build.py
     THIS_JOB_USE_DOCKER: $(use_docker)
