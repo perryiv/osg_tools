@@ -113,8 +113,8 @@ struct OSG_TOOLS_EXPORT State
   static void            setVisible ( osg::Node *, bool );
 
   // Get/set whether or not the node contributes to the bounds.
-  static bool            getContributesToBounds ( const osg::Node * );
-  static void            setContributesToBounds ( osg::Node *, bool );
+  static bool            getContributeToBounds ( const osg::Node * );
+  static void            setContributeToBounds ( osg::Node *, bool );
 };
 
 

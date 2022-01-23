@@ -1221,7 +1221,7 @@ namespace Details
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-bool State::getContributesToBounds ( const osg::Node *node )
+bool State::getContributeToBounds ( const osg::Node *node )
 {
   // Shortcuts.
   typedef osg::Node::ComputeBoundingSphereCallback BaseCB;
@@ -1250,7 +1250,7 @@ bool State::getContributesToBounds ( const osg::Node *node )
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-void State::setContributesToBounds ( osg::Node *node, bool state )
+void State::setContributeToBounds ( osg::Node *node, bool state )
 {
   // Shortcuts.
   typedef osg::Node::ComputeBoundingSphereCallback BaseCB;
