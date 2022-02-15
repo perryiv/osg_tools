@@ -26,10 +26,10 @@ class OsgTools(ConanFile):
     )
 
     no_copy_source = True
-    generators = "cmake_find_package_multi",
+    generators = "CMakeDeps",
 
     def set_version(self):
-        with open ( os.path.join ( self.recipe_folder, "version.txt" ) ) as file:
+        with open(os.path.join(self.recipe_folder, "version.txt")) as file:
             self.version = file.read()
 
     def requirements(self):
