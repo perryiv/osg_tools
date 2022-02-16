@@ -130,6 +130,13 @@ else()
     message ( "   <> OPENGL_EGL_INCLUDE_DIRS = ${OPENGL_EGL_INCLUDE_DIRS}" )
     message ( "   <> OPENGL_LIBRARIES =        ${OPENGL_LIBRARIES}" )
   endif()
+  # Fix for problem in Azure pipeline with new conan and CMakeDeps generator.
+  if ( TARGET opengl::opengl )
+    add_library ( OpenGL::GL ALIAS opengl::opengl )
+    message ( "<> Created alias target OpenGL::GL" )
+  else()
+    message ( "<> Using found target OpenGL::GL" )
+  endif()
 endif() # OSG_TOOLS_USE_OSMESA
 
 # Find and use OpenSceneGraph. Set OSG_ROOT environment variable.
