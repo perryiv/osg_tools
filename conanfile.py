@@ -21,7 +21,7 @@ class OsgTools(ConanFile):
     scm = {"type": "git", "url": "auto", "revision": "auto"}
     revision_mode = "scm"
     requires = (
-        "usul/6.2.1@perryiv/stable",
+        "usul/6.3.0@perryiv/stable",
         "openscenegraph/3.6.5",
     )
 
@@ -47,13 +47,16 @@ class OsgTools(ConanFile):
             toolchain.variables["CMAKE_CXX_STANDARD"] = os.environ["THIS_JOB_CPP_STANDARD"]
         toolchain.generate()
 
-    def build(self):
-        cmake = CMake(self)
-        cmake.configure()
-        cmake.build()
-        if self.options.run_tests:
+        def build(self):
+            cmake = CMake(self)
             with tools.run_environment(self):
-                cmake.test(output_on_failure=True)
+                cmake.configure()
+                cmake.build()
+                if self.options.run_tests:
+                    with tools.environment_append({
+                            "CTEST_OUTPUT_ON_FAILURE": "1"
+                        }):
+                        cmake.test()
 
     def package(self):
         cmake = CMake(self)
