@@ -47,16 +47,16 @@ class OsgTools(ConanFile):
             toolchain.variables["CMAKE_CXX_STANDARD"] = os.environ["THIS_JOB_CPP_STANDARD"]
         toolchain.generate()
 
-        def build(self):
-            cmake = CMake(self)
-            with tools.run_environment(self):
-                cmake.configure()
-                cmake.build()
-                if self.options.run_tests:
-                    with tools.environment_append({
-                            "CTEST_OUTPUT_ON_FAILURE": "1"
-                        }):
-                        cmake.test()
+    def build(self):
+        cmake = CMake(self)
+        with tools.run_environment(self):
+            cmake.configure()
+            cmake.build()
+            if self.options.run_tests:
+                with tools.environment_append({
+                        "CTEST_OUTPUT_ON_FAILURE": "1"
+                    }):
+                    cmake.test()
 
     def package(self):
         cmake = CMake(self)
