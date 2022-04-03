@@ -39,7 +39,7 @@ namespace Builders {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Details
+namespace { namespace Details
 {
   inline osg::Vec4f getColor ( const Sphere::Options &options )
   {
@@ -52,7 +52,7 @@ namespace Details
 
     return Usul::Properties::get ( options, "color", osg::Vec4f ( 0.5f, 0.5f, 0.5f, 1.0f ) );
   }
-}
+} }
 
 
 ///////////////////////////////////////////////////////////////////////////////

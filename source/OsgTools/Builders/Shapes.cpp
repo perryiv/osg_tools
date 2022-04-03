@@ -35,7 +35,7 @@ namespace Builders {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Details
+namespace { namespace Details
 {
   inline osg::Drawable *buildCylinder ( const osg::Vec3f &center, float radius, float height )
   {
@@ -50,7 +50,7 @@ namespace Details
 
     return sd.release();
   }
-}
+} }
 
 
 ///////////////////////////////////////////////////////////////////////////////

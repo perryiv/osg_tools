@@ -72,7 +72,7 @@ osgDB::ReaderWriter *Reader::findReader ( const std::string &file )
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Details
+namespace { namespace Details
 {
   inline osgDB::ReaderWriter::ReadResult read ( const std::string &file, osgDB::ReaderWriter &rw, ProgressFunction fun )
   {
@@ -92,7 +92,7 @@ namespace Details
       return rw.readNode ( in );
     }
   }
-}
+} }
 
 
 ///////////////////////////////////////////////////////////////////////////////

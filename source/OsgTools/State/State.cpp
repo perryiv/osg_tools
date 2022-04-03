@@ -1116,7 +1116,7 @@ void State::removeMaterial ( osg::StateSet *ss )
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Details
+namespace { namespace Details
 {
   void updateFlags ( osg::Node *node )
   {
@@ -1129,7 +1129,7 @@ namespace Details
       node->setNodeMask ( Usul::Bits::set ( node->getNodeMask(), OsgTools::Flags::VISIBLE_AND_PICKABLE, state ) );
     }
   }
-}
+} }
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1196,7 +1196,7 @@ void State::setPickable ( osg::Node *node, bool state )
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Details
+namespace { namespace Details
 {
   struct LocalComputeBoundingSphereCallback : public osg::Node::ComputeBoundingSphereCallback
   {
@@ -1212,7 +1212,7 @@ namespace Details
       return osg::BoundingSphere();
     }
   };
-}
+} }
 
 
 ///////////////////////////////////////////////////////////////////////////////
