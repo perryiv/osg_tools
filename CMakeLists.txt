@@ -148,7 +148,7 @@ if ( TARGET openscenegraph::openscenegraph )
   message ( "<> Created alias target OPENSCENEGRAPH::OPENSCENEGRAPH" )
 else()
   if ( TARGET OPENSCENEGRAPH::OPENSCENEGRAPH )
-    message ( "<> Using found target OPENSCENEGRAPH::OPENSCENEGRAPH" )
+    message ( "<> Using target OPENSCENEGRAPH::OPENSCENEGRAPH as is" )
   else()
     # Handle old OpenSceneGraph installations.
     message ( "<> Preparing target OPENSCENEGRAPH::OPENSCENEGRAPH" )
