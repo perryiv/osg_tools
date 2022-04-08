@@ -173,7 +173,7 @@ void State::setNormalize ( osg::Node *node, bool state )
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Helper
+namespace { namespace Details
 {
   void setPolygonMode ( osg::Node *node, bool twoSided, osg::PolygonMode::Mode mode )
   {
@@ -202,7 +202,7 @@ namespace Helper
                                osg::StateAttribute::OVERRIDE |
                                osg::StateAttribute::ON );
   }
-}
+} }
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -211,7 +211,7 @@ namespace Helper
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Helper
+namespace { namespace Details
 {
   bool hasPolygonMode ( const osg::Node *node, bool twoSided, osg::PolygonMode::Mode mode )
   {
@@ -250,7 +250,7 @@ namespace Helper
     // Is the mode the same?
     return ( pm->getMode ( face ) == mode );
   }
-}
+} }
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -259,7 +259,7 @@ namespace Helper
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Helper
+namespace { namespace Details
 {
   void setShadeModel ( osg::Node *node, osg::ShadeModel::Mode mode )
   {
@@ -283,7 +283,7 @@ namespace Helper
                                osg::StateAttribute::OVERRIDE |
                                osg::StateAttribute::ON );
   }
-}
+} }
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -292,7 +292,7 @@ namespace Helper
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Helper
+namespace { namespace Details
 {
   bool hasShadeModel ( const osg::Node *node, osg::ShadeModel::Mode mode )
   {
@@ -326,13 +326,13 @@ namespace Helper
     // See if th emode is the same.
     return ( sm->getMode() == mode );
   }
-}
+} }
 
 
 ///////////////////////////////////////////////////////////////////////////////
 //
 //  Get the polygon mode.
-//  This is similar to Helper::hasPolygonMode but not exactly the same.
+//  This is similar to Details::hasPolygonMode but not exactly the same.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -368,7 +368,7 @@ unsigned int State::getPolygonMode ( const osg::Node *node, unsigned int face )
 ///////////////////////////////////////////////////////////////////////////////
 //
 //  Set the polygon mode.
-//  This is similar to Helper::setPolygonMode but not exactly the same.
+//  This is similar to Details::setPolygonMode but not exactly the same.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -409,7 +409,7 @@ void State::setPolygonMode ( osg::Node *node, unsigned int face, unsigned int mo
 
 void State::setPolygonsFilled ( osg::Node *node, bool twoSided )
 {
-  Helper::setPolygonMode ( node, twoSided, osg::PolygonMode::FILL );
+  Details::setPolygonMode ( node, twoSided, osg::PolygonMode::FILL );
 }
 
 
@@ -421,7 +421,7 @@ void State::setPolygonsFilled ( osg::Node *node, bool twoSided )
 
 bool State::getPolygonsFilled ( const osg::Node *node, bool twoSided )
 {
-  return Helper::hasPolygonMode ( node, twoSided, osg::PolygonMode::FILL );
+  return Details::hasPolygonMode ( node, twoSided, osg::PolygonMode::FILL );
 }
 
 
@@ -433,7 +433,7 @@ bool State::getPolygonsFilled ( const osg::Node *node, bool twoSided )
 
 void State::setPolygonsLines ( osg::Node *node, bool twoSided )
 {
-  Helper::setPolygonMode ( node, twoSided, osg::PolygonMode::LINE );
+  Details::setPolygonMode ( node, twoSided, osg::PolygonMode::LINE );
 }
 
 
@@ -445,7 +445,7 @@ void State::setPolygonsLines ( osg::Node *node, bool twoSided )
 
 bool State::getPolygonsLines ( const osg::Node *node, bool twoSided )
 {
-  return Helper::hasPolygonMode ( node, twoSided, osg::PolygonMode::LINE );
+  return Details::hasPolygonMode ( node, twoSided, osg::PolygonMode::LINE );
 }
 
 
@@ -457,7 +457,7 @@ bool State::getPolygonsLines ( const osg::Node *node, bool twoSided )
 
 void State::setPolygonsPoints ( osg::Node *node, bool twoSided )
 {
-  Helper::setPolygonMode ( node, twoSided, osg::PolygonMode::POINT );
+  Details::setPolygonMode ( node, twoSided, osg::PolygonMode::POINT );
 }
 
 
@@ -469,7 +469,7 @@ void State::setPolygonsPoints ( osg::Node *node, bool twoSided )
 
 bool State::getPolygonsPoints ( const osg::Node *node, bool twoSided )
 {
-  return Helper::hasPolygonMode ( node, twoSided, osg::PolygonMode::POINT );
+  return Details::hasPolygonMode ( node, twoSided, osg::PolygonMode::POINT );
 }
 
 
@@ -481,7 +481,7 @@ bool State::getPolygonsPoints ( const osg::Node *node, bool twoSided )
 
 void State::setPolygonsSmooth ( osg::Node *node )
 {
-  Helper::setShadeModel ( node, osg::ShadeModel::SMOOTH );
+  Details::setShadeModel ( node, osg::ShadeModel::SMOOTH );
 }
 
 
@@ -493,7 +493,7 @@ void State::setPolygonsSmooth ( osg::Node *node )
 
 bool State::getPolygonsSmooth ( const osg::Node *node )
 {
-  return Helper::hasShadeModel ( node, osg::ShadeModel::SMOOTH );
+  return Details::hasShadeModel ( node, osg::ShadeModel::SMOOTH );
 }
 
 
@@ -505,7 +505,7 @@ bool State::getPolygonsSmooth ( const osg::Node *node )
 
 void State::setPolygonsFlat ( osg::Node *node )
 {
-  Helper::setShadeModel ( node, osg::ShadeModel::FLAT );
+  Details::setShadeModel ( node, osg::ShadeModel::FLAT );
 }
 
 
@@ -517,7 +517,7 @@ void State::setPolygonsFlat ( osg::Node *node )
 
 bool State::getPolygonsFlat ( const osg::Node *node )
 {
-  return Helper::hasShadeModel ( node, osg::ShadeModel::FLAT );
+  return Details::hasShadeModel ( node, osg::ShadeModel::FLAT );
 }
 
 
