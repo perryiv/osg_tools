@@ -19,26 +19,27 @@ jobs:
   strategy:
     matrix:
 
-      Linux_GCC_11_CPP_20:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc11
-        compiler_version: 11
-        cpp_standard: 20
-
-      Linux_GCC_11_CPP_17:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc11
-        compiler_version: 11
-        cpp_standard: 17
-
-      Linux_GCC_11_CPP_14:
-        image_name: 'ubuntu-20.04'
-        use_docker: 1
-        docker_image: conanio/gcc11
-        compiler_version: 11
-        cpp_standard: 14
+      # As of 2022-Apr-08 there is no OSG binary for gcc 11 at https://conan.io/center/
+      # Linux_GCC_11_CPP_20:
+      #   image_name: 'ubuntu-20.04'
+      #   use_docker: 1
+      #   docker_image: conanio/gcc11
+      #   compiler_version: 11
+      #   cpp_standard: 20
+      #
+      # Linux_GCC_11_CPP_17:
+      #   image_name: 'ubuntu-20.04'
+      #   use_docker: 1
+      #   docker_image: conanio/gcc11
+      #   compiler_version: 11
+      #   cpp_standard: 17
+      #
+      # Linux_GCC_11_CPP_14:
+      #   image_name: 'ubuntu-20.04'
+      #   use_docker: 1
+      #   docker_image: conanio/gcc11
+      #   compiler_version: 11
+      #   cpp_standard: 14
 
       Linux_GCC_10_CPP_20:
         image_name: 'ubuntu-20.04'
