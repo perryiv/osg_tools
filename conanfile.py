@@ -21,7 +21,7 @@ class OsgTools(ConanFile):
     scm = {"type": "git", "url": "auto", "revision": "auto"}
     revision_mode = "scm"
     requires = (
-        "usul/7.0.0@perryiv/stable",
+        "usul/7.1.0@perryiv/stable",
         "openscenegraph/3.6.5",
     )
 
@@ -30,7 +30,7 @@ class OsgTools(ConanFile):
 
     def set_version(self):
         with open(os.path.join(self.recipe_folder, "version.txt")) as file:
-            self.version = file.read()
+            self.version = file.read().strip()
 
     def requirements(self):
         if self.options.run_tests:
