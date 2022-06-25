@@ -35,7 +35,7 @@ set ( SOURCE_FILES
 # Hey CMake, here is a library and all the stuff you need to know about it.
 add_library ( ${PROJECT_NAME} ${SOURCE_FILES} )
 
-# We are compling osg_tools.
+# We are compiling osg_tools.
 target_compile_definitions ( ${PROJECT_NAME} PRIVATE COMPILING_OSG_TOOLS )
 
 if ( NOT BUILD_SHARED_LIBS )
