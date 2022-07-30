@@ -32,7 +32,7 @@ project ( osg_tools VERSION ${PROJECT_VERSION} LANGUAGES CXX )
 # Changes to the version file should trigger a re-configuration.
 set_property ( DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${CMAKE_CURRENT_LIST_DIR}/version.txt )
 
-# Default to building usul as a shared library
+# Default to building osg_tools as a shared library
 if ( NOT DEFINED BUILD_SHARED_LIBS )
   set ( BUILD_SHARED_LIBS ON )
 endif()
