@@ -178,8 +178,7 @@ jobs:
 
     - script: |
         python -m pip install --upgrade pip
-        pip install six
-        pip install conan --upgrade
+        pip install -v "conan==1.63.0"
         pip install conan_package_tools
         conan profile new default --detect
       displayName: Configure Conan
