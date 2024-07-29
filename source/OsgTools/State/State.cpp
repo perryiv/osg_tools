@@ -1240,13 +1240,13 @@ bool State::getContributeToBounds ( const osg::Node *node )
   const LocalCB *lcb = dynamic_cast < const LocalCB * > ( cb );
 
   // We are contributing to the bounds if the callback is not ours.
-  return ( nullptr != lcb );
+  return ( nullptr == lcb );
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  Get whether or not the node contributes to the bounds.
+//  Set whether or not the node contributes to the bounds.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
