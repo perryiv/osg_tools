@@ -130,13 +130,13 @@ jobs:
       Visual_Studio_2019_CPP_17:
         image_name: 'windows-2019'
         use_docker: 0
-        compiler_version: 16
+        compiler_version: 16 # Visual Studio 2019
         cpp_standard: 17
 
       Visual_Studio_2019_CPP_14:
         image_name: 'windows-2019'
         use_docker: 0
-        compiler_version: 16
+        compiler_version: 16 # Visual Studio 2019
         cpp_standard: 14
 
   pool:
