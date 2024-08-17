@@ -139,33 +139,9 @@ else()
   endif()
 endif() # OSG_TOOLS_USE_OSMESA
 
-# Find and use OpenSceneGraph. Set OSG_ROOT environment variable.
+# We need these dependencies.
 find_package ( OpenSceneGraph REQUIRED COMPONENTS osg osgDB osgUtil )
-
-# Fix for problem in Azure pipeline with new conan and CMakeDeps generator.
-if ( TARGET openscenegraph::openscenegraph )
-  add_library ( OPENSCENEGRAPH::OPENSCENEGRAPH ALIAS openscenegraph::openscenegraph )
-  message ( "<> Created alias target OPENSCENEGRAPH::OPENSCENEGRAPH" )
-else()
-  if ( TARGET OPENSCENEGRAPH::OPENSCENEGRAPH )
-    message ( "<> Using target OPENSCENEGRAPH::OPENSCENEGRAPH as is" )
-  else()
-    # Handle old OpenSceneGraph installations.
-    message ( "<> Preparing target OPENSCENEGRAPH::OPENSCENEGRAPH" )
-    add_library ( OPENSCENEGRAPH::OPENSCENEGRAPH INTERFACE IMPORTED )
-    target_include_directories ( OPENSCENEGRAPH::OPENSCENEGRAPH INTERFACE ${OPENSCENEGRAPH_INCLUDE_DIRS} )
-    target_link_libraries ( OPENSCENEGRAPH::OPENSCENEGRAPH INTERFACE ${OPENSCENEGRAPH_LIBRARIES} )
-    target_compile_definitions ( OPENSCENEGRAPH::OPENSCENEGRAPH INTERFACE ${OPENSCENEGRAPH_COMPILE_DEFINITIONS} )
-    target_compile_options ( OPENSCENEGRAPH::OPENSCENEGRAPH INTERFACE ${OPENSCENEGRAPH_COMPILE_OPTIONS} )
-    target_link_options ( OPENSCENEGRAPH::OPENSCENEGRAPH INTERFACE ${OPENSCENEGRAPH_LINKER_FLAGS} )
-  endif()
-endif()
-
-# Find and use usul. Set usul_ROOT environment variable to:
-# 1) where it is installed, or
-# 2) it's build directory.
 find_package ( usul REQUIRED )
-print_package ( usul )
 
 # Does the user want strict warnings?
 option ( OSG_TOOLS_ENABLE_STRICT_WARNINGS "Enable strict warnings" ON )
